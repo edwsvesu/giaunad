@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// referencias temporales
+use App\Http\Controllers\Usuarios\RegistrarseController;
+
+Route::get('/registrarse', function () {
+    return view('inicio.login');
 });
+
+Route::post('/registrarse', [RegistrarseController::class,'registrarse']);
