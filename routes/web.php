@@ -21,3 +21,30 @@ Route::get('/registrarse', function () {
 });
 
 Route::post('/registrarse', [RegistrarseController::class,'registrarse']);
+
+
+
+Route::get('/proyectos/nuevo', function () {
+    return view('administrador.proyectos.nuevo');
+});
+
+Route::get('/proyectos/vigentes', function () {
+    return view('administrador.proyectos.vigentes');
+});
+
+Route::get('/proyectos/finalizados', function () {
+    return view('administrador.proyectos.finalizados');
+});
+
+Route::get('/proyectos/misproyectos', function () {
+    return view('administrador.proyectos.misproyectos');
+});
+
+
+Route::get('/proyectos/proyecto', function () {
+    return view('administrador.proyectos.proyecto');
+});
+
+Route::get('/usuarios', function () {
+    return view('administrador.usuarios.usuarios');
+});
