@@ -17,7 +17,7 @@ class RegistrarseServicio implements IRegistrarseServicio{
     public function registrarse(array $datos){
         if(!$this->usuarioEstaRegistrado($datos['numero_documento'])){
             $usuario=new Usuario();
-            $usuario->setNombres($datos['nombres']);
+            $usuario->setNombres(isset($datos['nombres']) ? $datos['nombres']:'');
             $usuario->setApellidos($datos['apellidos']);
             $usuario->setNumero_documento($datos['numero_documento']);
             $usuario->setCorreo_principal($datos['correo_principal']);

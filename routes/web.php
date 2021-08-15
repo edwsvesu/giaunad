@@ -48,3 +48,39 @@ Route::get('/proyectos/proyecto', function () {
 Route::get('/usuarios', function () {
     return view('administrador.usuarios.usuarios');
 });
+
+Route::get('/usuarios/solicitudes', function () {
+    return view('administrador.usuarios.solicitudes');
+});
+
+Route::get('/entrega', function () {
+    return view('administrador.proyectos.entrega');
+});
+
+Route::get('/actividad', function () {
+    return view('administrador.proyectos.actividad');
+});
+
+Route::get('/actividad2', function () {
+    return view('administrador.proyectos.actividad2');
+});
+
+Route::get('/dpersonales', function () {
+    return view('administrador.curriculum.datospersonales');
+});
+
+Route::get('/academica', function () {
+    return view('administrador.curriculum.formacionacademica');
+});
+
+Route::get('/nuevoacademica', function () {
+    return view('administrador.curriculum.formacionacademicaform');
+});
+
+Route::get('/idiomas', function () {
+    return view('administrador.curriculum.formacionidiomas');
+});
+
+Route::get('/idiomasform', function () {
+    return view('administrador.curriculum.formacionidiomasform');
+});

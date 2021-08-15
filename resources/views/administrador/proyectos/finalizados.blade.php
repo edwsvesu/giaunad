@@ -1,11 +1,6 @@
 @extends('administrador.dashboard')
-@section('cabecera')
-<!-- Datatables -->
-<link href="{{asset('css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
-<link href="{{asset('css/buttons.bootstrap.min.css')}}" rel="stylesheet">
-<link href="{{asset('css/fixedHeader.bootstrap.min.css')}}" rel="stylesheet">
-<link href="{{asset('css/responsive.bootstrap.min.css')}}" rel="stylesheet">
-<link href="{{asset('css/scroller.bootstrap.min.css')}}" rel="stylesheet">
+@section('estilos')
+    <link href="{{asset('css/dataTables.bootstrap.min.css')}}" rel="stylesheet">
 @endsection
 @section('contenido')
 <script>

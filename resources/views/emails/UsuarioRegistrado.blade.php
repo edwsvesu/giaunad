@@ -13,8 +13,8 @@
         <li>numero de documento: {{$numero_documento}}</li>
         <li>nombres: {{$nombres}}</li>
         <li>apellidos: {{$apellidos}}</li>
-        <li>correo electónico principal: {{$correo_principal}}</li>
-        <li>correo electónico secundario: {{$correo_secundario}}</li>
+        <li>correo electrónico principal: {{$correo_principal}}</li>
+        <li>correo electrónico secundario: {{$correo_secundario}}</li>
     </ul>
 </body>
 </html>

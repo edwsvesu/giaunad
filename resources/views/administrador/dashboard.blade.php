@@ -4,7 +4,7 @@
 <li><a><i class="fa fa-user"></i> Integrantes del grupo <span class="fa fa-chevron-down"></span></a>
     <ul class="nav child_menu">
     <li><a href="/usuarios">Integrantes</a></li>
-    <li><a href="#">Solicitudes de ingreso</a></li>
+    <li><a href="/usuarios/solicitudes">Solicitudes de ingreso</a></li>
     </ul>
 </li>
 
