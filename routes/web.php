@@ -15,9 +15,14 @@ use Illuminate\Support\Facades\Route;
 
 // referencias temporales
 use App\Http\Controllers\Usuarios\RegistrarseController;
+use App\Http\Controllers\administrador\usuarios\solicitudesController;
 
 Route::get('/registrarse', function () {
     return view('inicio.login');
+});
+
+Route::get('/registrarse2', function () {
+    return view('administrador.usuarios.usuariosform');
 });
 
 Route::post('/registrarse', [RegistrarseController::class,'registrarse']);
@@ -49,9 +54,10 @@ Route::get('/usuarios', function () {
     return view('administrador.usuarios.usuarios');
 });
 
-Route::get('/usuarios/solicitudes', function () {
-    return view('administrador.usuarios.solicitudes');
-});
+Route::get('/usuarios/solicitudes',[solicitudesController::class,'index']);
+Route::post('/usuarios/solicitudes/rechazar',[solicitudesController::class,'rechazarSolicitudIngreso']);
+Route::post('/usuarios/solicitudes/aceptar',[solicitudesController::class,'aceptarSolicitudIngreso']);
+Route::post('/usuarios/solicitudes/cambiar-rol',[solicitudesController::class,'cambiarRol']);
 
 Route::get('/entrega', function () {
     return view('administrador.proyectos.entrega');

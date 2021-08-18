@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>TITULO</title>
     <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
@@ -21,6 +22,7 @@
   </head>
   <script src="{{asset('js/jquery.min.js')}}"></script>
   <body class="nav-md">
+    <div id="cargadorDePaginaPrincipal" class="cargaPagina"><div><img src="{{asset('images/loader.gif')}}"></div></div>
     <div class="container body">
       <div class="main_container">
         <div class="col-md-3 left_col menu_fixed">
@@ -137,6 +139,13 @@
     <script src="{{asset('js/fastclick.js')}}"></script>
     <!-- NProgress -->
     <script src="{{asset('js/nprogress.js')}}"></script>
+    <script>
+        $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    </script>
     @yield('javascript')
 
     <!-- jQuery custom content scroller -->

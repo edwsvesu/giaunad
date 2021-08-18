@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class RegistrarseController extends Controller{
     private IRegistrarseServicio $RegistrarseServicio;
+
     public function __construct(IRegistrarseServicio $RegistrarseServicio)
     {
         $this->RegistrarseServicio=$RegistrarseServicio;
