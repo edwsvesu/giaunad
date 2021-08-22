@@ -107,12 +107,6 @@ var table = $('#datatable').DataTable({
       </div>
     </div>
 </div>
-<form method="post" action="/usuarios/solicitudes/cambiar-rol">
-    @csrf
-    <input type="text" name="numero_documento">
-    <input type="text" name="rol_id">
-    <input type="submit" name="btn">
-</form>
 @endsection
 @section('javascript')
  <!-- Datatables -->

@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 // referencias temporales
 use App\Http\Controllers\Usuarios\RegistrarseController;
 use App\Http\Controllers\administrador\usuarios\solicitudesController;
+use App\Http\Controllers\administrador\usuarios\usuariosController;
+use App\Http\Controllers\administrador\Proyectos\vigentesController;
+use App\Http\Controllers\administrador\Proyectos\finalizadosController;
 
 Route::get('/registrarse', function () {
     return view('inicio.login');
@@ -33,13 +36,9 @@ Route::get('/proyectos/nuevo', function () {
     return view('administrador.proyectos.nuevo');
 });
 
-Route::get('/proyectos/vigentes', function () {
-    return view('administrador.proyectos.vigentes');
-});
+Route::get('/proyectos/vigentes',[vigentesController::class,'index']);
 
-Route::get('/proyectos/finalizados', function () {
-    return view('administrador.proyectos.finalizados');
-});
+Route::get('/proyectos/finalizados',[finalizadosController::class,'index']);
 
 Route::get('/proyectos/misproyectos', function () {
     return view('administrador.proyectos.misproyectos');
@@ -50,9 +49,7 @@ Route::get('/proyectos/proyecto', function () {
     return view('administrador.proyectos.proyecto');
 });
 
-Route::get('/usuarios', function () {
-    return view('administrador.usuarios.usuarios');
-});
+Route::get('/usuarios',[usuariosController::class,'index']);
 
 Route::get('/usuarios/solicitudes',[solicitudesController::class,'index']);
 Route::post('/usuarios/solicitudes/rechazar',[solicitudesController::class,'rechazarSolicitudIngreso']);

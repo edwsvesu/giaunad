@@ -11,6 +11,13 @@ use App\Dominio\Servicios\Usuarios\IUsuarioServicio;
 use App\Servicios\Usuarios\UsuarioServicio;
 use App\Dominio\Repositorios\IRepositorioRol;
 use App\Persistencia\Repositorios\RepositorioRol;
+use App\Dominio\Servicios\Usuarios\IReporteServicio;
+use App\Servicios\Usuarios\ReporteServicio;
+use App\Dominio\Repositorios\IReportes;
+use App\Persistencia\Repositorios\Reportes;
+use App\Dominio\Servicios\Proyectos\IReporteServicio as IReporteServicioP;
+use App\Servicios\Proyectos\ReporteServicio as ReporteServicioP;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,6 +32,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IRepositorioUsuario::class, RepositorioUsuario::class);
         $this->app->bind(IUsuarioServicio::class, UsuarioServicio::class);
         $this->app->bind(IRepositorioRol::class, RepositorioRol::class);
+        $this->app->bind(IReporteServicio::class,ReporteServicio::class);
+        $this->app->bind(IReportes::class,Reportes::class);
+        $this->app->bind(IReporteServicioP::class,ReporteServicioP::class);
     }
 
     /**

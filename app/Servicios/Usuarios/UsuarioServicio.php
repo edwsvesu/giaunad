@@ -35,6 +35,10 @@ class UsuarioServicio implements IUsuarioServicio{
 		$rol_id=isset($datos['rol_id']) && ctype_digit($datos['rol_id']) ? $datos['rol_id']:0;
 		return $rol_id!=0 ? $this->RepositorioUsuario->actualizarRol($numero_documento,$rol_id):false; 
 	}
+
+	public function getIntegrantesDelGrupo(){
+
+	}
 }
 
 

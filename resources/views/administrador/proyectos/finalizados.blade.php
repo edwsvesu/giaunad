@@ -40,10 +40,10 @@ var table = $('#datatable').DataTable({
 <table id="datatable" class="table table-striped table-bordered">
     <thead>
         <tr>
-        <th>Tipo</th>
-        <th>Titulo</th>
+        <th>Tipo de proyecto</th>
+        <th>Título</th>
+        <th>Código</th>
         <th>Estado</th>
-        <th>Codigo</th>
         <th>Fecha inicio</th>
         <th>Fecha fin</th>
         <th>Lider</th>
@@ -51,278 +51,19 @@ var table = $('#datatable').DataTable({
     </thead>
 
     <tbody>
+        @foreach($proyectos as $proyecto)
         <tr>
-        <td>Michael Bruce</td>
-        <td>Javascript Developer</td>
-        <td>Singapore</td>
-        <td>29</td>
-        <td>2011/06/27</td>
-        <td>2011/06/27</td>
-        <td>Jhon Dep</td>
+        <td>{{$proyecto->tipo}}</td> 
+        <td>{{$proyecto->titulo}}</td>
+        <td>{{$proyecto->codigo}}</td>
+        <td>{{$proyecto->estado}}</td>
+        <td>{{$proyecto->fecha_inicio}}</td>
+        <td>{{$proyecto->fecha_fin}}</td>
+        <td>{{$proyecto->lider}}</td>
         </tr>
-        <tr>
-        <td>Donna Snider</td>
-        <td>Customer Support</td>
-        <td>New York</td>
-        <td>27</td>
-        <td>2011/01/25</td>
-        <td>2011/01/25</td>
-        <td>Alex pinilla</td>
-        </tr>
-        <tr>
-        <td>Michael Bruce</td>
-        <td>Javascript Developer</td>
-        <td>Singapore</td>
-        <td>29</td>
-        <td>2011/06/27</td>
-        <td>2011/06/27</td>
-        <td>Jhon Dep</td>
-        </tr>
-        <tr>
-        <td>Donna Snider</td>
-        <td>Customer Support</td>
-        <td>New York</td>
-        <td>27</td>
-        <td>2011/01/25</td>
-        <td>2011/01/25</td>
-        <td>Alex pinilla</td>
-        </tr>
-        <tr>
-        <td>Michael Bruce</td>
-        <td>Javascript Developer</td>
-        <td>Singapore</td>
-        <td>29</td>
-        <td>2011/06/27</td>
-        <td>2011/06/27</td>
-        <td>Jhon Dep</td>
-        </tr>
-        <tr>
-        <td>Donna Snider</td>
-        <td>Customer Support</td>
-        <td>New York</td>
-        <td>27</td>
-        <td>2011/01/25</td>
-        <td>2011/01/25</td>
-        <td>Alex pinilla</td>
-        </tr>
-        <tr>
-        <td>Michael Bruce</td>
-        <td>Javascript Developer</td>
-        <td>Singapore</td>
-        <td>29</td>
-        <td>2011/06/27</td>
-        <td>2011/06/27</td>
-        <td>Jhon Dep</td>
-        </tr>
-        <tr>
-        <td>Donna Snider</td>
-        <td>Customer Support</td>
-        <td>New York</td>
-        <td>27</td>
-        <td>2011/01/25</td>
-        <td>2011/01/25</td>
-        <td>Alex pinilla</td>
-        </tr>
-        <tr>
-        <td>Michael Bruce</td>
-        <td>Javascript Developer</td>
-        <td>Singapore</td>
-        <td>29</td>
-        <td>2011/06/27</td>
-        <td>2011/06/27</td>
-        <td>Jhon Dep</td>
-        </tr>
-        <tr>
-        <td>Donna Snider</td>
-        <td>Customer Support</td>
-        <td>New York</td>
-        <td>27</td>
-        <td>2011/01/25</td>
-        <td>2011/01/25</td>
-        <td>Alex pinilla</td>
-        </tr>
-        <tr>
-        <td>Michael Bruce</td>
-        <td>Javascript Developer</td>
-        <td>Singapore</td>
-        <td>29</td>
-        <td>2011/06/27</td>
-        <td>2011/06/27</td>
-        <td>Jhon Dep</td>
-        </tr>
-        <tr>
-        <td>Donna Snider</td>
-        <td>Customer Support</td>
-        <td>New York</td>
-        <td>27</td>
-        <td>2011/01/25</td>
-        <td>2011/01/25</td>
-        <td>Alex pinilla</td>
-        </tr>
-        <tr>
-        <td>Michael Bruce</td>
-        <td>Javascript Developer</td>
-        <td>Singapore</td>
-        <td>29</td>
-        <td>2011/06/27</td>
-        <td>2011/06/27</td>
-        <td>Jhon Dep</td>
-        </tr>
-        <tr>
-        <td>Donna Snider</td>
-        <td>Customer Support</td>
-        <td>New York</td>
-        <td>27</td>
-        <td>2011/01/25</td>
-        <td>2011/01/25</td>
-        <td>Alex pinilla</td>
-        </tr>
-        <tr>
-        <td>Michael Bruce</td>
-        <td>Javascript Developer</td>
-        <td>Singapore</td>
-        <td>29</td>
-        <td>2011/06/27</td>
-        <td>2011/06/27</td>
-        <td>Jhon Dep</td>
-        </tr>
-        <tr>
-        <td>Donna Snider</td>
-        <td>Customer Support</td>
-        <td>New York</td>
-        <td>27</td>
-        <td>2011/01/25</td>
-        <td>2011/01/25</td>
-        <td>Alex pinilla</td>
-        </tr>
-        <tr>
-        <td>Michael Bruce</td>
-        <td>Javascript Developer</td>
-        <td>Singapore</td>
-        <td>29</td>
-        <td>2011/06/27</td>
-        <td>2011/06/27</td>
-        <td>Jhon Dep</td>
-        </tr>
-        <tr>
-        <td>Donna Snider</td>
-        <td>Customer Support</td>
-        <td>New York</td>
-        <td>27</td>
-        <td>2011/01/25</td>
-        <td>2011/01/25</td>
-        <td>Alex pinilla</td>
-        </tr>
-        <tr>
-        <td>Michael Bruce</td>
-        <td>Javascript Developer</td>
-        <td>Singapore</td>
-        <td>29</td>
-        <td>2011/06/27</td>
-        <td>2011/06/27</td>
-        <td>Jhon Dep</td>
-        </tr>
-        <tr>
-        <td>Donna Snider</td>
-        <td>Customer Support</td>
-        <td>New York</td>
-        <td>27</td>
-        <td>2011/01/25</td>
-        <td>2011/01/25</td>
-        <td>Alex pinilla</td>
-        </tr>
-        <tr>
-        <td>Michael Bruce</td>
-        <td>Javascript Developer</td>
-        <td>Singapore</td>
-        <td>29</td>
-        <td>2011/06/27</td>
-        <td>2011/06/27</td>
-        <td>Jhon Dep</td>
-        </tr>
-        <tr>
-        <td>Donna Snider</td>
-        <td>Customer Support</td>
-        <td>New York</td>
-        <td>27</td>
-        <td>2011/01/25</td>
-        <td>2011/01/25</td>
-        <td>Alex pinilla</td>
-        </tr>
-        <tr>
-        <td>Michael Bruce</td>
-        <td>Javascript Developer</td>
-        <td>Singapore</td>
-        <td>29</td>
-        <td>2011/06/27</td>
-        <td>2011/06/27</td>
-        <td>Jhon Dep</td>
-        </tr>
-        <tr>
-        <td>Donna Snider</td>
-        <td>Customer Support</td>
-        <td>New York</td>
-        <td>27</td>
-        <td>2011/01/25</td>
-        <td>2011/01/25</td>
-        <td>Alex pinilla</td>
-        </tr>
-        <tr>
-        <td>Michael Bruce</td>
-        <td>Javascript Developer</td>
-        <td>Singapore</td>
-        <td>29</td>
-        <td>2011/06/27</td>
-        <td>2011/06/27</td>
-        <td>Jhon Dep</td>
-        </tr>
-        <tr>
-        <td>Donna Snider</td>
-        <td>Customer Support</td>
-        <td>New York</td>
-        <td>27</td>
-        <td>2011/01/25</td>
-        <td>2011/01/25</td>
-        <td>Alex pinilla</td>
-        </tr>
-        <tr>
-        <td>Michael Bruce</td>
-        <td>Javascript Developer</td>
-        <td>Singapore</td>
-        <td>29</td>
-        <td>2011/06/27</td>
-        <td>2011/06/27</td>
-        <td>Jhon Dep</td>
-        </tr>
-        <tr>
-        <td>Donna Snider</td>
-        <td>Customer Support</td>
-        <td>New York</td>
-        <td>27</td>
-        <td>2011/01/25</td>
-        <td>2011/01/25</td>
-        <td>Alex pinilla</td>
-        </tr>
-        <tr>
-        <td>Michael Bruce</td>
-        <td>Javascript Developer</td>
-        <td>Singapore</td>
-        <td>29</td>
-        <td>2011/06/27</td>
-        <td>2011/06/27</td>
-        <td>Jhon Dep</td>
-        </tr>
-        <tr>
-        <td>Donna Snider</td>
-        <td>Customer Support</td>
-        <td>New York</td>
-        <td>27</td>
-        <td>2011/01/25</td>
-        <td>2011/01/25</td>
-        <td>Alex pinilla</td>
-        </tr>
+        @endforeach
     </tbody>
-    </table>
+</table>
 </div>
 </div>
 </div>
