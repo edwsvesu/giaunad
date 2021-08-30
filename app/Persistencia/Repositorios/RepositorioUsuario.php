@@ -1,7 +1,7 @@
 <?php
 namespace App\Persistencia\Repositorios;
 use Illuminate\Support\Facades\DB;
-use App\Dominio\Repositorios\IRepositorioUsuario;
+use App\Dominio\Persistencia\Repositorios\IRepositorioUsuario;
 
 class RepositorioUsuario implements IRepositorioUsuario{
     public function insertar(array $datos){
@@ -31,5 +31,15 @@ class RepositorioUsuario implements IRepositorioUsuario{
     public function actualizarRol(string $numero_documento,int $rol_id){
         $actualizado=DB::update('UPDATE usuario SET rol_id=:rol_id WHERE numero_documento=:numero_documento',['rol_id'=>$rol_id,'numero_documento'=>$numero_documento]);
         return $actualizado;
+    }
+
+    public function getUsuariosAptosComoLideres(){
+        $registros=DB::select("SELECT id,CONCAT(nombres,' ',apellidos,' | CC. ',numero_documento) as usuario FROM usuario WHERE rol_id!=4 AND verificado!=0");
+        return $registros;
+    }
+
+    public function getUsuariosAptosComoIntegrantesProyecto(int $proyecto_id){
+        $registros=DB::select("SELECT DISTINCT u.id,CONCAT(u.nombres,' ',u.apellidos,' | CC. ',u.numero_documento) as usuario FROM usuario u WHERE verificado!=0 AND id NOT IN (SELECT usuario_id FROM usuario_has_proyecto WHERE proyecto_id=:proyecto_id)",['proyecto_id'=>$proyecto_id]);
+        return $registros;
     }
 }

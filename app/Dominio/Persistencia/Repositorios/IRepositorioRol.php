@@ -1,5 +1,5 @@
 <?php
-namespace App\Dominio\Repositorios;
+namespace App\Dominio\Persistencia\Repositorios;
 
 interface IRepositorioRol{
 	public function getTodo();

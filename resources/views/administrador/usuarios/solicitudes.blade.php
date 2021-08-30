@@ -139,7 +139,7 @@ var table = $('#datatable').DataTable({
     });
 
     $( ".bntAceptarRegistro" ).click(function(){
-        aceptarSolicitud($(this).val());
+        aceptarSolicitud($(this).val(),$(this));
     });
 
     $(".selectRol").change(function(){

@@ -6,4 +6,5 @@ interface IUsuarioServicio{
 	public function aceptarSolicitudIngreso(array $datos);
 	public function getTodosRoles();
 	public function actualizarRol(array $datos);
+	public function getUsuariosAptosComoLideres();
 }

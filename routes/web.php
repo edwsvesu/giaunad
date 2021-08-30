@@ -19,6 +19,9 @@ use App\Http\Controllers\administrador\usuarios\solicitudesController;
 use App\Http\Controllers\administrador\usuarios\usuariosController;
 use App\Http\Controllers\administrador\Proyectos\vigentesController;
 use App\Http\Controllers\administrador\Proyectos\finalizadosController;
+use App\Http\Controllers\administrador\Proyectos\misproyectosController;
+use App\Http\Controllers\administrador\Proyectos\nuevoController;
+use  App\Http\Controllers\administrador\Proyectos\proyectoController;
 
 Route::get('/registrarse', function () {
     return view('inicio.login');
@@ -32,22 +35,24 @@ Route::post('/registrarse', [RegistrarseController::class,'registrarse']);
 
 
 
-Route::get('/proyectos/nuevo', function () {
-    return view('administrador.proyectos.nuevo');
-});
+Route::get('/proyectos/nuevo',[nuevoController::class,'index']);
+Route::post('/proyectos/nuevo/crear',[nuevoController::class,'crear']);
 
 Route::get('/proyectos/vigentes',[vigentesController::class,'index']);
 
 Route::get('/proyectos/finalizados',[finalizadosController::class,'index']);
 
-Route::get('/proyectos/misproyectos', function () {
-    return view('administrador.proyectos.misproyectos');
-});
+Route::get('/proyectos/misproyectos',[misproyectosController::class,'index']);
 
 
-Route::get('/proyectos/proyecto', function () {
-    return view('administrador.proyectos.proyecto');
-});
+Route::get('/proyectos/proyecto/{codigo}',[proyectoController::class,'index']);
+Route::get('/descargar/documento-proyecto/{ruta}/{nombre}',[proyectoController::class,'descargarDocumento'])->where('nombre', '.*')->where('ruta', '.*');
+
+Route::post('/subir/documento-proyecto',[proyectoController::class,'subirDocumentos']);
+
+Route::post('/proyectos/eliminar-documento',[proyectoController::class,'borrarDocumento']);
+
+Route::post('/proyectos/agregar-integrante',[proyectoController::class,'agregarIntegrante']);
 
 Route::get('/usuarios',[usuariosController::class,'index']);
 

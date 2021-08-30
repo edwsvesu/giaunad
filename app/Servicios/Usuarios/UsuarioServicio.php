@@ -1,8 +1,8 @@
 <?php
 namespace App\Servicios\Usuarios;
 use App\Dominio\Servicios\Usuarios\IUsuarioServicio;
-use App\Dominio\Repositorios\IRepositorioUsuario;
-use App\Dominio\Repositorios\IRepositorioRol;
+use App\Dominio\Persistencia\Repositorios\IRepositorioUsuario;
+use App\Dominio\Persistencia\Repositorios\IRepositorioRol;
 class UsuarioServicio implements IUsuarioServicio{
 	private IRepositorioUsuario $RepositorioUsuario;
 	private IRepositorioRol $RepositorioRol;
@@ -37,7 +37,11 @@ class UsuarioServicio implements IUsuarioServicio{
 	}
 
 	public function getIntegrantesDelGrupo(){
+		///	
+	}
 
+	public function getUsuariosAptosComoLideres(){
+		return $this->RepositorioUsuario->getUsuariosAptosComoLideres();
 	}
 }
 

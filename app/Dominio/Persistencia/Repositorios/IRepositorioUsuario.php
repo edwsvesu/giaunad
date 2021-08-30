@@ -1,5 +1,5 @@
 <?php
-namespace App\Dominio\Repositorios;
+namespace App\Dominio\Persistencia\Repositorios;
 
 interface IRepositorioUsuario{
     public function insertar(array $datos);
@@ -8,4 +8,6 @@ interface IRepositorioUsuario{
     public function getUsuariosNoVerificados();
     public function actualizarVerificado(string $numero_documento,int $valor);
     public function actualizarRol(string $numero_documento,int $rol_id);
+    public function getUsuariosAptosComoLideres();
+    public function getUsuariosAptosComoIntegrantesProyecto(int $proyecto_id);
 }

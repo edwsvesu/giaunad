@@ -1,7 +1,7 @@
 <?php
 namespace App\Servicios\Usuarios;
 use App\Dominio\Servicios\Usuarios\IRegistrarseServicio;
-use App\Dominio\Repositorios\IRepositorioUsuario;
+use App\Dominio\Persistencia\Repositorios\IRepositorioUsuario;
 use App\Dominio\Modelos\Usuario;
 use Illuminate\Support\Facades\Mail;
 use App\Dominio\Email\UsuarioRegistrado;

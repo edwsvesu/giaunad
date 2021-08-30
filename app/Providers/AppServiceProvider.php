@@ -5,20 +5,28 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Dominio\Servicios\Usuarios\IRegistrarseServicio;
 use App\Servicios\Usuarios\RegistrarseServicio;
-use App\Dominio\Repositorios\IRepositorioUsuario;
+use App\Dominio\Persistencia\Repositorios\IRepositorioUsuario;
 use App\Persistencia\Repositorios\RepositorioUsuario;
 use App\Dominio\Servicios\Usuarios\IUsuarioServicio;
 use App\Servicios\Usuarios\UsuarioServicio;
-use App\Dominio\Repositorios\IRepositorioRol;
+use App\Dominio\Persistencia\Repositorios\IRepositorioRol;
 use App\Persistencia\Repositorios\RepositorioRol;
 use App\Dominio\Servicios\Usuarios\IReporteServicio;
 use App\Servicios\Usuarios\ReporteServicio;
-use App\Dominio\Repositorios\IReportes;
+use App\Dominio\Persistencia\Repositorios\IReportes;
 use App\Persistencia\Repositorios\Reportes;
 use App\Dominio\Servicios\Proyectos\IReporteServicio as IReporteServicioP;
 use App\Servicios\Proyectos\ReporteServicio as ReporteServicioP;
-
-
+use App\Dominio\Persistencia\Repositorios\IRepositorioTipoProyecto;
+use App\Persistencia\Repositorios\RepositorioTipoProyecto;
+use App\Dominio\Servicios\Proyectos\IProyectoServicio;
+use App\Servicios\Proyectos\ProyectoServicio;
+use App\Dominio\Persistencia\Repositorios\IRepositorioProyecto;
+use App\Persistencia\Repositorios\RepositorioProyecto;
+use App\Dominio\Persistencia\Repositorios\IRepositorioDocumento;
+use App\Persistencia\Repositorios\RepositorioDocumento;
+use App\Dominio\Persistencia\Repositorios\IRepositorioUsuarioHasProyecto;
+use App\Persistencia\Repositorios\RepositorioUsuarioHasProyecto;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -35,6 +43,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IReporteServicio::class,ReporteServicio::class);
         $this->app->bind(IReportes::class,Reportes::class);
         $this->app->bind(IReporteServicioP::class,ReporteServicioP::class);
+        $this->app->bind(IRepositorioTipoProyecto::class,RepositorioTipoProyecto::class);
+        $this->app->bind(IProyectoServicio::class,ProyectoServicio::class);
+        $this->app->bind(IRepositorioProyecto::class,RepositorioProyecto::class);
+        $this->app->bind(IRepositorioDocumento::class,RepositorioDocumento::class);
+        $this->app->bind(IRepositorioUsuarioHasProyecto::class,RepositorioUsuarioHasProyecto::class);
     }
 
     /**

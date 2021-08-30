@@ -1,9 +1,38 @@
 @extends('administrador.dashboard')
 @section('estilos')
-<!-- bootstrap-daterangepicker -->
-<link href="{{asset('css/daterangepicker.css')}}" rel="stylesheet">
 <!-- Switchery -->
 <link href="{{asset('css/switchery.min.css')}}" rel="stylesheet">
+<!--PNotify--> 
+<link href="{{asset('css/pnotify.css')}}" rel="stylesheet">
+<link href="{{asset('css/pnotify.buttons.css')}}" rel="stylesheet">
+<link href="{{asset('css/pnotify.nonblock.css')}}" rel="stylesheet">
+<style>
+  .fa-download{
+    margin-right: 5px;
+  }
+
+  .delete-file-doc{
+    float: right;
+    margin: 0;
+    font-size: 1.3em;
+  }
+
+  .list-group .list-group-item{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .list-group .list-group-item a{
+    cursor: pointer;
+    font-size: 1.1em;
+  }
+
+  .btn-agregar{
+    margin-top: 10px;
+    margin-left: 25px;
+  }
+</style>
 @endsection
 @section('contenido')
 <div class="clearfix"></div>
@@ -39,22 +68,22 @@
 
                                     <div class="col-md-12 col-sm-12 col-xs-12 form-group">
                                         <label class="control-label col-md-3">Titulo:</label>
-                                        <p style="margin-top:7px" class="col-md-9">aqui va el titulo del proyecto</p>
+                                        <p style="margin-top:7px" class="col-md-9">{{$infoGeneral[0]->titulo}}</p>
                                     </div>
 
                                     <div class="col-md-12 col-sm-12 col-xs-12 form-group">
                                         <label class="control-label col-md-3">Tipo de proyecto:</label>
-                                        <p style="margin-top:7px" class="col-md-9">aqui va el tipo de proyecto</p>
+                                        <p style="margin-top:7px" class="col-md-9">{{$infoGeneral[0]->tipo}}</p>
                                     </div>
 
                                     <div class="col-md-12 col-sm-12 col-xs-12 form-group">
                                         <label class="control-label col-md-3">Fecha inicio:</label>
-                                        <p style="margin-top:7px" class="col-md-9">24/07/2021</p>
+                                        <p style="margin-top:7px" class="col-md-9">{{$infoGeneral[0]->fecha_inicio}}</p>
                                     </div>
 
                                     <div class="col-md-12 col-sm-12 col-xs-12 form-group">
                                         <label class="control-label col-md-3">Fecha fin:</label>
-                                        <p style="margin-top:7px" class="col-md-9">12/02/2022</p>
+                                        <p style="margin-top:7px" class="col-md-9">{{($infoGeneral[0]->fecha_fin)?$infoGeneral[0]->fecha_fin:"No especificada"}}</p>
                                     </div>
                                 </div>
 
@@ -63,13 +92,29 @@
                       </div>
                       <div class="panel">
                         <a class="panel-heading collapsed" role="tab" id="headingTwo1" data-toggle="collapse" data-parent="#accordion1" href="#collapseTwo1" aria-expanded="false" aria-controls="collapseTwo">
-                          <h4 class="panel-title">Mas informacion</h4>
+                          <h4 class="panel-title">Documentación</h4>
                         </a>
                         <div id="collapseTwo1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
                           <div class="panel-body">
-                            <p><strong>Collapsible Item 2 data</strong>
-                            </p>
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
+                            <p><strong>Documentos cargados</strong></p>
+                            <div>
+                              <ul class="list-group">
+                                <li class="list-group-item control-upload">
+                                  <form id="form-upload">
+                              <input id="input-upload" type="file" name="documentos[]" multiple>
+                              <input type="hidden" value="{{$infoGeneral[0]->id}}" name="proyecto_id">
+                                 </form>
+                              <button id="btn-upload"><span class="fa fa-upload"></span></button>
+                                </li>
+                              @if($documentos)
+                                  @foreach($documentos as $documento)
+                                    <li class="list-group-item"><div><a href="/descargar/documento-proyecto/{{$documento->ruta}}/{{$documento->nombre}}" target="_blank"><span class="fa fa-download"></span>{{$documento->nombre}}</a></div> <button value="{{$documento->ruta}}" class="delete-file-doc" data-toggle="modal" data-target="#modal-borrar-documento"><span class="fa fa-trash"></span></button></li>
+                                  @endforeach
+                              @else
+                                <p id="sin-info">No se ha cargado ningún documento</p>
+                              @endif
+                              </ul>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -97,13 +142,12 @@
                           <h4 class="panel-title">Equipo de investigación</h4>
                         </a>
                         <div id="collapseOne2" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                 <button type="button" class="btn-agregar btn btn-primary" data-toggle="modal" data-target="#modal-agregar-integrante">+ Agregar</button>
                           <div class="panel-body">
-
-
                             <div class="col-md-6 col-sm-6 col-xs-12 profile_details">
                         <div class="well profile_view">
                           <div class="col-sm-12">
-                            <h4 class="brief"><i>Lider del proyecto</i></h4>
+                            <h4 class="brief"><i>Integrante</i></h4>
                             <div class="left col-xs-7">
                               <h2>Nicole Pearson</h2>
                               <p><strong>About: </strong> Web Designer / UX / Graphic Artist / Coffee Lover </p>
@@ -287,7 +331,7 @@
                             <label class="control-label col-md-2 col-sm-2 col-xs-12" for="first-name">Adjuntar archivos
                             </label>
                           <div class="col-md-10 col-sm-10 col-xs-12">
-                            <input type="file" multiple>
+                            <input style="height: 100%;" type="file">
                           </div>
                             </div> 
 
@@ -433,23 +477,205 @@
         </div>
     </div>
 </div>
+
+
+<div id="modal-borrar-documento" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="myModalLabel">Borrar documento</h4>
+        </div>
+        <div class="modal-body">
+          <h4>¿Está seguro que desea eliminar el documento seleccionado? </h4>
+          <p>Si continua con esta acción se eliminará permanentemente, pulse <strong>ACEPTAR</strong> para continuar.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">CANCELAR</button>
+          <button id="btnElimnarDocumento" type="button" class="btn btn-primary" data-dismiss="modal">ACEPTAR</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
+
+<div id="modal-agregar-integrante" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                          </button>
+                          <h4 class="modal-title" id="myModalLabel">Nuevo integrante del proyecto</h4>
+                        </div>
+                        <div class="modal-body">
+                          <!-- formulario-->
+                          <form data-parsley-validate class="form-horizontal form-label-left">
+                            <input id="proyecto_id_integrante" value="{{$infoGeneral[0]->id}}" type="hidden" name="proyecto_id">
+                            <div class="form-group">
+                              <label class="control-label col-md-2 col-sm-2 col-xs-12">Integrante
+                          </label>
+                          <div class="col-md-10 col-sm-10 col-xs-12">
+                            <input id="integranteinfo" class="form-control col-md-7 col-xs-12" list="datalistIntegrantes" type="text" autocomplete="off">
+                            <input id="integrante_id_send" type="hidden" name="usuario_id">
+                            <datalist id="datalistIntegrantes">
+                              @foreach($integrantesAgregar as $item)
+                                <option data-value="{{$item->id}}" value="{{$item->usuario}}"></option>
+                              @endforeach
+                          </datalist>
+                          </div>
+                            </div>
+                      <div class="ln_solid"></div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <button data-dismiss="modal" id="btn-agregar-integrante" type="submit" class="btn btn-success btn-lg">Agregar integrante</button>
+                        </div>
+                      </div>
+                          </form>
+                          <!-- formulario-->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 @endsection
 @section('javascript')
-    <!-- bootstrap-datetimepicker -->   
-    <script src="{{asset('js/moment.min.js')}}"></script> 
-    <script src="{{asset('js/daterangepicker.js')}}"></script>
     <!-- jQuery Knob -->
     <script src="{{asset('js/jquery.knob.min.js')}}"></script>
     <!-- Switchery -->
     <script src="{{asset('js/switchery.min.js')}}"></script>
+     <!-- PNotify -->
+<script src="{{asset('js/pnotify.js')}}"></script>
+<script src="{{asset('js/pnotify.buttons.js')}}"></script>
+<script src="{{asset('js/pnotify.nonblock.js')}}"></script>
     <script>
-        $("#fecha_nula").click(function(e){
-          if($("#single_cal4").prop("disabled")==false){
-            $("#single_cal4").attr("disabled","true");
-          }
-          else{
-            $("#single_cal4").removeAttr("disabled");
-          }
+      var documentoSeleccionado;
+      $("#btn-upload").click(function(){
+        subirDocumentos(new FormData($('#form-upload')[0]));
+      });
+
+      $("#btn-agregar-integrante").click(function(e){
+        e.preventDefault();
+          agregarIntegrante($("#proyecto_id_integrante").val(),$("#integrante_id_send").val());
+      });
+
+      $(".delete-file-doc").click(function(){
+          documentoSeleccionado=$(this);
+      });
+
+      $("#btnElimnarDocumento").click(function(){
+          borrarDocumento(documentoSeleccionado.val(),documentoSeleccionado);
+      });
+
+      $("#integranteinfo").change(function(){
+        $("#integrante_id_send").val($("#datalistIntegrantes option[value='"+$(this).val()+"']").data('value'));
+      });
+
+      function agregarIntegrante(proyecto_id,usuario_id){
+          $.ajax({
+            url:'/proyectos/agregar-integrante',
+            data: {
+              proyecto_id:proyecto_id,
+              usuario_id:usuario_id
+            },
+            method:'POST',
+            beforeSend:function(){
+                ActivarEfectoCargaPagina();
+            },
+            complete:function(){
+                DesactivarEfectoCargaPagina();
+            },
+            success: function(data){
+                if(data==1){
+                  $('#modal-agregar-integrante form')[0].reset();
+                  $('#modal-agregar-integrante form')[0].reset();
+                }
+                else{
+                    mensajeError("El documento no se pudo borrar");
+                }
+            },
+            error:function(){
+                mensajeError("Ha ocurrido un error, la acción no se ha realizado");
+            }
+          });        
+      }
+
+
+      function borrarDocumento(ruta,elemento){
+            $.ajax({
+            url:'/proyectos/eliminar-documento',
+            data: {
+              ruta:ruta
+            },
+            method:'POST',
+            beforeSend:function(){
+                ActivarEfectoCargaPagina();
+            },
+            complete:function(){
+                DesactivarEfectoCargaPagina();
+            },
+            success: function(data){
+                if(data==1){
+                  $(elemento).parent().remove();
+                }
+                else{
+                    mensajeError("El documento no se pudo borrar");
+                }
+            },
+            error:function(){
+                mensajeError("Ha ocurrido un error, la acción no se ha realizado");
+            }
         });
+      }
+
+
+      function subirDocumentos(formulario){
+        $.ajax({
+            url:'/subir/documento-proyecto',
+            data: formulario,
+            processData: false,
+            contentType: false,
+            method:'POST',
+            beforeSend:function(){
+                ActivarEfectoCargaPagina();
+            },
+            complete:function(){
+                DesactivarEfectoCargaPagina();
+            },
+            success: function(data){
+                if(data!=0){
+                    $("#sin-info").remove();
+                    $.each(data, function (ind, elem){ 
+                      $(".list-group").append("<li class='list-group-item'><div><a href='/descargar/documento-proyecto/"+elem['ruta']+"/"+elem['nombre']+"' target='_blank'><span class='fa fa-download'></span>"+elem['nombre']+"</a></div> <button value='"+elem['ruta']+"' class='delete-file-doc' data-toggle='modal' data-target='#modal-borrar-documento'><span class='fa fa-trash'></span></button></li>");
+                    }); 
+                    $('#form-upload')[0].reset();
+                    $(".delete-file-doc").click(function(){
+                      documentoSeleccionado=$(this);
+                    });
+                }
+                else{
+                    mensajeError("Los archivos no se pudieron subir");
+                }
+            },
+            error:function(){
+                mensajeError("Ha ocurrido un error, la acción no se ha realizado");
+            }
+        });
+      }
+
+      function mensajeError(mensaje){
+        new PNotify({
+          title: 'Error',
+          text: mensaje,
+          type: 'error',
+          styling: 'bootstrap3',
+          delay: 2000,
+          nonblock:{
+                nonblock:true
+            }
+        });
+      }
     </script>
 @endsection

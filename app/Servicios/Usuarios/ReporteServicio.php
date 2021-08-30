@@ -1,7 +1,7 @@
 <?php
 namespace App\Servicios\Usuarios;
 use App\Dominio\Servicios\Usuarios\IReporteServicio;
-use App\Dominio\Repositorios\IReportes;
+use App\Dominio\Persistencia\Repositorios\IReportes;
 
 class ReporteServicio implements IReporteServicio{
 

@@ -1,7 +1,7 @@
 <?php
 namespace App\Persistencia\Repositorios;
 use Illuminate\Support\Facades\DB;
-use App\Dominio\Repositorios\IRepositorioRol;
+use App\Dominio\Persistencia\Repositorios\IRepositorioRol;
 
 class RepositorioRol implements IRepositorioRol{
 	public function getTodo(){
