@@ -56,7 +56,9 @@
                     <ul class="nav child_menu">
                       <li><a>Datos generales <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                          <li><a href="#">Datos personales</a></li>
+                          <li><a href="/dpersonales">Datos personales</a></li>
+                          <li><a href="/nuevoacademica">Formación académica</a></li>
+                          <li><a href="#">Formación de idiomas</a></li>
                         </ul>
                       </li>
                     </ul>

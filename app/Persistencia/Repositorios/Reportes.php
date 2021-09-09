@@ -25,7 +25,27 @@ class Reportes implements IReportes{
 	}
 
 	public function getInformacionGeneralProyecto(string $codigo){
-		$registro=DB::select("SELECT p.id,titulo,fecha_inicio,fecha_fin,t.nombre as tipo FROM proyecto p JOIN tipo_proyecto t on p.tipo_proyecto_id=t.id WHERE codigo=:codigo",['codigo'=>$codigo]);
+		$registro=DB::select("SELECT p.id,p.codigo,titulo,fecha_inicio,fecha_fin,t.nombre as tipo FROM proyecto p JOIN tipo_proyecto t on p.tipo_proyecto_id=t.id WHERE codigo=:codigo",['codigo'=>$codigo]);
+		return $registro;
+	}
+
+	public function getIntegrantesDeProyecto(int $proyecto_id){
+		$registros=DB::select("SELECT CONCAT(u.nombres,' ',u.apellidos) as nombre,r.nombre as perfil,u.foto, CASE WHEN u.id=p.lidera THEN 'Lider del proyecto' ELSE 'Integrante' END as funcion FROM usuario u JOIN rol r ON r.id=u.rol_id JOIN usuario_has_proyecto up ON u.id=up.usuario_id JOIN proyecto p ON up.proyecto_id=p.id WHERE up.proyecto_id=:proyecto_id",['proyecto_id'=>$proyecto_id]);
+		return $registros;
+	}
+
+	public function getIntegranteDeProyecto(int $proyecto_id,int $usuario_id){
+		$registros=DB::select("SELECT CONCAT(u.nombres,' ',u.apellidos) as nombre,r.nombre as perfil,u.foto, CASE WHEN u.id=p.lidera THEN 'Lider del proyecto' ELSE 'Integrante' END as funcion FROM usuario u JOIN rol r ON r.id=u.rol_id JOIN usuario_has_proyecto up ON u.id=up.usuario_id JOIN proyecto p ON up.proyecto_id=p.id WHERE up.proyecto_id=:proyecto_id AND u.id=:usuario_id",['proyecto_id'=>$proyecto_id,'usuario_id'=>$usuario_id]);
+		return $registros;
+	}
+
+	public function getInforme(int $informe_id,string $cod_proyecto){
+		$registro=DB::select("SELECT i.* FROM informe i JOIN proyecto p ON i.proyecto_id=p.id WHERE i.id=:informe_id AND p.codigo=:cod_proyecto",['informe_id'=>$informe_id,'cod_proyecto'=>$cod_proyecto]);
+		return $registro;
+	}
+
+	public function getDatosPersonalesUsuario(string $numero_documento){
+		$registro=DB::select("SELECT u.numero_documento,u.nombres,u.apellidos,u.correo_principal,u.correo_secundario FROM usuario u WHERE numero_documento=:numero_documento",['numero_documento'=>$numero_documento]);
 		return $registro;
 	}
 }

@@ -27,6 +27,17 @@ use App\Dominio\Persistencia\Repositorios\IRepositorioDocumento;
 use App\Persistencia\Repositorios\RepositorioDocumento;
 use App\Dominio\Persistencia\Repositorios\IRepositorioUsuarioHasProyecto;
 use App\Persistencia\Repositorios\RepositorioUsuarioHasProyecto;
+use App\Dominio\Persistencia\Repositorios\IRepositorioNivel;
+use App\Persistencia\Repositorios\RepositorioNivel;
+use App\Dominio\Servicios\Usuarios\Curriculum\IDatosGeneralesServicio;
+use App\Servicios\Usuarios\Curriculum\DatosGeneralesServicio;
+use App\Dominio\Persistencia\Repositorios\IRepositorioInforme;
+use App\Persistencia\Repositorios\RepositorioInforme;
+use App\Dominio\Servicios\Proyectos\IInformeServicio;
+use App\Servicios\Proyectos\InformeServicio;
+use App\Dominio\Persistencia\Repositorios\IRepositorioArchivoInforme;
+use App\Persistencia\Repositorios\RepositorioArchivoInforme;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -48,6 +59,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IRepositorioProyecto::class,RepositorioProyecto::class);
         $this->app->bind(IRepositorioDocumento::class,RepositorioDocumento::class);
         $this->app->bind(IRepositorioUsuarioHasProyecto::class,RepositorioUsuarioHasProyecto::class);
+        $this->app->bind(IRepositorioNivel::class,RepositorioNivel::class);
+        $this->app->bind(IDatosGeneralesServicio::class,DatosGeneralesServicio::class);
+        $this->app->bind(IRepositorioInforme::class,RepositorioInforme::class);
+        $this->app->bind(IInformeServicio::class,InformeServicio::class);
+        $this->app->bind(IRepositorioArchivoInforme::class,RepositorioArchivoInforme::class);
     }
 
     /**

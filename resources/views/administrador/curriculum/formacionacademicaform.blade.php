@@ -22,11 +22,10 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Nivel de formación</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <select class="form-control">
-                            <option>Elije una opción</option>
-                            <option>Option one</option>
-                            <option>Option two</option>
-                            <option>Option three</option>
-                            <option>Option four</option>
+                              <option value="" selected>Nivel de formación</option>
+                            @foreach($niveles as $nivel)
+                              <option value="{{$nivel->id}}">{{$nivel->nombre}}</option>
+                            @endforeach
                           </select>
                         </div>
                       </div>

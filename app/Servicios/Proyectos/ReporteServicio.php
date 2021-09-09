@@ -26,4 +26,14 @@ class ReporteServicio implements IReporteServicio{
 	public function getInformacionGeneralProyecto(string $codigo){
 		return $this->Reportes->getInformacionGeneralProyecto($codigo);
 	}
+
+	public function getIntegrantesProyecto(int $proyecto_id){
+		return $this->Reportes->getIntegrantesDeProyecto($proyecto_id);
+	}
+
+	public function getIntegranteProyecto(array $datos){
+		$proyecto_id=isset($datos['proyecto_id']) ? $datos['proyecto_id']:'';
+		$usuario_id=isset($datos['usuario_id']) ? $datos['usuario_id']:'';
+		return $this->Reportes->getIntegranteDeProyecto($proyecto_id,$usuario_id);
+	}
 }

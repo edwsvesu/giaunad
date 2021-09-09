@@ -3,7 +3,7 @@ namespace App\Dominio\Modelos;
 use Illuminate\Support\Facades\Validator;
 
 class Proyecto{
-    public $titulo;
+    private $titulo;
     private $fecha_inicio;
     private $fecha_fin;
     private $codigo;

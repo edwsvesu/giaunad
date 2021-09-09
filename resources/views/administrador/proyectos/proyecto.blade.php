@@ -51,7 +51,7 @@
                 </li>
                 <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Participantes</a>
                 </li>
-                <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Plan y ejecución</a>
+                <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Informes de avances</a>
                 </li>
               </ul>
               <div id="myTabContent" class="tab-content">
@@ -144,51 +144,22 @@
                         <div id="collapseOne2" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                                  <button type="button" class="btn-agregar btn btn-primary" data-toggle="modal" data-target="#modal-agregar-integrante">+ Agregar</button>
                           <div class="panel-body">
-                            <div class="col-md-6 col-sm-6 col-xs-12 profile_details">
+
+                            @foreach($integrantesProyecto as $integrante)
+                            <div class="col-md-5 col-sm-5 col-xs-12 profile_details">
                         <div class="well profile_view">
                           <div class="col-sm-12">
-                            <h4 class="brief"><i>Integrante</i></h4>
+                            <h4 class="brief"><i>{{$integrante->funcion}}</i></h4>
                             <div class="left col-xs-7">
-                              <h2>Nicole Pearson</h2>
-                              <p><strong>About: </strong> Web Designer / UX / Graphic Artist / Coffee Lover </p>
-                              <ul class="list-unstyled">
+                              <h2>{{$integrante->nombre}}</h2>
+                              <p><strong>perfil: </strong> {{$integrante->perfil}}</p>
+                             <!-- <ul class="list-unstyled">
                                 <li><i class="fa fa-building"></i> Address: </li>
                                 <li><i class="fa fa-phone"></i> Phone #: </li>
-                              </ul>
+                              </ul>-->
                             </div>
                             <div class="right col-xs-5 text-center">
-                              <img src="{{asset('images/img.jpg')}}" alt="" class="img-circle img-responsive">
-                            </div>
-                          </div>
-                          <div class="col-xs-12 bottom text-center">
-                            <div class="col-xs-12 col-sm-6 emphasis">
-                                <!-- otro boton por aca-->
-                            </div>
-                            <div class="col-xs-12 col-sm-6 emphasis">
-                              <button type="button" class="btn btn-primary btn-xs">
-                                <i class="fa fa-user"> </i> Ver Perfil
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>   
-
-
-
-                    <div class="col-md-6 col-sm-6 col-xs-12 profile_details">
-                        <div class="well profile_view">
-                          <div class="col-sm-12">
-                            <h4 class="brief"><i>Investigador</i></h4>
-                            <div class="left col-xs-7">
-                              <h2>Nicole Pearson</h2>
-                              <p><strong>About: </strong> Web Designer / UX / Graphic Artist / Coffee Lover </p>
-                              <ul class="list-unstyled">
-                                <li><i class="fa fa-building"></i> Address: </li>
-                                <li><i class="fa fa-phone"></i> Phone #: </li>
-                              </ul>
-                            </div>
-                            <div class="right col-xs-5 text-center">
-                              <img src="{{asset('images/img.jpg')}}" alt="" class="img-circle img-responsive">
+                              <img src="{{ $integrante->foto ? asset($integrante->foto): asset('images/user.png')}}" alt="" class="img-circle img-responsive">
                             </div>
                           </div>
                           <div class="col-xs-12 bottom text-center">
@@ -203,43 +174,7 @@
                           </div>
                         </div>
                       </div> 
-
-
-
-
-                        <div class="col-md-6 col-sm-6 col-xs-12 profile_details">
-                        <div class="well profile_view">
-                          <div class="col-sm-12">
-                            <h4 class="brief"><i>Estudiante</i></h4>
-                            <div class="left col-xs-7">
-                              <h2>Nicole Pearson</h2>
-                              <p><strong>About: </strong> Web Designer / UX / Graphic Artist / Coffee Lover </p>
-                              <ul class="list-unstyled">
-                                <li><i class="fa fa-building"></i> Address: </li>
-                                <li><i class="fa fa-phone"></i> Phone #: </li>
-                              </ul>
-                            </div>
-                            <div class="right col-xs-5 text-center">
-                              <img src="{{asset('images/img.jpg')}}" alt="" class="img-circle img-responsive">
-                            </div>
-                          </div>
-                          <div class="col-xs-12 bottom text-center">
-                            <div class="col-xs-12 col-sm-6 emphasis">
-                                <!-- otro boton por aca-->
-                            </div>
-                            <div class="col-xs-12 col-sm-6 emphasis">
-                              <button type="button" class="btn btn-primary btn-xs">
-                                <i class="fa fa-user"> </i> Ver Perfil
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>   
-
-
-
-
-
+                        @endforeach   
                           </div>
                         </div>
                       </div>
@@ -286,7 +221,7 @@
                         <div class="modal-header">
                           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
                           </button>
-                          <h4 class="modal-title" id="myModalLabel">Actividad</h4>
+                          <h4 class="modal-title" id="myModalLabel">Nuevo Informe</h4>
                         </div>
                         <div class="modal-body">
 
@@ -295,51 +230,39 @@
 
 
 
-                          <form data-parsley-validate class="form-horizontal form-label-left">
+                          <form method="post" action="/proyecto/crear-informe" data-parsley-validate class="form-horizontal form-label-left">
+                            @csrf
+                            <input type="hidden" value="{{$infoGeneral[0]->id}}" name="proyecto_id">
                             <div class="form-group">
                               <label class="control-label col-md-2 col-sm-2 col-xs-12" for="first-name">Título <span class="required">*</span>
                           </label>
                           <div class="col-md-10 col-sm-10 col-xs-12">
-                            <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                            <input type="text" name="titulo" class="form-control col-md-7 col-xs-12">
                           </div>
                             </div>
 
                           <div class="form-group">
-                        <label for="fecha_inicio" class="control-label col-md-2 col-sm-2 col-xs-12">Fecha de entrega</label>
+                        <label for="fecha_inicio" class="control-label col-md-2 col-sm-2 col-xs-12">Fecha limite de entrega</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">      
-                          <input name="fecha_fin" type="text" class="form-control has-feedback-left col-md-7 col-xs-12" id="single_cal4" placeholder="First Name">
+                          <input name="fecha_limite" type="date" class="form-control has-feedback-left col-md-7 col-xs-12" placeholder="fecha_limite">
                           <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                         </div>
-                        <label class="col-md-3 col-sm-3 col-xs-12">
-                            <input id="fecha_nula" type="checkbox" class="js-switch" checked />
-                        </label>
                       </div>
 
                             <div class="form-group">
-                              <label class="control-label col-md-2 col-sm-2 col-xs-12" for="first-name">Instrucciones
+                              <label class="control-label col-md-2 col-sm-2 col-xs-12" for="first-name">Descripcion
                           </label>
                           <div class="col-md-10 col-sm-10 col-xs-12">
 
-                          <textarea id="instrucciones" class="form-control" name="message" data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-maxlength="100" data-parsley-minlength-message="Come on! You need to enter at least a 20 caracters long comment.."
+                          <textarea id="instrucciones" class="form-control" name="descripcion" data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-maxlength="100" data-parsley-minlength-message="Come on! You need to enter at least a 20 caracters long comment.."
                             data-parsley-validation-threshold="10"></textarea>
 
                           </div>
                             </div>
-
-
-                          <div class="form-group">
-                            <label class="control-label col-md-2 col-sm-2 col-xs-12" for="first-name">Adjuntar archivos
-                            </label>
-                          <div class="col-md-10 col-sm-10 col-xs-12">
-                            <input style="height: 100%;" type="file">
-                          </div>
-                            </div> 
-
-
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                          <button type="submit" class="btn btn-success btn-lg">Asignar actividad</button>
+                          <button type="submit" class="btn btn-success btn-lg">Guardar</button>
                         </div>
                       </div>
 
@@ -350,46 +273,15 @@
                       </div>
                     </div>
                   </div>
-
-
                   <!-- modal-->
-
                   <!-- start lista de actividades-->
-
                   <div class="list-activity">
+                    @foreach($informes as $informe)
                     <div class="activity-item">
-                      <a href="/entrega">
+                      <a href="/informe/{{$informe->id}}/proyecto/{{$infoGeneral[0]->codigo}}">
                         <i style="margin-right: 15px;" class="fa fa-book"></i>
-                        Primer informe de proyecto
+                        {{$informe->titulo}}
                       </a>
-
-                      <div role="presentation" class="dropdown">
-                      <div class="activity-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
-                                  <span class="fa fa-ellipsis-v"></span>
-                              </div>
-                      <ul class="dropdown-menu animated fadeInDown" role="menu">
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="https://twitter.com/fat">Action</a>
-                        </li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="https://twitter.com/fat">Another action</a>
-                        </li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="https://twitter.com/fat">Something else here</a>
-                        </li>
-                        <li role="presentation" class="divider"></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="https://twitter.com/fat">Separated link</a>
-                        </li>
-                      </ul>
-                      </div>
-
-                    </div>
-
-
-
-                    <div class="activity-item">
-                      <a href="#">
-                        <i style="margin-right: 15px;" class="fa fa-book"></i>
-                        Primer informe de proyecto crrinrf
-                      </a>
-
                       <div role="presentation" class="dropdown">
                       <div class="activity-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
                                   <span class="fa fa-ellipsis-v"></span>
@@ -407,70 +299,10 @@
                       </ul>
                       </div>
                     </div>
-
-
-                                        <div class="activity-item">
-                      <a href="#">
-                        <i style="margin-right: 15px;" class="fa fa-book"></i>
-                        Primer informe de proyecto crrinrf
-                      </a>
-
-                      <div role="presentation" class="dropdown">
-                      <div class="activity-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
-                                  <span class="fa fa-ellipsis-v"></span>
-                              </div>
-                      <ul class="dropdown-menu animated fadeInDown" role="menu">
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="https://twitter.com/fat">Action</a>
-                        </li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="https://twitter.com/fat">Another action</a>
-                        </li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="https://twitter.com/fat">Something else here</a>
-                        </li>
-                        <li role="presentation" class="divider"></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="https://twitter.com/fat">Separated link</a>
-                        </li>
-                      </ul>
-                      </div>
-                    </div>
-
-
-                                        <div class="activity-item">
-                      <a href="#">
-                        <i style="margin-right: 15px;" class="fa fa-book"></i>
-                        Primer informe de proyecto crrinrf
-                      </a>
-
-                      <div role="presentation" class="dropdown">
-                      <div class="activity-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
-                                  <span class="fa fa-ellipsis-v"></span>
-                              </div>
-                      <ul class="dropdown-menu animated fadeInDown" role="menu">
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="https://twitter.com/fat">Action</a>
-                        </li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="https://twitter.com/fat">Another action</a>
-                        </li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="https://twitter.com/fat">Something else here</a>
-                        </li>
-                        <li role="presentation" class="divider"></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="https://twitter.com/fat">Separated link</a>
-                        </li>
-                      </ul>
-                      </div>
-                    </div>
-
-
-
-
-
-
+                    @endforeach
                   </div>
-
                   </div>
-
-
-
                   <!-- end lista de actividades-->
-
                 </div>
               </div>
             </div>
@@ -509,7 +341,7 @@
                         <div class="modal-header">
                           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
                           </button>
-                          <h4 class="modal-title" id="myModalLabel">Nuevo integrante del proyecto</h4>
+                          <h4 class="modal-title" >Nuevo integrante del proyecto</h4>
                         </div>
                         <div class="modal-body">
                           <!-- formulario-->
@@ -531,6 +363,7 @@
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+                          <button data-dismiss="modal" type="button" class="btn btn-danger btn-lg">Cancelar</button>
                           <button data-dismiss="modal" id="btn-agregar-integrante" type="submit" class="btn btn-success btn-lg">Agregar integrante</button>
                         </div>
                       </div>
@@ -573,6 +406,41 @@
         $("#integrante_id_send").val($("#datalistIntegrantes option[value='"+$(this).val()+"']").data('value'));
       });
 
+      function ponerNuevoIntegrante(proyecto_id,usuario_id){
+        $.ajax({
+            url:'/proyectos/agregar-integrante/obtener',
+            data: {
+              proyecto_id:proyecto_id,
+              usuario_id:usuario_id
+            },
+            method:'POST',
+            beforeSend:function(){
+                ActivarEfectoCargaPagina();
+            },
+            complete:function(){
+                DesactivarEfectoCargaPagina();
+            },
+            success: function(data){
+                if(data){
+                  var foto;
+                  if(data[0].foto==null){
+                    foto='http://localhost:8000/images/user.png';
+                  }
+                  else{
+                    foto=data[0].foto;
+                  }
+                  $("#collapseOne2 .panel-body").append("<div class='col-md-5 col-sm-5 col-xs-12 profile_details'><div class='well profile_view'><div class='col-sm-12'><h4 class='brief'><i>"+data[0].funcion+"</i></h4><div class='left col-xs-7'><h2>"+data[0].nombre+"</h2><p><strong>perfil: </strong>"+data[0].perfil+"</p></div><div class='right col-xs-5 text-center'><img src='"+foto+"' alt='' class='img-circle img-responsive'></div></div><div class='col-xs-12 bottom text-center'><div class='col-xs-12 col-sm-6 emphasis'></div><div class='col-xs-12 col-sm-6 emphasis'><button type='button' class='btn btn-primary btn-xs'><i class='fa fa-user'> </i> Ver Perfil</button></div></div></div></div>");
+                }
+                else{
+                    mensajeError("No se pudo agregar el nuevo integrante");
+                }
+            },
+            error:function(){
+                mensajeError("Ha ocurrido un error, la acción no se ha realizado");
+            }
+          }); 
+      }
+
       function agregarIntegrante(proyecto_id,usuario_id){
           $.ajax({
             url:'/proyectos/agregar-integrante',
@@ -590,10 +458,11 @@
             success: function(data){
                 if(data==1){
                   $('#modal-agregar-integrante form')[0].reset();
-                  $('#modal-agregar-integrante form')[0].reset();
+                  $("#datalistIntegrantes option[data-value='"+usuario_id+"']").remove();
+                  ponerNuevoIntegrante(proyecto_id,usuario_id);
                 }
                 else{
-                    mensajeError("El documento no se pudo borrar");
+                    mensajeError("No se pudo agregar el nuevo integrante");
                 }
             },
             error:function(){

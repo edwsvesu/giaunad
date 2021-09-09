@@ -8,6 +8,7 @@ use App\Dominio\Persistencia\Repositorios\IRepositorioDocumento;
 use Illuminate\Support\Facades\Storage;
 use App\Dominio\Persistencia\Repositorios\IRepositorioUsuario;
 use App\Dominio\Persistencia\Repositorios\IRepositorioUsuarioHasProyecto;
+use App\Dominio\Persistencia\Repositorios\IReportes;
 
 class ProyectoServicio implements IProyectoServicio{
 	private IRepositorioTipoProyecto $RepositorioTipoProyecto;
@@ -79,7 +80,7 @@ class ProyectoServicio implements IProyectoServicio{
 		return $this->RepositorioDocumento->getDocumentosPorProyecto($proyecto_id);
 	}
 
-	public function descargarDocumento($ruta,$nombre){
+	public function descargarDocumento(string $ruta,string $nombre){
 			return Storage::download($ruta,$nombre);
 	}
 
