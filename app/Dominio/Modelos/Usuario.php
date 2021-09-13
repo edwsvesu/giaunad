@@ -4,15 +4,78 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 
 class Usuario{
+    private $id;
     private $nombres;
     private $apellidos;
     private $numero_documento;
     private $correo_principal;
     private $correo_secundario;
     private $clave;
+    private $telefonos;
+    private $foto;
+
+    public function setFoto($foto){
+        $this->foto=$foto;
+    }
+
+    public function getFoto(){
+        return $this->foto;
+    }
 
     public function setClave($clave){
         $this->clave=$clave;
+    }
+
+    public function setId($id){
+        $this->id=$id;
+    }
+
+    public function setTelefono($telefono){
+        $this->telefonos[]=$telefono;
+    }
+
+    public function setTelefonos($telefonos){
+        if(is_array($telefonos)){
+            $telefono=array(
+                'id'=>null,
+                'descripcion'=>null,
+                'numero'=>null,
+                'usuario_id'=>$this->id
+            );
+            $bandera=0;
+            foreach ($telefonos as $value) {
+                if(isset($value['id']) && $bandera==0){
+                    $telefono['id']=$value['id'];
+                    $bandera=1;
+                }
+                else if(isset($value['descripcion']) && $bandera==1){
+                    $telefono['descripcion']=$value['descripcion'];
+                    $bandera=2;
+                }
+                else if(isset($value['numero']) && $bandera==2){
+                    $telefono['numero']=$value['numero'];
+                    $this->telefonos[]=$telefono;
+                    $telefono=array(
+                        'id'=>null,
+                        'descripcion'=>null,
+                        'numero'=>null,
+                        'usuario_id'=>$this->id
+                    );
+                    $bandera=0;
+                }
+                else{
+                    $this->telefonos=false;
+                    break;
+                }
+            }
+        }
+        else if(!empty($telefonos)){
+            $this->telefonos=false;
+        }
+    }
+
+    public function getTelefonos(){
+        return $this->telefonos;
     }
 
     public function getClaveEncriptada(){
@@ -72,5 +135,44 @@ class Usuario{
             'numero_documento'=>'required|max:15'
         ]);
         return $validacion;
+    }
+
+    public function validez2(){
+        $atributos=array(
+            'nombres'=>$this->nombres,
+            'apellidos'=>$this->apellidos,
+            'foto'=>$this->foto
+        );
+
+        $validacion=Validator::make($atributos,[
+            'nombres'=>'required|min:2|max:60',
+            'apellidos'=>'required|min:2|max:60',
+            'foto'=>'file|image'
+        ]);
+        return $validacion;
+    }
+
+
+    public function getArregloEditar(){
+        return array(
+            'id'=>$this->id,
+            'nombres'=>$this->nombres,
+            'apellidos'=>$this->apellidos,
+            'correo_principal'=>$this->correo_principal,
+            'correo_secundario'=>$this->correo_secundario
+        );
+    }
+
+    public function validarTelefonos(){
+        $validez=true;
+        if(!is_null($this->telefonos)){
+            if(is_array($this->telefonos)){
+                //aqui validar cada valor que compone un telefono, su id, numero y descripcion...
+            }
+            else{
+                $validez=false;
+            }
+        }
+        return $validez;
     }
 }

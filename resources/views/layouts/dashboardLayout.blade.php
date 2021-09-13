@@ -15,6 +15,10 @@
 <!-- NProgress -->
 <link href="{{asset('css/nprogress.css')}}" rel="stylesheet">
     @yield('estilos')
+    <!--PNotify--> 
+<link href="{{asset('css/pnotify.css')}}" rel="stylesheet">
+<link href="{{asset('css/pnotify.buttons.css')}}" rel="stylesheet">
+<link href="{{asset('css/pnotify.nonblock.css')}}" rel="stylesheet">
     <!-- jQuery custom content scroller -->
     <link href="{{asset('css/jquery.mCustomScrollbar.min.css')}}" rel="stylesheet"/>
     <!-- Custom Theme Style -->
@@ -141,6 +145,10 @@
     <script src="{{asset('js/fastclick.js')}}"></script>
     <!-- NProgress -->
     <script src="{{asset('js/nprogress.js')}}"></script>
+         <!-- PNotify -->
+<script src="{{asset('js/pnotify.js')}}"></script>
+<script src="{{asset('js/pnotify.buttons.js')}}"></script>
+<script src="{{asset('js/pnotify.nonblock.js')}}"></script>
     <script>
         $.ajaxSetup({
         headers: {

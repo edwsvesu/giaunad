@@ -10,4 +10,6 @@ interface IRepositorioUsuario{
     public function actualizarRol(string $numero_documento,int $rol_id);
     public function getUsuariosAptosComoLideres();
     public function getUsuariosAptosComoIntegrantesProyecto(int $proyecto_id);
+    public function editar(array $datos);
+    public function getFoto(int $id);
 }

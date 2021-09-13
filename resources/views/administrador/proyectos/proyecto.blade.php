@@ -2,10 +2,6 @@
 @section('estilos')
 <!-- Switchery -->
 <link href="{{asset('css/switchery.min.css')}}" rel="stylesheet">
-<!--PNotify--> 
-<link href="{{asset('css/pnotify.css')}}" rel="stylesheet">
-<link href="{{asset('css/pnotify.buttons.css')}}" rel="stylesheet">
-<link href="{{asset('css/pnotify.nonblock.css')}}" rel="stylesheet">
 <style>
   .fa-download{
     margin-right: 5px;
@@ -379,10 +375,6 @@
     <script src="{{asset('js/jquery.knob.min.js')}}"></script>
     <!-- Switchery -->
     <script src="{{asset('js/switchery.min.js')}}"></script>
-     <!-- PNotify -->
-<script src="{{asset('js/pnotify.js')}}"></script>
-<script src="{{asset('js/pnotify.buttons.js')}}"></script>
-<script src="{{asset('js/pnotify.nonblock.js')}}"></script>
     <script>
       var documentoSeleccionado;
       $("#btn-upload").click(function(){
@@ -530,19 +522,6 @@
             },
             error:function(){
                 mensajeError("Ha ocurrido un error, la acción no se ha realizado");
-            }
-        });
-      }
-
-      function mensajeError(mensaje){
-        new PNotify({
-          title: 'Error',
-          text: mensaje,
-          type: 'error',
-          styling: 'bootstrap3',
-          delay: 2000,
-          nonblock:{
-                nonblock:true
             }
         });
       }

@@ -45,7 +45,7 @@ class Reportes implements IReportes{
 	}
 
 	public function getDatosPersonalesUsuario(string $numero_documento){
-		$registro=DB::select("SELECT u.numero_documento,u.nombres,u.apellidos,u.correo_principal,u.correo_secundario FROM usuario u WHERE numero_documento=:numero_documento",['numero_documento'=>$numero_documento]);
+		$registro=DB::select("SELECT u.id,u.numero_documento,u.nombres,u.apellidos,u.correo_principal,u.correo_secundario,u.foto FROM usuario u WHERE u.numero_documento=:numero_documento",['numero_documento'=>$numero_documento]);
 		return $registro;
 	}
 }

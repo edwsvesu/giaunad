@@ -37,6 +37,14 @@ use App\Dominio\Servicios\Proyectos\IInformeServicio;
 use App\Servicios\Proyectos\InformeServicio;
 use App\Dominio\Persistencia\Repositorios\IRepositorioArchivoInforme;
 use App\Persistencia\Repositorios\RepositorioArchivoInforme;
+use App\Dominio\Servicios\Usuarios\Curriculum\IDatosPersonalesServicio;
+use App\Servicios\Usuarios\Curriculum\DatosPersonalesServicio;
+use App\Dominio\Persistencia\Repositorios\IRepositorioTelefono;
+use App\Persistencia\Repositorios\RepositorioTelefono;
+use App\Dominio\Servicios\Usuarios\Curriculum\IFormacionIdiomasServicio;
+use App\Servicios\Usuarios\Curriculum\FormacionIdiomasServicio;
+use App\Dominio\Persistencia\Repositorios\IRepositorioFormacionIdioma;
+use App\Persistencia\Repositorios\RepositorioFormacionIdioma;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -64,6 +72,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IRepositorioInforme::class,RepositorioInforme::class);
         $this->app->bind(IInformeServicio::class,InformeServicio::class);
         $this->app->bind(IRepositorioArchivoInforme::class,RepositorioArchivoInforme::class);
+        $this->app->bind(IDatosPersonalesServicio::class,DatosPersonalesServicio::class);
+        $this->app->bind(IRepositorioTelefono::class,RepositorioTelefono::class);
+        $this->app->bind(IFormacionIdiomasServicio::class,FormacionIdiomasServicio::class);
+        $this->app->bind(IRepositorioFormacionIdioma::class,RepositorioFormacionIdioma::class);
     }
 
     /**

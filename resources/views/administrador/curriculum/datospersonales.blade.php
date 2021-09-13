@@ -14,13 +14,13 @@
                       <div class="profile_img">
                         <div id="crop-avatar">
                           <!-- Current avatar -->
-                          <img class="img-responsive avatar-view" src="{{asset('images/user.png')}}" alt="Avatar" title="Change the avatar">
+                          <img class="img-responsive avatar-view" src="{{isset($datos[0]->foto) ? asset('storage/'.$datos[0]->foto):asset('images/user.png')}}" alt="Avatar">
                         </div>
                       </div>
-                      <h3>Abiel Jose Eliseo Mendoza Gutirerez</h3>
+                      <h3>{{$datos[0]->nombres." ".$datos[0]->apellidos}}</h3>
 
 
-                      <a class="btn btn-success"><i class="fa fa-edit m-right-xs"></i>Editar información</a>
+                      <a href="dpersonales/editar"  class="btn btn-success"><i class="fa fa-edit m-right-xs"></i>Editar información</a>
                       <br />
 
 
@@ -34,9 +34,9 @@
                       </div>
                       <br>
                       <ul>
-                      	<li><span><strong>Documento de identificación:</strong> 4343432434</span></li>
-                      	<li><span><strong>Nombres:</strong> fjdfk jfldkfd</span></li>
-                      	<li><span><strong>Apellidos:</strong> fdfdf fdfdf</span></li>
+                      	<li><span><strong>Documento de identificación:</strong> {{$datos[0]->numero_documento}}</span></li>
+                      	<li><span><strong>Nombres:</strong> {{$datos[0]->nombres}}</span></li>
+                      	<li><span><strong>Apellidos:</strong> {{$datos[0]->apellidos}}</span></li>
                       </ul>
                       <div class="profile_title">
                         <div class="col-md-6">
@@ -45,14 +45,14 @@
                       </div>
                       <br>
                       <ul>
-                      	<li><span><strong>Correo electrónico principal:</strong> gttgt@ffrfr.com</span></li>
-                      	<li><span><strong>correo electrónico secundario:</strong> derf@ddrfr.com</span></li>
+                      	<li><span><strong>Correo electrónico principal:</strong> {{$datos[0]->correo_principal}}</span></li>
+                      	<li><span><strong>correo electrónico secundario:</strong> {{$datos[0]->correo_secundario}}</span></li>
                       	<li>
                       		<span><strong>Telefonos:</strong></span>
                       		<ul>
-                      			<li><span><strong>principal:</strong> 545454</span></li>
-                      			<li><span><strong>casa:</strong> 434334</span></li>
-                      			<li><span><strong>trabajo:</strong> 45454</span></li>
+                            @foreach($datos['telefonos'] as $telefono)
+                              <li><span><strong>{{$telefono->descripcion}}:</strong> {{$telefono->numero}}</span></li>
+                            @endforeach
                       		</ul>
                       	</li>
                       </ul>

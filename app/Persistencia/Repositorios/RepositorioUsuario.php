@@ -42,4 +42,13 @@ class RepositorioUsuario implements IRepositorioUsuario{
         $registros=DB::select("SELECT DISTINCT u.id,CONCAT(u.nombres,' ',u.apellidos,' | CC. ',u.numero_documento) as usuario FROM usuario u WHERE verificado!=0 AND id NOT IN (SELECT usuario_id FROM usuario_has_proyecto WHERE proyecto_id=:proyecto_id)",['proyecto_id'=>$proyecto_id]);
         return $registros;
     }
+
+    public function editar(array $datos){
+        $actualizado=DB::update("UPDATE usuario set nombres=:nombres,apellidos=:apellidos,correo_principal=:correo_principal,correo_secundario=:correo_secundario,foto=:foto WHERE id=:id",$datos);
+        return $actualizado;
+    }
+
+    public function getFoto(int $id){
+        return DB::select("SELECT foto from usuario WHERE id=:id",['id'=>$id]);
+    }
 }

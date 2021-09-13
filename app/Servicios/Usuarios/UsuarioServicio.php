@@ -3,6 +3,7 @@ namespace App\Servicios\Usuarios;
 use App\Dominio\Servicios\Usuarios\IUsuarioServicio;
 use App\Dominio\Persistencia\Repositorios\IRepositorioUsuario;
 use App\Dominio\Persistencia\Repositorios\IRepositorioRol;
+
 class UsuarioServicio implements IUsuarioServicio{
 	private IRepositorioUsuario $RepositorioUsuario;
 	private IRepositorioRol $RepositorioRol;
