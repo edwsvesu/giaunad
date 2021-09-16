@@ -23,6 +23,7 @@ use App\Http\Controllers\administrador\Proyectos\misproyectosController;
 use App\Http\Controllers\administrador\Proyectos\nuevoController;
 use App\Http\Controllers\administrador\Proyectos\proyectoController;
 use App\Http\Controllers\administrador\Curriculum\DatosGenerales\formacionacademicaformController;
+use App\Http\Controllers\administrador\Curriculum\DatosGenerales\formacionacademicaController;
 use App\Http\Controllers\administrador\Proyectos\informeController;
 use App\Http\Controllers\administrador\Curriculum\DatosGenerales\datospersonalesController;
 use App\Http\Controllers\administrador\Curriculum\DatosGenerales\datospersonalesformController;
@@ -98,13 +99,14 @@ Route::post('/dpersonales/editar-informacion',[datospersonalesformController::cl
 Route::post('/dpersonales/editar-telefono',[datospersonalesformController::class,'editarTelefono']);
 Route::post('/dpersonales/agregar-telefono',[datospersonalesformController::class,'agregarTelefono']);
 
-Route::get('/academica', function () {
-    return view('administrador.curriculum.formacionacademica');
-});
+Route::get('/academica',[formacionacademicaController::class,'index']);
 
 Route::get('/nuevoacademica',[formacionacademicaformController::class,'index']);
 
 Route::get('/idiomas',[formacionidiomasController::class,'index']);
+Route::post('/idiomas',[formacionidiomasController::class,'crear']);
+Route::put('/idiomas',[formacionidiomasController::class,'editar']);
+Route::delete('/idiomas',[formacionidiomasController::class,'eliminar']);
 
 Route::get('/idiomasform', function () {
     return view('administrador.curriculum.formacionidiomasform');

@@ -2,6 +2,7 @@
 namespace App\Dominio\Modelos;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use App\Dominio\Modelos\FormacionIdioma;
 
 class Usuario{
     private $id;
@@ -13,6 +14,26 @@ class Usuario{
     private $clave;
     private $telefonos;
     private $foto;
+    private $formacion_idioma;
+
+    public function getId(){
+        return $this->id;
+    }
+
+    public function setFormacion_idioma($lectura,$escritura,$habla,$escucha,$idioma_id,$id=0){
+        $formacion_idioma=new FormacionIdioma();
+        $formacion_idioma->setId($id);
+        $formacion_idioma->setLectura($lectura);
+        $formacion_idioma->setEscritura($escritura);
+        $formacion_idioma->setHabla($habla);
+        $formacion_idioma->setEscucha($escucha);
+        $formacion_idioma->setIdioma_id($idioma_id);
+        $this->formacion_idioma=$formacion_idioma;
+    }
+
+    public function getFormacion_idioma(){
+        return $this->formacion_idioma;
+    }
 
     public function setFoto($foto){
         $this->foto=$foto;
@@ -174,5 +195,18 @@ class Usuario{
             }
         }
         return $validez;
+    }
+
+    public function getArregloFormacionIdioma(){
+        $arreglo=array(
+            'id'=>$this->formacion_idioma->getId(),
+            'lectura'=>$this->formacion_idioma->getLectura(),
+            'escritura'=>$this->formacion_idioma->getEscritura(),
+            'habla'=>$this->formacion_idioma->getHabla(),
+            'escucha'=>$this->formacion_idioma->getEscucha(),
+            'usuario_id'=>$this->id,
+            'idioma_id'=>$this->formacion_idioma->getIdioma_id()
+        );
+        return $arreglo;
     }
 }

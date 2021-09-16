@@ -45,6 +45,8 @@ use App\Dominio\Servicios\Usuarios\Curriculum\IFormacionIdiomasServicio;
 use App\Servicios\Usuarios\Curriculum\FormacionIdiomasServicio;
 use App\Dominio\Persistencia\Repositorios\IRepositorioFormacionIdioma;
 use App\Persistencia\Repositorios\RepositorioFormacionIdioma;
+use App\Dominio\Persistencia\Repositorios\IRepositorioIdioma;
+use App\Persistencia\Repositorios\RepositorioIdioma;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -76,6 +78,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IRepositorioTelefono::class,RepositorioTelefono::class);
         $this->app->bind(IFormacionIdiomasServicio::class,FormacionIdiomasServicio::class);
         $this->app->bind(IRepositorioFormacionIdioma::class,RepositorioFormacionIdioma::class);
+        $this->app->bind(IRepositorioIdioma::class,RepositorioIdioma::class);
     }
 
     /**

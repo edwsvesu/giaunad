@@ -17,6 +17,21 @@ class formacionidiomasController extends Controller
 
     public function index(){
         $formacion=$this->FormacionIdiomasServicio->getFormacionIdiomas($this->usuario_id);
-        return view('administrador.curriculum.formacionidiomas',compact('formacion'));
+        $idiomas=$this->FormacionIdiomasServicio->getTodosIdiomas();
+        return view('administrador.curriculum.formacionidiomas',compact('formacion','idiomas'));
+    }
+
+    public function crear(Request $request){
+        $this->FormacionIdiomasServicio->crearFormacionIdioma($request->all(),$this->usuario_id);
+        return back();
+    }
+
+    public function editar(Request $request){
+        $this->FormacionIdiomasServicio->editarFormacionIdioma($request->all(),$this->usuario_id);
+        return back();
+    }
+
+    public function eliminar(Request $request){
+        return $this->FormacionIdiomasServicio->eliminarFormacionIdioma($request->all(),$this->usuario_id);
     }
 }
