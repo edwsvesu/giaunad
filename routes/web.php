@@ -29,27 +29,24 @@ use App\Http\Controllers\administrador\Curriculum\DatosGenerales\datospersonales
 use App\Http\Controllers\administrador\Curriculum\DatosGenerales\datospersonalesformController;
 use App\Http\Controllers\administrador\Curriculum\DatosGenerales\formacionidiomasController;
 
-Route::get('/registrarse', function () {
-    return view('inicio.login');
-});
 
-Route::get('/registrarse2', function () {
-    return view('administrador.usuarios.usuariosform');
-});
+Route::get('/registrarse', function () {return view('inicio.login');});
+
+Route::get('/registrarse2', function () {return view('administrador.usuarios.usuariosform');});
 
 Route::post('/registrarse', [RegistrarseController::class,'registrarse']);
 
 
 
+Route::post('/proyectos/tipo-proyecto',[nuevoController::class,'crearTipoProyecto']);
+Route::delete('/proyectos/tipo-proyecto',[nuevoController::class,'eliminarTipoProyecto']);
+Route::put('/proyectos/tipo-proyecto',[nuevoController::class,'editarTipoProyecto']);
 Route::get('/proyectos/nuevo',[nuevoController::class,'index']);
 Route::post('/proyectos/nuevo/crear',[nuevoController::class,'crear']);
-
 Route::get('/proyectos/vigentes',[vigentesController::class,'index']);
-
 Route::get('/proyectos/finalizados',[finalizadosController::class,'index']);
 
 Route::get('/proyectos/misproyectos',[misproyectosController::class,'index']);
-
 
 Route::get('/proyectos/proyecto/{codigo}',[proyectoController::class,'index']);
 Route::get('/descargar/documento-proyecto/{ruta}/{nombre}',[proyectoController::class,'descargarDocumento'])->where('nombre', '.*')->where('ruta', '.*');
@@ -100,6 +97,11 @@ Route::post('/dpersonales/editar-telefono',[datospersonalesformController::class
 Route::post('/dpersonales/agregar-telefono',[datospersonalesformController::class,'agregarTelefono']);
 
 Route::get('/academica',[formacionacademicaController::class,'index']);
+Route::delete('/academica',[formacionacademicaController::class,'eliminar']);
+Route::post('/academica',[formacionacademicaController::class,'crear']);
+Route::put('/academica',[formacionacademicaController::class,'editar']);
+
+Route::get('/academica/informacion/{id}',[formacionacademicaController::class,'getFormacion']);
 
 Route::get('/nuevoacademica',[formacionacademicaformController::class,'index']);
 

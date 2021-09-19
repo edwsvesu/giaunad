@@ -8,8 +8,21 @@ class Proyecto{
     private $fecha_fin;
     private $codigo;
     private $documentos;
+    private $tipo_proyecto;
     private $tipo_proyecto_id;
     private $lider_id;
+
+    public function setTipo_proyecto($tipo_proyecto){
+        $this->tipo_proyecto=$tipo_proyecto;
+    }
+
+    public function getTipo_proyecto_id(){
+        return $this->tipo_proyecto_id;
+    }
+
+    public function getTipo_proyecto(){
+        return $this->tipo_proyecto;
+    }
 
     public function setTitulo($titulo){
         $this->titulo=$titulo;
@@ -97,5 +110,16 @@ class Proyecto{
 
     public function noHayDocumentos(){
         return empty($this->documentos);
+    }
+
+    public function validezTipoProyecto(){
+        $atributos=array(
+            'tipo_proyecto'=>$this->tipo_proyecto,
+        );
+
+        $validacion=Validator::make($atributos,[
+            'tipo_proyecto'=>'required'
+        ]);
+        return $validacion;
     }
 }

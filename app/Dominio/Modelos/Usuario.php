@@ -3,6 +3,7 @@ namespace App\Dominio\Modelos;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Dominio\Modelos\FormacionIdioma;
+use App\Dominio\Modelos\FormacionAcademica;
 
 class Usuario{
     private $id;
@@ -15,9 +16,27 @@ class Usuario{
     private $telefonos;
     private $foto;
     private $formacion_idioma;
+    private $formacion_academica;
 
     public function getId(){
         return $this->id;
+    }
+
+    public function getFormacion_academica(){
+        return $this->formacion_academica;
+    }
+
+    public function setFormacion_academica($nivel_id,$titulo,$institucion_id,$intensidad,$promedio,$fecha_inicio,$fecha_fin,$id=null){
+        $formacion_academica=new FormacionAcademica();
+        $formacion_academica->setNivel_id($nivel_id);
+        $formacion_academica->setTitulo($titulo);
+        $formacion_academica->setInstitucion($institucion_id);
+        $formacion_academica->setIntensidad($intensidad);
+        $formacion_academica->setPromedio($promedio);
+        $formacion_academica->setFecha_inicio($fecha_inicio);
+        $formacion_academica->setFecha_fin($fecha_fin);
+        $formacion_academica->setId($id);
+        $this->formacion_academica=$formacion_academica;
     }
 
     public function setFormacion_idioma($lectura,$escritura,$habla,$escucha,$idioma_id,$id=0){
@@ -206,6 +225,21 @@ class Usuario{
             'escucha'=>$this->formacion_idioma->getEscucha(),
             'usuario_id'=>$this->id,
             'idioma_id'=>$this->formacion_idioma->getIdioma_id()
+        );
+        return $arreglo;
+    }
+
+    public function getArregloFormacionAcademica(){
+        $arreglo=array(
+            'id'=>$this->formacion_academica->getId(),
+            'titulo'=>$this->formacion_academica->getTitulo(),
+            'intensidad'=>$this->formacion_academica->getIntensidad(),
+            'fecha_inicio'=>$this->formacion_academica->getFecha_inicio(),
+            'fecha_fin'=>$this->formacion_academica->getFecha_fin(),
+            'promedio'=>$this->formacion_academica->getPromedio(),
+            'usuario_id'=>$this->id,
+            'nivel_id'=>$this->formacion_academica->getNivel_id(),
+            'institucion_id'=>$this->formacion_academica->getInstitucion()->getId()
         );
         return $arreglo;
     }

@@ -48,4 +48,14 @@ class Reportes implements IReportes{
 		$registro=DB::select("SELECT u.id,u.numero_documento,u.nombres,u.apellidos,u.correo_principal,u.correo_secundario,u.foto FROM usuario u WHERE u.numero_documento=:numero_documento",['numero_documento'=>$numero_documento]);
 		return $registro;
 	}
+
+	public function getTodaFormacionAcademicaPorUsuario(int $usuario_id){
+		$registros=DB::select("SELECT f.id,n.nombre as nivel,f.titulo,i.nombre as institucion FROM formacion_academica f JOIN nivel n ON f.nivel_id=n.id JOIN institucion i ON f.institucion_id=i.id WHERE usuario_id=:usuario_id",['usuario_id'=>$usuario_id]);
+		return $registros;
+	}
+
+	public function getFormacionAcademicaPorUsuario(int $formacion_id,int $usuario_id){
+		$registro=DB::select("SELECT f.*,n.id as nivel_id,n.nombre as nivel,i.id as institucion_id,i.nombre as institucion FROM formacion_academica f JOIN nivel n ON f.nivel_id=n.id JOIN institucion i ON f.institucion_id=i.id WHERE f.usuario_id=:usuario_id AND f.id=:formacion_id",['formacion_id'=>$formacion_id,'usuario_id'=>$usuario_id]);
+		return $registro;
+	}
 }

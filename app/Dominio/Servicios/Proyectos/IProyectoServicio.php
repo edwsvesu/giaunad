@@ -13,4 +13,7 @@ interface IProyectoServicio{
 	public function borrarDocumento(array $datos);
 	public function getIntegrantesProyecto(int $proyecto_id);
 	public function setIntegranteProyecto(array $datos);
+	public function crearTipoProyecto(array $datos);
+	public function editarTipoProyecto(array $datos);
+	public function eliminarTipoProyecto(array $datos);
 }

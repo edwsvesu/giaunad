@@ -47,6 +47,7 @@ var table = $('#datatable').DataTable({
         <th>Fecha inicio</th>
         <th>Fecha fin</th>
         <th>Lider</th>
+        <th>Acciones</th>
         </tr>
     </thead>
 
@@ -60,6 +61,9 @@ var table = $('#datatable').DataTable({
         <td>{{$proyecto->fecha_inicio}}</td>
         <td>{{$proyecto->fecha_fin}}</td>
         <td>{{$proyecto->lider}}</td>
+        <td>
+            <a href="/proyectos/proyecto/{{$proyecto->codigo}}" class="btn btn-primary btn-xs view-info-form"><i class="fa fa-eye"></i> Ir</a>
+        </td>
         </tr>
         @endforeach
     </tbody>

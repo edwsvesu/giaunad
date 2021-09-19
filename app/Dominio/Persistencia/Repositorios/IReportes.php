@@ -11,4 +11,6 @@ interface IReportes{
 	public function getIntegranteDeProyecto(int $proyecto_id,int $usuario_id);
 	public function getInforme(int $informe_id,string $cod_proyecto);
 	public function getDatosPersonalesUsuario(string $numero_documento);
+	public function getTodaFormacionAcademicaPorUsuario(int $usuario_id);
+	public function getFormacionAcademicaPorUsuario(int $formacion_id,int $usuario_id);
 }

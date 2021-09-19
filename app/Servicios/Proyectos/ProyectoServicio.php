@@ -51,7 +51,7 @@ class ProyectoServicio implements IProyectoServicio{
 					$arregloProyecto['documentos']=$documentos;
 				}
 				$this->RepositorioProyecto->insertar($arregloProyecto);
-				return "Registrado!!!";
+				return true;
 	        }
     	}
 	}
@@ -103,6 +103,23 @@ class ProyectoServicio implements IProyectoServicio{
 		}
 	}*/
 
+	public function crearTipoProyecto(array $datos){
+		$proyecto=new Proyecto();
+		$proyecto->setTipo_proyecto(isset($datos['tipo_proyecto']) ? $datos['tipo_proyecto']:null);
+		if(!$proyecto->validezTipoProyecto()->fails()){
+			return $this->RepositorioTipoProyecto->insertar($proyecto->getTipo_proyecto());
+		}
+	}
+
+	public function editarTipoProyecto(array $datos){
+		$proyecto=new Proyecto();
+		$proyecto->setTipo_proyecto(isset($datos['nuevo_valor']) ? $datos['nuevo_valor']:null);
+		$proyecto->setTipo_proyecto_id(isset($datos['tipo_proyecto_id_act']) ? $datos['tipo_proyecto_id_act']:null);
+		if(!$proyecto->validezTipoProyecto()->fails()){
+			return $this->RepositorioTipoProyecto->editar($proyecto->getTipo_proyecto_id(),$proyecto->getTipo_proyecto());
+		}
+	}
+
 
 	public function subirDocumentos(array $datos){
 		$proyecto=new Proyecto();
@@ -137,6 +154,11 @@ class ProyectoServicio implements IProyectoServicio{
 
 	public function getIntegrantesProyecto(int $proyecto_id){
 		return $this->RepositorioUsuario->getUsuariosAptosComoIntegrantesProyecto($proyecto_id);
+	}
+
+	public function eliminarTipoProyecto(array $datos){
+		$id=isset($datos['tipo_proyecto_id_el']) ? (ctype_digit($datos['tipo_proyecto_id_el']) ? $datos['tipo_proyecto_id_el']:0):0;
+		return $this->RepositorioTipoProyecto->eliminar($id);
 	}
 
 	public function setIntegranteProyecto(array $datos){

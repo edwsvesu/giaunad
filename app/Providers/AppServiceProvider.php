@@ -47,6 +47,12 @@ use App\Dominio\Persistencia\Repositorios\IRepositorioFormacionIdioma;
 use App\Persistencia\Repositorios\RepositorioFormacionIdioma;
 use App\Dominio\Persistencia\Repositorios\IRepositorioIdioma;
 use App\Persistencia\Repositorios\RepositorioIdioma;
+use App\Dominio\Servicios\Usuarios\Curriculum\IFormacionAcademicaServicio;
+use App\Servicios\Usuarios\Curriculum\FormacionAcademicaServicio;
+use App\Dominio\Persistencia\Repositorios\IRepositorioFormacionAcademica;
+use App\Persistencia\Repositorios\RepositorioFormacionAcademica;
+use App\Dominio\Persistencia\Repositorios\IRepositorioInstitucion;
+use App\Persistencia\Repositorios\RepositorioInstitucion;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -79,6 +85,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IFormacionIdiomasServicio::class,FormacionIdiomasServicio::class);
         $this->app->bind(IRepositorioFormacionIdioma::class,RepositorioFormacionIdioma::class);
         $this->app->bind(IRepositorioIdioma::class,RepositorioIdioma::class);
+        $this->app->bind(IFormacionAcademicaServicio::class,FormacionAcademicaServicio::class);
+        $this->app->bind(IRepositorioFormacionAcademica::class,RepositorioFormacionAcademica::class);
+        $this->app->bind(IRepositorioInstitucion::class,RepositorioInstitucion::class);
     }
 
     /**
