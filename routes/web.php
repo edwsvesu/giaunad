@@ -19,15 +19,15 @@ use App\Http\Controllers\administrador\usuarios\solicitudesController;
 use App\Http\Controllers\administrador\usuarios\usuariosController;
 use App\Http\Controllers\administrador\Proyectos\vigentesController;
 use App\Http\Controllers\administrador\Proyectos\finalizadosController;
-use App\Http\Controllers\administrador\Proyectos\misproyectosController;
+use App\Http\Controllers\Proyectos\misproyectosController;
 use App\Http\Controllers\administrador\Proyectos\nuevoController;
-use App\Http\Controllers\administrador\Proyectos\proyectoController;
-use App\Http\Controllers\administrador\Curriculum\DatosGenerales\formacionacademicaformController;
-use App\Http\Controllers\administrador\Curriculum\DatosGenerales\formacionacademicaController;
+use App\Http\Controllers\Proyectos\proyectoController;
+//use App\Http\Controllers\administrador\Curriculum\DatosGenerales\formacionacademicaformController;
+use App\Http\Controllers\Curriculum\DatosGenerales\formacionacademicaController;
 use App\Http\Controllers\administrador\Proyectos\informeController;
-use App\Http\Controllers\administrador\Curriculum\DatosGenerales\datospersonalesController;
-use App\Http\Controllers\administrador\Curriculum\DatosGenerales\datospersonalesformController;
-use App\Http\Controllers\administrador\Curriculum\DatosGenerales\formacionidiomasController;
+use App\Http\Controllers\Curriculum\DatosGenerales\datospersonalesController;
+use App\Http\Controllers\Curriculum\DatosGenerales\datospersonalesformController;
+use App\Http\Controllers\Curriculum\DatosGenerales\formacionidiomasController;
 
 
 Route::get('/registrarse', function () {return view('inicio.login');});
@@ -35,8 +35,6 @@ Route::get('/registrarse', function () {return view('inicio.login');});
 Route::get('/registrarse2', function () {return view('administrador.usuarios.usuariosform');});
 
 Route::post('/registrarse', [RegistrarseController::class,'registrarse']);
-
-
 
 Route::post('/proyectos/tipo-proyecto',[nuevoController::class,'crearTipoProyecto']);
 Route::delete('/proyectos/tipo-proyecto',[nuevoController::class,'eliminarTipoProyecto']);
@@ -46,25 +44,12 @@ Route::post('/proyectos/nuevo/crear',[nuevoController::class,'crear']);
 Route::get('/proyectos/vigentes',[vigentesController::class,'index']);
 Route::get('/proyectos/finalizados',[finalizadosController::class,'index']);
 
-Route::get('/proyectos/misproyectos',[misproyectosController::class,'index']);
-
-Route::get('/proyectos/proyecto/{codigo}',[proyectoController::class,'index']);
 Route::get('/descargar/documento-proyecto/{ruta}/{nombre}',[proyectoController::class,'descargarDocumento'])->where('nombre', '.*')->where('ruta', '.*');
 
 Route::get('/descargar/archivo-informe/{ruta}/{nombre}',[informeController::class,'descargarArchivo'])->where('nombre', '.*')->where('ruta', '.*');
 
-Route::post('/subir/documento-proyecto',[proyectoController::class,'subirDocumentos']);
-
-Route::post('/proyectos/eliminar-documento',[proyectoController::class,'borrarDocumento']);
 
 Route::post('/informe/eliminar-archivo',[informeController::class,'borrarArchivo']);
-
-Route::post('/proyectos/agregar-integrante',[proyectoController::class,'agregarIntegrante']);
-
-Route::post('/proyectos/agregar-integrante/obtener',[proyectoController::class,'getIntegranteDeProyecto']);
-
-
-Route::post('/proyecto/crear-informe',[proyectoController::class,'crearInforme']);
 
 Route::get('/usuarios',[usuariosController::class,'index']);
 
@@ -89,27 +74,38 @@ Route::get('/actividad2', function () {
     return view('administrador.proyectos.actividad2');
 });
 
-Route::get('/dpersonales',[datospersonalesController::class,'index']);
-Route::get('/dpersonales/editar',[datospersonalesformController::class,'index']);
-Route::post('/dpersonales/eliminar-telefono',[datospersonalesformController::class,'eliminarTelefono']);
-Route::post('/dpersonales/editar-informacion',[datospersonalesformController::class,'editarInformacion']);
-Route::post('/dpersonales/editar-telefono',[datospersonalesformController::class,'editarTelefono']);
-Route::post('/dpersonales/agregar-telefono',[datospersonalesformController::class,'agregarTelefono']);
+//Route::post('/dpersonales/editar-telefono',[datospersonalesformController::class,'editarTelefono']);
 
-Route::get('/academica',[formacionacademicaController::class,'index']);
-Route::delete('/academica',[formacionacademicaController::class,'eliminar']);
-Route::post('/academica',[formacionacademicaController::class,'crear']);
-Route::put('/academica',[formacionacademicaController::class,'editar']);
+//Route::get('/nuevoacademica',[formacionacademicaformController::class,'index']);
 
-Route::get('/academica/informacion/{id}',[formacionacademicaController::class,'getFormacion']);
-
-Route::get('/nuevoacademica',[formacionacademicaformController::class,'index']);
-
-Route::get('/idiomas',[formacionidiomasController::class,'index']);
-Route::post('/idiomas',[formacionidiomasController::class,'crear']);
-Route::put('/idiomas',[formacionidiomasController::class,'editar']);
-Route::delete('/idiomas',[formacionidiomasController::class,'eliminar']);
 
 Route::get('/idiomasform', function () {
     return view('administrador.curriculum.formacionidiomasform');
 });
+
+
+///////////////////////////////////////////////////////////////////////////
+Route::get('/curriculum/datos-generales/datos-personales',[datospersonalesController::class,'index']);
+Route::get('/curriculum/datos-generales/datos-personales/editar',[datospersonalesformController::class,'index']);
+Route::post('/curriculum/datos-generales/datos-personales/editar/telefono',[datospersonalesformController::class,'agregarTelefono']);
+Route::delete('/curriculum/datos-generales/datos-personales/editar/telefono',[datospersonalesformController::class,'eliminarTelefono']);
+Route::post('/curriculum/datos-generales/datos-personales/editar',[datospersonalesformController::class,'editarInformacion']);
+Route::get('/curriculum/datos-generales/formacion-academica',[formacionacademicaController::class,'index']);
+Route::delete('/curriculum/datos-generales/formacion-academica',[formacionacademicaController::class,'eliminar']);
+
+Route::post('/curriculum/datos-generales/formacion-academica',[formacionacademicaController::class,'crear']);
+Route::put('/curriculum/datos-generales/formacion-academica',[formacionacademicaController::class,'editar']);
+
+Route::get('/curriculum/datos-generales/formacion-academica/{id}',[formacionacademicaController::class,'getFormacion']);
+
+Route::get('/curriculum/datos-generales/formacion-idiomas',[formacionidiomasController::class,'index']);
+Route::post('/curriculum/datos-generales/formacion-idiomas',[formacionidiomasController::class,'crear']);
+Route::put('/curriculum/datos-generales/formacion-idiomas',[formacionidiomasController::class,'editar']);
+Route::delete('/curriculum/datos-generales/formacion-idiomas',[formacionidiomasController::class,'eliminar']);
+Route::get('/proyectos/misproyectos',[misproyectosController::class,'index']);
+Route::get('/proyectos/proyecto/{codigo}',[proyectoController::class,'index']);
+Route::post('/proyectos/proyecto/{codigo}/integrante',[proyectoController::class,'agregarIntegrante']);
+Route::get('/proyectos/proyecto/{codigo}/integrante/{integrante_id}',[proyectoController::class,'getIntegranteDeProyecto']);
+Route::delete('/proyectos/proyecto/{codigo}/documento',[proyectoController::class,'borrarDocumento']);
+Route::post('/proyectos/proyecto/{codigo}/documento',[proyectoController::class,'subirDocumentos']);
+Route::post('/proyectos/proyecto/{codigo}/informe',[proyectoController::class,'crearInforme']);

@@ -13,7 +13,7 @@ class RepositorioDocumento implements IRepositorioDocumento{
 		DB::table('documento')->insert($datos);
 	}
 
-	public function eliminarDocumento(string $ruta){
-		return DB::delete("DELETE FROM documento where ruta=:ruta",['ruta'=>$ruta]);
+	public function eliminarDocumento(string $ruta,int $proyecto_id){
+		return DB::delete("DELETE FROM documento where ruta=:ruta AND proyecto_id=:proyecto_id",['ruta'=>$ruta,'proyecto_id'=>$proyecto_id]);
 	}
 }

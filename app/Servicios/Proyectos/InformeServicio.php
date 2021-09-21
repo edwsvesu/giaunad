@@ -21,21 +21,32 @@ class InformeServicio implements IInformeServicio{
 		$this->RepositorioProyecto=$RepositorioProyecto;
 	}
 
-	public function crear(array $datos){
-		$informe=new Informe();
-		$informe->setTitulo(isset($datos['titulo']) ? $datos['titulo']: '');
-		$informe->setDescripcion(isset($datos['descripcion']) ? $datos['descripcion']: '');
-		$informe->setFecha_limite(isset($datos['fecha_limite']) ? $datos['fecha_limite']: '');
-		$informe->setProyecto_id(isset($datos['proyecto_id']) ? $datos['proyecto_id']: '');
-		if(!($informe->validez()->fails()) && $this->proyectoEstaRegistrado($informe->getProyecto_id())){
-			$arregloInforme=$informe->getArregloInforme();
-			$id=$this->RepositorioInforme->insertar($arregloInforme);
-			if($id>0){
-				$salida=array(
-					'informe_id'=>$id,
-					'proyecto_cod'=>$this->RepositorioProyecto->buscarPorId($informe->getProyecto_id())[0]->codigo
-				);
-				return $salida;
+	public function crear(array $datos,$proyecto_cod,$usuario_id){
+		if($this->proyectoEstaRegistradoPorCodigo($proyecto_cod)){
+			$proyecto_id=$this->getIdProyecto($proyecto_cod);
+			if($this->usuarioEsLiderDeProyecto($proyecto_id,$usuario_id)){
+				$informe=new Informe();
+				$informe->setTitulo(isset($datos['titulo']) ? $datos['titulo']: '');
+				$informe->setDescripcion(isset($datos['descripcion']) ? $datos['descripcion']: '');
+				$informe->setFecha_limite(isset($datos['fecha_limite']) ? $datos['fecha_limite']: '');
+				$informe->setProyecto_id($proyecto_id);
+				if(!($informe->validez()->fails())){
+					$arregloInforme=$informe->getArregloInforme();
+					$id=$this->RepositorioInforme->insertar($arregloInforme);
+					if($id>0){
+						$salida=array(
+							'informe_id'=>$id,
+							'proyecto_cod'=>$proyecto_cod
+						);
+						return $salida;
+					}
+					else{
+						return false;
+					}
+				}
+				else{
+					return false;
+				}
 			}
 			else{
 				return false;
@@ -44,6 +55,20 @@ class InformeServicio implements IInformeServicio{
 		else{
 			return false;
 		}
+	}
+
+	public function usuarioEsLiderDeProyecto(int $proyecto_id,int $usuario_id){
+		$registro=$this->RepositorioProyecto->buscarPorIdYLiderId($proyecto_id,$usuario_id);
+		if($registro){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
+	public function getIdProyecto(string $codigo){
+		return $this->RepositorioProyecto->getId($codigo)[0]->id;
 	}
 
 	public function getInformes(int $proyecto_id){
@@ -92,6 +117,16 @@ class InformeServicio implements IInformeServicio{
 
 	public function proyectoEstaRegistrado(int $proyecto_id){
 		if($this->RepositorioProyecto->buscarPorId($proyecto_id)){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
+	public function proyectoEstaRegistradoPorCodigo(string $proyecto_cod){
+		$registro=$this->RepositorioProyecto->buscarPorCodigo($proyecto_cod);
+		if($registro){
 			return true;
 		}
 		else{

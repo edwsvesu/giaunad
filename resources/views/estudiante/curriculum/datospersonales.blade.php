@@ -1,2 +1,2 @@
-@extends('administrador.dashboard')
+@extends('estudiante.dashboard')
 @extends('common.curriculum.datospersonales')

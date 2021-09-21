@@ -19,9 +19,9 @@ class DatosPersonalesServicio implements IDatosPersonalesServicio{
 		$this->RepositorioUsuario=$RepositorioUsuario;
 	}
 
-	public function getDatos(string $numero_documento){
-		$datos=$this->Reportes->getDatosPersonalesUsuario($numero_documento);
-		$telefonos=$this->RepositorioTelefono->getTodosPorUsuarioId($datos[0]->id);
+	public function getDatos(int $usuario_id){
+		$datos=$this->Reportes->getDatosPersonalesUsuario($usuario_id);
+		$telefonos=$this->RepositorioTelefono->getTodosPorUsuarioId($usuario_id);
 		$datos['telefonos']=$telefonos;
 		return $datos;
 	}

@@ -27,4 +27,19 @@ class RepositorioProyecto implements IRepositorioProyecto{
         $registro=DB::select("SELECT * FROM proyecto WHERE id=:id",['id'=>$id]);
         return $registro;
     }
+
+    public function buscarPorIdYLiderId(int $id,int $lidera){
+        $registro=DB::select("SELECT * FROM proyecto WHERE id=:id AND lidera=:lidera",['id'=>$id,'lidera'=>$lidera]);
+        return $registro;
+    }
+
+    public function buscarPorCodigoYLiderId(string $codigo,int $lidera){
+        $registro=DB::select("SELECT * FROM proyecto WHERE codigo=:codigo AND lidera=:lidera",['codigo'=>$codigo,'lidera'=>$lidera]);
+        return $registro;
+    }
+
+    public function getId(string $codigo){
+        $registro=DB::select("SELECT id FROM proyecto WHERE codigo=:codigo",['codigo'=>$codigo]);
+        return $registro;
+    }
 }

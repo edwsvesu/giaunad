@@ -19,8 +19,8 @@ class Reportes implements IReportes{
 		return $registros;
 	}
 
-	public function getProyectosDeUsuario(string $numero_documento){
-		$registros=DB::select("SELECT t.nombre as tipo,p.titulo,p.codigo,CASE p.finalizado WHEN 0 THEN 'Abierto' ELSE 'Cerrado' END as estado,p.fecha_inicio,p.fecha_fin,(SELECT CONCAT(ul.nombres,' ',ul.apellidos) FROM usuario ul WHERE p.lidera=ul.id) AS lider FROM proyecto p  JOIN tipo_proyecto t on p.tipo_proyecto_id=t.id JOIN usuario_has_proyecto up on up.proyecto_id=p.id JOIN usuario u on u.id=up.usuario_id WHERE u.numero_documento=:numero_documento",['numero_documento'=>$numero_documento]);
+	public function getProyectosDeUsuario(int $usuario_id){
+		$registros=DB::select("SELECT t.nombre as tipo,p.titulo,p.codigo,CASE p.finalizado WHEN 0 THEN 'Abierto' ELSE 'Cerrado' END as estado,p.fecha_inicio,p.fecha_fin,(SELECT CONCAT(ul.nombres,' ',ul.apellidos) FROM usuario ul WHERE p.lidera=ul.id) AS lider FROM proyecto p  JOIN tipo_proyecto t on p.tipo_proyecto_id=t.id JOIN usuario_has_proyecto up on up.proyecto_id=p.id JOIN usuario u on u.id=up.usuario_id WHERE u.id=:usuario_id",['usuario_id'=>$usuario_id]);
 		return $registros;
 	}
 
@@ -34,8 +34,8 @@ class Reportes implements IReportes{
 		return $registros;
 	}
 
-	public function getIntegranteDeProyecto(int $proyecto_id,int $usuario_id){
-		$registros=DB::select("SELECT CONCAT(u.nombres,' ',u.apellidos) as nombre,r.nombre as perfil,u.foto, CASE WHEN u.id=p.lidera THEN 'Lider del proyecto' ELSE 'Integrante' END as funcion FROM usuario u JOIN rol r ON r.id=u.rol_id JOIN usuario_has_proyecto up ON u.id=up.usuario_id JOIN proyecto p ON up.proyecto_id=p.id WHERE up.proyecto_id=:proyecto_id AND u.id=:usuario_id",['proyecto_id'=>$proyecto_id,'usuario_id'=>$usuario_id]);
+	public function getIntegranteDeProyecto(string $proyecto_cod,int $usuario_id){
+		$registros=DB::select("SELECT CONCAT(u.nombres,' ',u.apellidos) as nombre,r.nombre as perfil,u.foto, CASE WHEN u.id=p.lidera THEN 'Lider del proyecto' ELSE 'Integrante' END as funcion FROM usuario u JOIN rol r ON r.id=u.rol_id JOIN usuario_has_proyecto up ON u.id=up.usuario_id JOIN proyecto p ON up.proyecto_id=p.id WHERE p.codigo=:proyecto_cod AND u.id=:usuario_id",['proyecto_cod'=>$proyecto_cod,'usuario_id'=>$usuario_id]);
 		return $registros;
 	}
 
@@ -44,8 +44,8 @@ class Reportes implements IReportes{
 		return $registro;
 	}
 
-	public function getDatosPersonalesUsuario(string $numero_documento){
-		$registro=DB::select("SELECT u.id,u.numero_documento,u.nombres,u.apellidos,u.correo_principal,u.correo_secundario,u.foto FROM usuario u WHERE u.numero_documento=:numero_documento",['numero_documento'=>$numero_documento]);
+	public function getDatosPersonalesUsuario(int $usuario_id){
+		$registro=DB::select("SELECT u.id,u.numero_documento,u.nombres,u.apellidos,u.correo_principal,u.correo_secundario,u.foto FROM usuario u WHERE u.id=:usuario_id",['usuario_id'=>$usuario_id]);
 		return $registro;
 	}
 

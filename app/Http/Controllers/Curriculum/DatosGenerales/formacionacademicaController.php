@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\administrador\Curriculum\DatosGenerales;
+namespace App\Http\Controllers\Curriculum\DatosGenerales;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -10,17 +10,29 @@ class formacionacademicaController extends Controller
 {
     private IFormacionAcademicaServicio $FormacionAcademicaServicio;
     private $usuario_id;
+    private $usuario_rol;
 
     public function __construct(IFormacionAcademicaServicio $FormacionAcademicaServicio){
         $this->FormacionAcademicaServicio=$FormacionAcademicaServicio;
         $this->usuario_id=1;
+        $this->usuario_rol=3;
     }
 
     public function index(){
         $titulos=$this->FormacionAcademicaServicio->getTodoPorUsuario($this->usuario_id);
         $niveles=$this->FormacionAcademicaServicio->getTodosNivelesFormacion();
         $instituciones=$this->FormacionAcademicaServicio->getTodasInstituciones();
-        return view('administrador.curriculum.formacionacademica',compact('titulos','niveles','instituciones'));
+        switch ($this->usuario_rol) {
+            case 3:
+                return view('investigador.curriculum.formacionacademica',compact('titulos','niveles','instituciones'));
+                break;
+            case 4:
+                return view('estudiante.curriculum.formacionacademica',compact('titulos','niveles','instituciones'));
+                break;
+            default:
+                abort(403);
+                break;
+        }
     }
 
     public function getFormacion($id){

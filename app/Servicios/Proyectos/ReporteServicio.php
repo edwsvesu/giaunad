@@ -19,8 +19,8 @@ class ReporteServicio implements IReporteServicio{
 		return $this->Reportes->getProyectosFinalizados();
 	}
 
-	public function getProyectosDeUsuario(string $numero_documento){
-		return $this->Reportes->getProyectosDeUsuario($numero_documento);
+	public function getProyectosDeUsuario(int $usuario_id){
+		return $this->Reportes->getProyectosDeUsuario($usuario_id);
 	}
 
 	public function getInformacionGeneralProyecto(string $codigo){
@@ -31,9 +31,9 @@ class ReporteServicio implements IReporteServicio{
 		return $this->Reportes->getIntegrantesDeProyecto($proyecto_id);
 	}
 
-	public function getIntegranteProyecto(array $datos){
-		$proyecto_id=isset($datos['proyecto_id']) ? $datos['proyecto_id']:'';
-		$usuario_id=isset($datos['usuario_id']) ? $datos['usuario_id']:'';
-		return $this->Reportes->getIntegranteDeProyecto($proyecto_id,$usuario_id);
+	public function getIntegranteProyecto(string $proyecto_cod,int $usuario_id){
+		//$proyecto_id=isset($datos['proyecto_id']) ? $datos['proyecto_id']:'';
+		//$usuario_id=isset($datos['usuario_id']) ? $datos['usuario_id']:'';
+		return $this->Reportes->getIntegranteDeProyecto($proyecto_cod,$usuario_id);
 	}
 }

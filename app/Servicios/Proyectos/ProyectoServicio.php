@@ -121,7 +121,9 @@ class ProyectoServicio implements IProyectoServicio{
 	}
 
 
-	public function subirDocumentos(array $datos){
+	//! crear arreglo en la clase proyecto para insertar documentos...
+	/*public function subirDocumentos(array $datos){
+
 		$proyecto=new Proyecto();
 		$proyecto->setDocumentos(isset($datos['documentos']) ? $datos['documentos']:'');
 		if($proyecto->validezArchivos() && isset($datos['proyecto_id'])){
@@ -137,14 +139,45 @@ class ProyectoServicio implements IProyectoServicio{
 				return $documentos;
 				}
 		}
+	}*/
+
+	//! crear arreglo en la clase proyecto para insertar documentos...
+	public function subirDocumentos(array $datos,string $proyecto_cod,int $usuario_id){
+		if($this->proyectoEstaRegistrado($proyecto_cod) && isset($datos['documentos'])){
+			$proyecto_id=$this->getIdProyecto($proyecto_cod);
+			if($this->usuarioEsLiderDeProyecto($proyecto_id,$usuario_id)){
+				$proyecto=new Proyecto();
+				$proyecto->setDocumentos($datos['documentos']);
+				if($proyecto->validezArchivos()){
+					foreach ($datos['documentos'] as $file) {
+						$documentos[]=array(
+							'nombre'=>$file->getClientOriginalName(),
+							'ruta'=>$file->store('proyectos/documentos'),
+							'proyecto_id'=>$proyecto_id
+						);
+					}
+					$this->RepositorioDocumento->insertarDocumentos($documentos);
+					return $documentos;
+				}
+			}
+		}
 	}
 
 
-	public function borrarDocumento(array $datos){
-		if(isset($datos['ruta'])){
-			if($this->RepositorioDocumento->eliminarDocumento($datos['ruta'])){
-				Storage::delete($datos['ruta']);
-				return true;
+	public function borrarDocumento(array $datos,string $proyecto_cod,int $usuario_id){
+		if(isset($datos['ruta']) && $this->proyectoEstaRegistrado($proyecto_cod)){
+			$proyecto_id=$this->getIdProyecto($proyecto_cod);
+			if($this->usuarioEsLiderDeProyecto($proyecto_id,$usuario_id)){
+				if($this->RepositorioDocumento->eliminarDocumento($datos['ruta'],$proyecto_id)){
+					Storage::delete($datos['ruta']);
+					return true;
+				}
+				else{
+					return false;
+				}
+			}
+			else{
+				return false;
 			}
 		}
 		else{
@@ -161,11 +194,12 @@ class ProyectoServicio implements IProyectoServicio{
 		return $this->RepositorioTipoProyecto->eliminar($id);
 	}
 
-	public function setIntegranteProyecto(array $datos){
-		if(isset($datos['proyecto_id']) && isset($datos['usuario_id'])){
-			if(ctype_digit($datos['proyecto_id']) && ctype_digit($datos['usuario_id'])){
+	public function setIntegranteProyecto(array $datos,string $proyecto_cod,int $usuario_id){
+		if(isset($datos['usuario_id']) && $this->proyectoEstaRegistrado($proyecto_cod)){
+			$proyecto_id=$this->getIdProyecto($proyecto_cod);
+			if(ctype_digit($datos['usuario_id']) && $this->usuarioEsLiderDeProyecto($proyecto_id,$usuario_id)){
 				$this->RepositorioUsuarioHasProyecto->insertar(array(
-					'proyecto_id'=>$datos['proyecto_id'],
+					'proyecto_id'=>$proyecto_id,
 					'usuario_id'=>$datos['usuario_id']
 				));
 				return true;
@@ -177,5 +211,39 @@ class ProyectoServicio implements IProyectoServicio{
 		else{
 			return false;
 		}
+	}
+
+	public function usuarioEsIntegranteDeProyecto(int $usuario_id,int $proyecto_id){
+		$registro=$this->RepositorioUsuarioHasProyecto->get($usuario_id,$proyecto_id);
+		if($registro){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
+	public function usuarioEsLiderDeProyecto(int $proyecto_id,int $usuario_id){
+		$registro=$this->RepositorioProyecto->buscarPorIdYLiderId($proyecto_id,$usuario_id);
+		if($registro){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
+	public function usuarioEsLiderDeProyectoPorCodigo(string $proyecto_cod,int $usuario_id){
+		$registro=$this->RepositorioProyecto->buscarPorCodigoYLiderId($proyecto_cod,$usuario_id);
+		if($registro){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
+	public function getIdProyecto(string $codigo){
+		return $this->RepositorioProyecto->getId($codigo)[0]->id;
 	}
 }
