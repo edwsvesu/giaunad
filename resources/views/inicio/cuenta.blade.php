@@ -1,5 +1,17 @@
 @extends("layouts.inicioLayout")
-
+@section("estilos")
+<style>
+.login_incorrect{
+  border: 2px solid red;
+  margin-bottom: 1vw;
+  padding: 15px;
+  background-color: rgb(255,230,230);
+  color: red;
+  font-weight: bold;
+  text-shadow: none;
+}
+</style>
+@endsection
 @section('contenido')
 @if(session('true'))
         <div class="alert alert-success alert-dismissible fade in" role="alert">
@@ -20,16 +32,27 @@
       <div class="login_wrapper">
         <div class="animate form login_form">
           <section class="login_content">
-            <form>
+            <form method="post">
+              @csrf
               <h1>Iniciar sesión</h1>
+              @if(session('user_incorrect'))
+                <div class="login_incorrect">{{session('user_incorrect')}}</div>
+              @endif
+              @if ($errors->any())
+                <div class="login_incorrect">
+                    @foreach ($errors->all() as $error)
+                      {{ $error }}
+                    @endforeach
+                </div>
+              @endif
               <div>
-                <input type="text" class="form-control" placeholder="Usuario" required="" />
+                <input type="text" name="numero_documento" class="form-control" placeholder="Usuario"/>
               </div>
               <div>
-                <input type="password" class="form-control" placeholder="Contraseña" required="" />
+                <input type="password" name="password" class="form-control" placeholder="Contraseña"/>
               </div>
               <div>
-                <a class="btn btn-default submit" href="index.html">Iniciar sesión</a>
+                <button type="submit" class="btn btn-default submit">Iniciar sesión</button>
                 <a class="reset_pass" href="#">¿perdiste tu contraseña?</a>
               </div>
 

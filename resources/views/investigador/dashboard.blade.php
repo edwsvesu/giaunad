@@ -1,4 +1,7 @@
 @extends('layouts.dashboardLayout')
+@section('rol')
+Investigador
+@endsection
 @section('menuLateral')
 <li><a><i class="fa fa-archive"></i> Currículum <span class="fa fa-chevron-down"></span></a>
     <ul class="nav child_menu">

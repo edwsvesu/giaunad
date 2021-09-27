@@ -16,6 +16,6 @@ class RegistrarseController extends Controller{
     public function registrarse(Request $request){
         $entrada=$request->all();
         $salida=$this->RegistrarseServicio->registrarse($entrada);
-        return redirect('/registrarse#signup')->with($salida["accion"],$salida['mensaje']);
+        return redirect('/cuenta#signup')->with($salida["accion"],$salida['mensaje']);
     }
 }

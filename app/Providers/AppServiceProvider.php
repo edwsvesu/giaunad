@@ -53,6 +53,8 @@ use App\Dominio\Persistencia\Repositorios\IRepositorioFormacionAcademica;
 use App\Persistencia\Repositorios\RepositorioFormacionAcademica;
 use App\Dominio\Persistencia\Repositorios\IRepositorioInstitucion;
 use App\Persistencia\Repositorios\RepositorioInstitucion;
+use App\Dominio\Servicios\Usuarios\IAutenticacionServicio;
+use App\Servicios\Usuarios\AutenticacionServicio;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -88,6 +90,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IFormacionAcademicaServicio::class,FormacionAcademicaServicio::class);
         $this->app->bind(IRepositorioFormacionAcademica::class,RepositorioFormacionAcademica::class);
         $this->app->bind(IRepositorioInstitucion::class,RepositorioInstitucion::class);
+        $this->app->bind(IAutenticacionServicio::class,AutenticacionServicio::class);
     }
 
     /**

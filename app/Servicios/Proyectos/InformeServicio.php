@@ -21,10 +21,10 @@ class InformeServicio implements IInformeServicio{
 		$this->RepositorioProyecto=$RepositorioProyecto;
 	}
 
-	public function crear(array $datos,$proyecto_cod,$usuario_id){
+	public function crear(array $datos,string $proyecto_cod,int $usuario_id,int $usuario_rol){
 		if($this->proyectoEstaRegistradoPorCodigo($proyecto_cod)){
 			$proyecto_id=$this->getIdProyecto($proyecto_cod);
-			if($this->usuarioEsLiderDeProyecto($proyecto_id,$usuario_id)){
+			if($this->usuarioEsLiderDeProyecto($proyecto_id,$usuario_id) || $usuario_rol==1){
 				$informe=new Informe();
 				$informe->setTitulo(isset($datos['titulo']) ? $datos['titulo']: '');
 				$informe->setDescripcion(isset($datos['descripcion']) ? $datos['descripcion']: '');
@@ -79,21 +79,32 @@ class InformeServicio implements IInformeServicio{
 		return $this->Reportes->getInforme($informe_id,$cod_proyecto);
 	}
 
-	public function realizarEntrega(array $datos){
-		$informe=new Informe();
-		$informe->setArchivos(isset($datos['archivos']) ? $datos['archivos']: '');
-		$informe_id=isset($datos['informe_id']) ? $datos['informe_id']:0;
-		if($informe->validezArchivos() && $this->informeEstaRegistrado($informe_id)){
-			//$this->RepositorioInforme->actualizarFechaEntrega($informe_id,'1999-12-16');
-			if($informe->getArchivos()){
-				foreach($informe->getArchivos() as $file) {
-					$archivos[]=array(
-						'nombre'=>$file->getClientOriginalName(),
-						'ruta'=>$file->store('proyectos/informes'),
-						'informe_id'=>$informe_id
-					);
+	public function realizarEntrega(array $datos,string $proyecto_cod,int $informe_id,int $usuario_id,int $usuario_rol){
+		$informeInfo=$this->getInforme($informe_id,$proyecto_cod);
+		if($informeInfo){
+			if($this->usuarioEsLiderDeProyecto($informeInfo[0]->proyecto_id,$usuario_id) || $usuario_rol==1){
+				$informe=new Informe();
+				$informe->setArchivos(isset($datos['archivos']) ? $datos['archivos']: '');
+				$informe_id=$informeInfo[0]->id;
+				if($informe->validezArchivos()){
+					//$this->RepositorioInforme->actualizarFechaEntrega($informe_id,'1999-12-16');
+					if($informe->getArchivos()){
+						foreach($informe->getArchivos() as $file) {
+							$archivos[]=array(
+								'nombre'=>$file->getClientOriginalName(),
+								'ruta'=>$file->store('proyectos/informes'),
+								'informe_id'=>$informe_id
+							);
+						}
+						$this->RepositorioArchivoInforme->insertarArchivos($archivos);
+					}
 				}
-				$this->RepositorioArchivoInforme->insertarArchivos($archivos);
+				else{
+					return false;
+				}
+			}
+			else{
+				return false;
 			}
 		}
 		else{
@@ -138,11 +149,20 @@ class InformeServicio implements IInformeServicio{
 		return Storage::download($ruta,$nombre);
 	}
 
-	public function borrarArchivo(array $datos){
-		if(isset($datos['ruta'])){
-			if($this->RepositorioArchivoInforme->eliminarArchivo($datos['ruta'])){
-				Storage::delete($datos['ruta']);
-				return true;
+	public function borrarArchivo(array $datos,string $proyecto_cod,int $informe_id,int $usuario_id,int $usuario_rol){
+		$informe=$this->getInforme($informe_id,$proyecto_cod);
+		if($informe &&  isset($datos['ruta'])){
+			if($this->usuarioEsLiderDeProyecto($informe[0]->proyecto_id,$usuario_id) || $usuario_rol==1){
+				if($this->RepositorioArchivoInforme->eliminarArchivo($datos['ruta'],$informe[0]->id)){
+					Storage::delete($datos['ruta']);
+					return true;
+				}
+				else{
+					return false;
+				}
+			}
+			else{
+				return false;
 			}
 		}
 		else{

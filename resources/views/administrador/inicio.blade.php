@@ -1,0 +1,1 @@
+@extends('administrador.dashboard')

@@ -1,30 +1,62 @@
 <?php
 
-namespace App\Http\Controllers\administrador\Proyectos;
+namespace App\Http\Controllers\Proyectos;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Dominio\Servicios\Proyectos\IInformeServicio;
+use App\Dominio\Servicios\Proyectos\IProyectoServicio;
+use Illuminate\Support\Facades\Auth;
 
 class informeController extends Controller
 {
     private IInformeServicio $InformeServicio;
-    public function __construct(IInformeServicio $InformeServicio){
+    private IProyectoServicio $ProyectoServicio;
+    private $usuario_rol;
+    private $usuario_id;
+    public function __construct(IInformeServicio $InformeServicio,IProyectoServicio $ProyectoServicio){
         $this->InformeServicio=$InformeServicio;
+        $this->ProyectoServicio=$ProyectoServicio;
+        $this->middleware(function ($request, $next) {
+            $this->usuario_id=Auth::user()->id;
+            $this->usuario_rol=Auth::user()->rol_id;
+            return $next($request);
+        });
     }
-    public function index($codinforme,$codproyecto){
-        $informacion=$this->InformeServicio->getInforme($codinforme,$codproyecto);
+    public function index($proyecto_cod,$informe_id){
+        $informacion=$this->InformeServicio->getInforme($informe_id,$proyecto_cod);
         if($informacion){
             $archivos=$this->InformeServicio->getArchivos($informacion[0]->id);
-            return view('administrador.proyectos.informe',compact('informacion','archivos'));
+            switch ($this->usuario_rol) {
+                case 1:
+                    $privilegio="admin";
+                    return view('administrador.proyectos.informe',compact('informacion','archivos','privilegio'));
+                    break;
+                case 2:
+                    $privilegio="codirector";
+                    return view('codirector.proyectos.informe',compact('informacion','archivos','privilegio'));
+                    break;
+                case 3:
+                    if($this->ProyectoServicio->usuarioEsIntegranteDeProyecto($this->usuario_id,$informacion[0]->proyecto_id)){
+                        $privilegio=($this->ProyectoServicio->usuarioEsLiderDeProyecto($informacion[0]->proyecto_id,$this->usuario_id)) ? 'lider':'none';
+                        return view('investigador.proyectos.informe',compact('informacion','archivos','privilegio'));
+                    }
+                    else{
+                        abort(403);
+                    }
+                    break;            
+                default:
+                    abort(403);
+                    break;
+            }
         }
         else{
             abort(404);
         }
     }
 
-    public function entregar(Request $request){
-        $this->InformeServicio->realizarEntrega($request->all());
+    public function entregar($proyecto_cod,$informe_id,Request $request){
+        $this->InformeServicio->realizarEntrega($request->all(),$proyecto_cod,$informe_id,$this->usuario_id,$this->usuario_rol);
         return back();
     }
 
@@ -32,7 +64,7 @@ class informeController extends Controller
         return $this->InformeServicio->descargarArchivo($ruta,$nombre);
     }
 
-    public function borrarArchivo(Request $request){
-        return $this->InformeServicio->borrarArchivo($request->all());
+    public function borrarArchivo($proyecto_cod,$informe_id,Request $request){
+        return $this->InformeServicio->borrarArchivo($request->all(),$proyecto_cod,$informe_id,$this->usuario_id,$this->usuario_rol);
     }
 }

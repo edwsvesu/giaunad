@@ -40,7 +40,7 @@ class Reportes implements IReportes{
 	}
 
 	public function getInforme(int $informe_id,string $cod_proyecto){
-		$registro=DB::select("SELECT i.* FROM informe i JOIN proyecto p ON i.proyecto_id=p.id WHERE i.id=:informe_id AND p.codigo=:cod_proyecto",['informe_id'=>$informe_id,'cod_proyecto'=>$cod_proyecto]);
+		$registro=DB::select("SELECT i.*,p.codigo as proyecto_cod FROM informe i JOIN proyecto p ON i.proyecto_id=p.id WHERE i.id=:informe_id AND p.codigo=:cod_proyecto",['informe_id'=>$informe_id,'cod_proyecto'=>$cod_proyecto]);
 		return $registro;
 	}
 

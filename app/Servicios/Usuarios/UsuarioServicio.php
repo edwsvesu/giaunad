@@ -17,28 +17,37 @@ class UsuarioServicio implements IUsuarioServicio{
 		return $this->RepositorioUsuario->getUsuariosNoVerificados();
 	}
 
-	public function rechazarSolicitudIngreso(array $datos){
-		$numero_documento=isset($datos['numero_documento']) ? $datos['numero_documento']:'';
-		return $this->RepositorioUsuario->eliminar($numero_documento);
+	public function rechazarSolicitudIngreso(array $datos,int $usuario_rol){
+		if($usuario_rol==1){
+			$numero_documento=isset($datos['numero_documento']) ? $datos['numero_documento']:'';
+			return $this->RepositorioUsuario->eliminarPorNoVerificado($numero_documento);
+		}
+		return false;
 	}
 
-	public function aceptarSolicitudIngreso(array $datos){
-		$numero_documento=isset($datos['numero_documento']) ? $datos['numero_documento']:'';
-		return $this->RepositorioUsuario->actualizarVerificado($numero_documento,1);
+	public function aceptarSolicitudIngreso(array $datos,int $usuario_rol){
+		if($usuario_rol==1){
+			$numero_documento=isset($datos['numero_documento']) ? $datos['numero_documento']:'';
+			return $this->RepositorioUsuario->actualizarVerificado($numero_documento,1);
+		}
+		return false;
 	}
 
 	public function getTodosRoles(){
 		return $this->RepositorioRol->getTodo();
 	}
 
-	public function actualizarRol(array $datos){
-		$numero_documento=isset($datos['numero_documento']) ? $datos['numero_documento']:'';
-		$rol_id=isset($datos['rol_id']) && ctype_digit($datos['rol_id']) ? $datos['rol_id']:0;
-		return $rol_id!=0 ? $this->RepositorioUsuario->actualizarRol($numero_documento,$rol_id):false; 
+	public function actualizarRol(array $datos,int $usuario_rol){
+		if($usuario_rol==1){
+			$numero_documento=isset($datos['numero_documento']) ? $datos['numero_documento']:'';
+			$rol_id=isset($datos['rol_id']) && ctype_digit($datos['rol_id']) ? $datos['rol_id']:0;
+			return $rol_id!=0 ? $this->RepositorioUsuario->actualizarRol($numero_documento,$rol_id):false;
+		}
+		return false;
 	}
 
 	public function getIntegrantesDelGrupo(){
-		///	
+		///
 	}
 
 	public function getUsuariosAptosComoLideres(){

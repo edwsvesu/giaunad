@@ -5,7 +5,7 @@ use App\Dominio\Persistencia\Repositorios\IRepositorioUsuario;
 
 class RepositorioUsuario implements IRepositorioUsuario{
     public function insertar(array $datos){
-        DB::insert("INSERT INTO usuario (nombres,apellidos,numero_documento,correo_principal,correo_secundario,clave) VALUES (:nombres,:apellidos,:numero_documento,:correo_principal,:correo_secundario,:clave)",$datos);
+        DB::insert("INSERT INTO usuario (nombres,apellidos,numero_documento,correo_principal,correo_secundario,password) VALUES (:nombres,:apellidos,:numero_documento,:correo_principal,:correo_secundario,:clave)",$datos);
     }
 
     public function buscarPorDocumento(string $numero_documento){
@@ -13,8 +13,8 @@ class RepositorioUsuario implements IRepositorioUsuario{
         return $registro;
     }
 
-    public function eliminar(string $numero_documento){
-        $borrado=DB::delete("DELETE FROM usuario WHERE numero_documento=:numero_documento",['numero_documento'=>$numero_documento]);
+    public function eliminarPorNoVerificado(string $numero_documento){
+        $borrado=DB::delete("DELETE FROM usuario WHERE numero_documento=:numero_documento AND verificado=0",['numero_documento'=>$numero_documento]);
         return $borrado;
     }
 
@@ -39,13 +39,13 @@ class RepositorioUsuario implements IRepositorioUsuario{
     }
 
     public function getUsuariosAptosComoIntegrantesProyecto(int $proyecto_id){
-        $registros=DB::select("SELECT DISTINCT u.id,CONCAT(u.nombres,' ',u.apellidos,' | CC. ',u.numero_documento) as usuario FROM usuario u WHERE verificado!=0 AND id NOT IN (SELECT usuario_id FROM usuario_has_proyecto WHERE proyecto_id=:proyecto_id)",['proyecto_id'=>$proyecto_id]);
+        $registros=DB::select("SELECT DISTINCT u.id,CONCAT(u.nombres,' ',u.apellidos,' | CC. ',u.numero_documento) as usuario FROM usuario u WHERE verificado!=0 AND u.rol_id!=4 AND id NOT IN (SELECT usuario_id FROM usuario_has_proyecto WHERE proyecto_id=:proyecto_id)",['proyecto_id'=>$proyecto_id]);
         return $registros;
     }
 
     public function editar(array $datos){
         if(isset($datos['foto'])){
-           $sql="UPDATE usuario set nombres=:nombres,apellidos=:apellidos,correo_principal=:correo_principal,correo_secundario=:correo_secundario,foto=:foto WHERE id=:id"; 
+           $sql="UPDATE usuario set nombres=:nombres,apellidos=:apellidos,correo_principal=:correo_principal,correo_secundario=:correo_secundario,foto=:foto WHERE id=:id";
         }
         else{
             $sql="UPDATE usuario set nombres=:nombres,apellidos=:apellidos,correo_principal=:correo_principal,correo_secundario=:correo_secundario WHERE id=:id";

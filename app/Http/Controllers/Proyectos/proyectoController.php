@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Dominio\Servicios\Proyectos\IReporteServicio;
 use App\Dominio\Servicios\Proyectos\IProyectoServicio;
 use App\Dominio\Servicios\Proyectos\IInformeServicio;
-
+use Illuminate\Support\Facades\Auth;
 
 
 //temporal
@@ -27,8 +27,11 @@ class proyectoController extends Controller
         $this->ReporteServicio=$ReporteServicio;
         $this->ProyectoServicio=$ProyectoServicio;
         $this->InformeServicio=$InformeServicio;
-        $this->usuario_id=2;
-        $this->usuario_rol=3;
+        $this->middleware(function ($request, $next) {
+            $this->usuario_id=Auth::user()->id;
+            $this->usuario_rol=Auth::user()->rol_id;
+            return $next($request);
+        });
     }
 
     public function index($codigo){
@@ -39,6 +42,14 @@ class proyectoController extends Controller
             $integrantesProyecto=$this->ReporteServicio->getIntegrantesProyecto($infoGeneral[0]->id);
             $informes=$this->InformeServicio->getInformes($infoGeneral[0]->id);
             switch ($this->usuario_rol) {
+                case 1:
+                    $privilegio="admin";
+                    return view('administrador.proyectos.proyecto',compact('infoGeneral','documentos','integrantesAgregar','integrantesProyecto','informes','privilegio'));
+                    break;
+                case 2:
+                    $privilegio="codirector";
+                    return view('codirector.proyectos.proyecto',compact('infoGeneral','documentos','integrantesAgregar','integrantesProyecto','informes','privilegio'));
+                    break;
                 case 3:
                     if($this->ProyectoServicio->usuarioEsIntegranteDeProyecto($this->usuario_id,$infoGeneral[0]->id)){
                         $privilegio=($this->ProyectoServicio->usuarioEsLiderDeProyecto($infoGeneral[0]->id,$this->usuario_id)) ? 'lider':'none';
@@ -63,15 +74,15 @@ class proyectoController extends Controller
     }
 
     public function subirDocumentos($codigo,Request $request){
-        return $this->ProyectoServicio->subirDocumentos($request->all(),$codigo,$this->usuario_id);
+        return $this->ProyectoServicio->subirDocumentos($request->all(),$codigo,$this->usuario_id,$this->usuario_rol);
     }
 
     public function borrarDocumento($codigo,Request $request){
-        return $this->ProyectoServicio->borrarDocumento($request->all(),$codigo,$this->usuario_id); 
+        return $this->ProyectoServicio->borrarDocumento($request->all(),$codigo,$this->usuario_id,$this->usuario_rol); 
     }
 
     public function agregarIntegrante($codigo,Request $request){
-        return $this->ProyectoServicio->setIntegranteProyecto($request->all(),$codigo,$this->usuario_id);
+        return $this->ProyectoServicio->setIntegranteProyecto($request->all(),$codigo,$this->usuario_id,$this->usuario_rol);
     }
 
     public function getIntegranteDeProyecto($proyecto_cod,$integrante_id){
@@ -79,9 +90,9 @@ class proyectoController extends Controller
     }
 
     public function crearInforme($codigo,Request $request){
-        $salida=$this->InformeServicio->crear($request->all(),$codigo,$this->usuario_id);
+        $salida=$this->InformeServicio->crear($request->all(),$codigo,$this->usuario_id,$this->usuario_rol);
         if($salida){
-            return redirect("informe/".$salida['informe_id']."/proyecto/".$salida['proyecto_cod']);
+            return redirect("/proyectos/proyecto/".$salida['proyecto_cod']."/informe/".$salida['informe_id']);
         }
         else{
             return back();

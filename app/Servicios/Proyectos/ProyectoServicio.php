@@ -29,8 +29,8 @@ class ProyectoServicio implements IProyectoServicio{
 		return $this->RepositorioTipoProyecto->getTodos();
 	}
 
-	public function registrarNuevoProyecto(array $datos){
-		if(!$this->proyectoEstaRegistrado(isset($datos['codigo']) ? $datos['codigo']:'')){
+	public function registrarNuevoProyecto(array $datos,int $usuario_rol){
+		if(!$this->proyectoEstaRegistrado(isset($datos['codigo']) ? $datos['codigo']:'') && ($usuario_rol==1 || $usuario_rol==2)){
 			$proyecto=new Proyecto();
 			$proyecto->setTitulo(isset($datos['titulo']) ? $datos['titulo']:'');
 			$proyecto->setFecha_inicio(isset($datos['fecha_inicio']) ? $datos['fecha_inicio']:'');
@@ -103,20 +103,24 @@ class ProyectoServicio implements IProyectoServicio{
 		}
 	}*/
 
-	public function crearTipoProyecto(array $datos){
-		$proyecto=new Proyecto();
-		$proyecto->setTipo_proyecto(isset($datos['tipo_proyecto']) ? $datos['tipo_proyecto']:null);
-		if(!$proyecto->validezTipoProyecto()->fails()){
-			return $this->RepositorioTipoProyecto->insertar($proyecto->getTipo_proyecto());
+	public function crearTipoProyecto(array $datos,$usuario_rol){
+		if($usuario_rol==1 || $usuario_rol==2){
+			$proyecto=new Proyecto();
+			$proyecto->setTipo_proyecto(isset($datos['tipo_proyecto']) ? $datos['tipo_proyecto']:null);
+			if(!$proyecto->validezTipoProyecto()->fails()){
+				return $this->RepositorioTipoProyecto->insertar($proyecto->getTipo_proyecto());
+			}
 		}
 	}
 
-	public function editarTipoProyecto(array $datos){
-		$proyecto=new Proyecto();
-		$proyecto->setTipo_proyecto(isset($datos['nuevo_valor']) ? $datos['nuevo_valor']:null);
-		$proyecto->setTipo_proyecto_id(isset($datos['tipo_proyecto_id_act']) ? $datos['tipo_proyecto_id_act']:null);
-		if(!$proyecto->validezTipoProyecto()->fails()){
-			return $this->RepositorioTipoProyecto->editar($proyecto->getTipo_proyecto_id(),$proyecto->getTipo_proyecto());
+	public function editarTipoProyecto(array $datos,int $usuario_rol){
+		if($usuario_rol==1 || $usuario_rol==2){
+			$proyecto=new Proyecto();
+			$proyecto->setTipo_proyecto(isset($datos['nuevo_valor']) ? $datos['nuevo_valor']:null);
+			$proyecto->setTipo_proyecto_id(isset($datos['tipo_proyecto_id_act']) ? $datos['tipo_proyecto_id_act']:null);
+			if(!$proyecto->validezTipoProyecto()->fails()){
+				return $this->RepositorioTipoProyecto->editar($proyecto->getTipo_proyecto_id(),$proyecto->getTipo_proyecto());
+			}
 		}
 	}
 
@@ -142,10 +146,10 @@ class ProyectoServicio implements IProyectoServicio{
 	}*/
 
 	//! crear arreglo en la clase proyecto para insertar documentos...
-	public function subirDocumentos(array $datos,string $proyecto_cod,int $usuario_id){
+	public function subirDocumentos(array $datos,string $proyecto_cod,int $usuario_id,int $usuario_rol){
 		if($this->proyectoEstaRegistrado($proyecto_cod) && isset($datos['documentos'])){
 			$proyecto_id=$this->getIdProyecto($proyecto_cod);
-			if($this->usuarioEsLiderDeProyecto($proyecto_id,$usuario_id)){
+			if($this->usuarioEsLiderDeProyecto($proyecto_id,$usuario_id) || $usuario_rol==1){
 				$proyecto=new Proyecto();
 				$proyecto->setDocumentos($datos['documentos']);
 				if($proyecto->validezArchivos()){
@@ -164,10 +168,10 @@ class ProyectoServicio implements IProyectoServicio{
 	}
 
 
-	public function borrarDocumento(array $datos,string $proyecto_cod,int $usuario_id){
+	public function borrarDocumento(array $datos,string $proyecto_cod,int $usuario_id,int $usuario_rol){
 		if(isset($datos['ruta']) && $this->proyectoEstaRegistrado($proyecto_cod)){
 			$proyecto_id=$this->getIdProyecto($proyecto_cod);
-			if($this->usuarioEsLiderDeProyecto($proyecto_id,$usuario_id)){
+			if($this->usuarioEsLiderDeProyecto($proyecto_id,$usuario_id) || $usuario_rol==1){
 				if($this->RepositorioDocumento->eliminarDocumento($datos['ruta'],$proyecto_id)){
 					Storage::delete($datos['ruta']);
 					return true;
@@ -189,15 +193,17 @@ class ProyectoServicio implements IProyectoServicio{
 		return $this->RepositorioUsuario->getUsuariosAptosComoIntegrantesProyecto($proyecto_id);
 	}
 
-	public function eliminarTipoProyecto(array $datos){
-		$id=isset($datos['tipo_proyecto_id_el']) ? (ctype_digit($datos['tipo_proyecto_id_el']) ? $datos['tipo_proyecto_id_el']:0):0;
-		return $this->RepositorioTipoProyecto->eliminar($id);
+	public function eliminarTipoProyecto(array $datos,int $usuario_rol){
+		if($usuario_rol==1 || $usuario_rol==2){
+			$id=isset($datos['tipo_proyecto_id_el']) ? (ctype_digit($datos['tipo_proyecto_id_el']) ? $datos['tipo_proyecto_id_el']:0):0;
+			return $this->RepositorioTipoProyecto->eliminar($id);
+		}
 	}
 
-	public function setIntegranteProyecto(array $datos,string $proyecto_cod,int $usuario_id){
+	public function setIntegranteProyecto(array $datos,string $proyecto_cod,int $usuario_id,int $usuario_rol){
 		if(isset($datos['usuario_id']) && $this->proyectoEstaRegistrado($proyecto_cod)){
 			$proyecto_id=$this->getIdProyecto($proyecto_cod);
-			if(ctype_digit($datos['usuario_id']) && $this->usuarioEsLiderDeProyecto($proyecto_id,$usuario_id)){
+			if(ctype_digit($datos['usuario_id']) && ($this->usuarioEsLiderDeProyecto($proyecto_id,$usuario_id) || $usuario_rol==1)){
 				$this->RepositorioUsuarioHasProyecto->insertar(array(
 					'proyecto_id'=>$proyecto_id,
 					'usuario_id'=>$datos['usuario_id']

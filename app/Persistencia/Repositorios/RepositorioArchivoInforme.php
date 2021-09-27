@@ -13,7 +13,7 @@ class RepositorioArchivoInforme implements IRepositorioArchivoInforme{
 		return $registros;
 	}
 
-	public function eliminarArchivo(string $ruta){
-		return DB::delete("DELETE FROM archivo_informe where ruta=:ruta",['ruta'=>$ruta]);
+	public function eliminarArchivo(string $ruta,int $informe_id){
+		return DB::delete("DELETE FROM archivo_informe where ruta=:ruta AND informe_id=:informe_id",['ruta'=>$ruta,'informe_id'=>$informe_id]);
 	}
 }

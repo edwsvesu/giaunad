@@ -20,6 +20,7 @@
 
     <!-- Custom Theme Style -->
     <link href="{{asset('css/custom.min.css')}}" rel="stylesheet">
+    @yield('estilos')
   </head>
 
   <body class="inicio">

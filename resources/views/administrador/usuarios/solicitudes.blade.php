@@ -164,11 +164,11 @@ var table = $('#datatable').DataTable({
                     $('#datatable').DataTable().row($(elemento).closest("tr").get(0)).remove().draw();
                 }
                 else{
-                    mensajeError();
+                    mensajeError("No se pudo rechazar el usuario");
                 }
             },
             error:function(){
-                mensajeError();
+                mensajeError("Ha ocurrido un error, la acción no se ha realizado");
             }
         });
     }
@@ -191,11 +191,11 @@ var table = $('#datatable').DataTable({
                     $('#datatable').DataTable().row($(elemento).closest("tr").get(0)).remove().draw();
                 }
                 else{
-                    mensajeError();
+                    mensajeError("No se pudo aceptar el usuario");
                 }
             },
             error:function(){
-                mensajeError();
+                mensajeError("Ha ocurrido un error, la acción no se ha realizado");
             }
         });
     }
@@ -219,25 +219,11 @@ var table = $('#datatable').DataTable({
                     // ...
                 }
                 else{
-                    mensajeError();
+                    mensajeError("No se pudo cambiar el rol del usuario");
                 }
             },
             error:function(){
-                mensajeError();
-            }
-        });
-    }
-
-
-    function mensajeError(){
-        new PNotify({
-          title: 'Error',
-          text: 'Ha ocurrido un error, la acción no se ha realizado',
-          type: 'error',
-          styling: 'bootstrap3',
-          delay: 2000,
-          nonblock:{
-                nonblock:true
+                mensajeError("Ha ocurrido un error, la acción no se ha realizado");
             }
         });
     }

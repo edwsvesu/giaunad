@@ -40,11 +40,11 @@
             <!-- menu profile quick info -->
             <div class="profile clearfix">
               <div class="profile_pic">
-                <img src="{{asset('images/user.png')}}" alt="..." class="img-circle profile_img">
+                <img src="{{isset(Auth::user()->foto) ? asset('storage/'.Auth::user()->foto):asset('images/user.png')}}" alt="..." class="img-circle profile_img">
               </div>
               <div class="profile_info">
-                <span>Rol,</span>
-                <h2>Nombre de usuario</h2>
+                <span>@yield('rol')</span>
+                <h2>{{Auth::user()->nombres}} {{Auth::user()->apellidos}}</h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -92,18 +92,24 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="{{asset('images/user.png')}}" alt="">Nombre de usuario
+                    <img src="{{isset(Auth::user()->foto) ? asset('storage/'.Auth::user()->foto):asset('images/user.png')}}" alt="">{{Auth::user()->nombres}} {{Auth::user()->apellidos}}
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
-                    <li><a href="javascript:;"> Perfil</a></li>
+                    <!--<li><a href="javascript:;"> Perfil</a></li>
                     <li>
                       <a href="javascript:;">
                         <span>Ajustes</span>
                       </a>
                     </li>
                     <li><a href="javascript:;">Ayuda</a></li>
-                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i>Salir</a></li>
+                  -->
+                    <li>
+                      <form id="form_out" method="POST" action="/salir">
+                        @csrf
+                      </form>
+                      <a id="link_out" href="/salir"><i class="fa fa-sign-out pull-right"></i>Salir</a>
+                    </li>
                   </ul>
                 </li>
               </ul>
@@ -144,6 +150,10 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+        $("#link_out").click(function(e){
+          e.preventDefault();
+          $("#form_out").submit()
+        });
     </script>
     @yield('javascript')
 

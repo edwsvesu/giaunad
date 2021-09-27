@@ -94,7 +94,7 @@
                             <p><strong>Documentos cargados</strong></p>
                             <div>
                               <ul class="list-group">
-                                @if($privilegio=="lider")
+                                @if($privilegio=="lider" || $privilegio=="admin")
                                 <li class="list-group-item control-upload">
                                   <form id="form-upload">
                               <input id="input-upload" type="file" name="documentos[]" multiple>
@@ -107,7 +107,7 @@
                               @if($documentos)
                                   @foreach($documentos as $documento)
                                     <li class="list-group-item"><div><a href="/descargar/documento-proyecto/{{$documento->ruta}}/{{$documento->nombre}}" target="_blank"><span class="fa fa-download"></span>{{$documento->nombre}}</a></div> 
-                                      @if($privilegio=="lider")
+                                      @if($privilegio=="lider" || $privilegio=="admin")
                                       <button value="{{$documento->ruta}}" class="delete-file-doc" data-value="{{$infoGeneral[0]->codigo}}" data-toggle="modal" data-target="#modal-borrar-documento"><span class="fa fa-trash"></span></button>
                                       @endif
 
@@ -145,7 +145,7 @@
                           <h4 class="panel-title">Equipo de investigación</h4>
                         </a>
                         <div id="collapseOne2" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                                @if($privilegio=="lider")
+                                @if($privilegio=="lider" || $privilegio=="admin")
                                  <button type="button" class="btn-agregar btn btn-primary" data-toggle="modal" data-target="#modal-agregar-integrante">+ Agregar</button>
                                 @endif
                           <div class="panel-body">
@@ -216,7 +216,7 @@
                   <!--modal-->
 
 
-                @if($privilegio=="lider")
+                @if($privilegio=="lider" || $privilegio=="admin")
                   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-agregar-tarea">+ Crear</button>
                 @endif
 
@@ -284,7 +284,7 @@
                   <div class="list-activity">
                     @foreach($informes as $informe)
                     <div class="activity-item">
-                      <a href="/informe/{{$informe->id}}/proyecto/{{$infoGeneral[0]->codigo}}">
+                      <a href="/proyectos/proyecto/{{$infoGeneral[0]->codigo}}/informe/{{$informe->id}}">
                         <i style="margin-right: 15px;" class="fa fa-book"></i>
                         {{$informe->titulo}}
                       </a>
