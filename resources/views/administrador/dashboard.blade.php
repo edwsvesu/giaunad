@@ -32,6 +32,11 @@ Lider del grupo
     <li><a href="/proyectos/misproyectos">Mis proyectos</a></li>
     </ul>
 </li>
+<li><a><i class="fa fa-folder"></i> Semilleros <span class="fa fa-chevron-down"></span></a>
+    <ul class="nav child_menu">
+    <li><a href="/semilleros/nuevo">Crear semillero</a></li>
+    </ul>
+</li>
 @endsection
 
 

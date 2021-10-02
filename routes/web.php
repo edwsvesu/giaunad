@@ -30,6 +30,12 @@ use App\Http\Controllers\Proyectos\informeController;
 use App\Http\Controllers\Curriculum\DatosGenerales\datospersonalesController;
 use App\Http\Controllers\Curriculum\DatosGenerales\datospersonalesformController;
 use App\Http\Controllers\Curriculum\DatosGenerales\formacionidiomasController;
+use App\Http\Controllers\Semilleros\semilleroController;
+
+
+Route::get('/',function(){
+	return redirect('/home');
+});
 
 Route::get('/registrarse2', function () {return view('administrador.usuarios.usuariosform');});
 
@@ -63,12 +69,13 @@ Route::get('/actividad2', function () {
 Route::get('/idiomasform', function () {
     return view('administrador.curriculum.formacionidiomasform');
 });
-
+//////////////////////////rutas semi completas//////////////////7
+Route::get('/semilleros/semillero/{codigo}',[semilleroController::class,'index']);
 
 ///////////////////////////////////////////////////////////////////////////
 Route::get('/cuenta',[cuentaController::class,'index'])->middleware('guest');
 Route::post('/cuenta',[cuentaController::class,'login'])->middleware('guest');
-
+//rutas restringidas para usuarios autenticados
 Route::group(['middleware'=>'auth'],function(){
 
 Route::get('/home',[homeController::class,'index']);
