@@ -58,4 +58,66 @@ class Reportes implements IReportes{
 		$registro=DB::select("SELECT f.*,n.id as nivel_id,n.nombre as nivel,i.id as institucion_id,i.nombre as institucion FROM formacion_academica f JOIN nivel n ON f.nivel_id=n.id JOIN institucion i ON f.institucion_id=i.id WHERE f.usuario_id=:usuario_id AND f.id=:formacion_id",['formacion_id'=>$formacion_id,'usuario_id'=>$usuario_id]);
 		return $registro;
 	}
+
+	public function getUsuariosAptosComoLideresSemillero(){
+        $registros=DB::select("SELECT u.id,CONCAT(u.nombres,' ',u.apellidos,' | CC. ',u.numero_documento) as usuario 
+		FROM usuario u
+		WHERE rol_id=4 AND verificado=1");
+        return $registros;
+    }
+
+	public function getUsuariosAptosComoCoordinadoresSemillero(){
+        $registros=DB::select("SELECT u.id,CONCAT(u.nombres,' ',u.apellidos,' | CC. ',u.numero_documento) as usuario 
+		FROM usuario u
+		WHERE rol_id=3 AND verificado=1");
+        return $registros;
+    }
+
+	public function getInformacionGeneralSemillero(string $codigo)
+	{
+		$consulta=DB::select("SELECT s.id,s.codigo,s.nombre,s.fecha_inicio FROM semillero s WHERE s.codigo=:codigo",['codigo'=>$codigo]);
+		return $consulta;
+	}
+
+	public function getInformacionEncargadosDeSemillero(int $id)
+	{
+		$consulta=DB::select("SELECT u.foto,u.nombres,u.apellidos,'Coordinador' as funcion
+		FROM usuario u
+		JOIN semillero s ON u.id=s.coordinador_id
+		WHERE s.id=:id
+		UNION
+		SELECT u.foto,u.nombres,u.apellidos,'Lider'
+		FROM usuario u
+		JOIN semillero s ON u.id=s.lider_id
+		WHERE s.id=:id2",['id'=>$id,'id2'=>$id]);
+		return $consulta;
+	}
+
+	public function getUsuariosAptosComoSemilleristas(int $semillero_id)
+	{
+		$consulta=DB::select("SELECT u.id,u.foto,u.nombres,u.apellidos,CONCAT(u.nombres,' ',u.apellidos,' | CC. ',u.numero_documento) as usuario
+		FROM usuario u
+		WHERE u.verificado=1 AND u.id NOT IN (SELECT usuario_id FROM usuario_has_semillero WHERE semillero_id=:semillero_id) AND u.id NOT IN ((SELECT lider_id FROM semillero s WHERE s.id=:semillero_id2),(SELECT coordinador_id FROM semillero s WHERE s.id=:semillero_id3))",['semillero_id'=>$semillero_id,'semillero_id2'=>$semillero_id,'semillero_id3'=>$semillero_id]);
+		return $consulta;
+	}
+
+	public function getInformacionDeSemilleristas(int $semillero_id){
+		$registros=DB::select("SELECT u.foto,u.nombres,u.apellidos,'semillerista' as funcion
+		FROM usuario u
+		JOIN usuario_has_semillero us ON u.id=us.usuario_id
+		WHERE us.semillero_id=:semillero_id",['semillero_id'=>$semillero_id]);
+		return $registros;
+	}
+
+	public function getInformacionDeActividadDeSemillero(int $semillero_id,string $codigo_actividad)
+	{
+		$consulta=DB::select('SELECT * FROM actividad WHERE semillero_id=:semillero_id AND codigo=:codigo', ['semillero_id'=>$semillero_id,'codigo'=>$codigo_actividad]);
+		return $consulta;
+	}
+
+	public function getSemillerosVigentes()
+	{
+		$registros=DB::select('SELECT * FROM semillero');
+		return $registros;
+	}
 }

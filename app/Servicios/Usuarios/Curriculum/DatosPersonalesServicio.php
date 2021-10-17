@@ -56,7 +56,7 @@ class DatosPersonalesServicio implements IDatosPersonalesServicio{
 			}
 		}
 		else{
-			return "vayase a la verga"; 
+			return false;
 		}
 	}
 

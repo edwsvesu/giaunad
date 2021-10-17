@@ -26,6 +26,13 @@ Codirector
     </ul>
 </li>
 
+<li><a><i class="fa fa-puzzle-piece"></i> Semilleros <span class="fa fa-chevron-down"></span></a>
+  <ul class="nav child_menu">
+  <li><a href="/semilleros/vigentes">semilleros</a></li>
+  <li><a href="/semilleros/nuevo">Nuevo semillero</a></li>
+  </ul>
+</li>
+
 <!--<li><a><i class="fa fa-user"></i> Integrantes del grupo <span class="fa fa-chevron-down"></span></a>
     <ul class="nav child_menu">
     <li><a href="/usuarios">Integrantes</a></li>

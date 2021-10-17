@@ -24,5 +24,6 @@ class RepositorioTelefono implements IRepositorioTelefono{
 		foreach ($datos as $dato){
 			DB::update("UPDATE telefono SET numero=:numero,descripcion=:descripcion WHERE id=:id AND usuario_id=:usuario_id",$dato);
 		}
+		return true;
 	}
 } 

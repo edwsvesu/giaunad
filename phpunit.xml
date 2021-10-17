@@ -6,7 +6,21 @@
 >
     <testsuites>
         <testsuite name="Unit">
-            <directory suffix="Test.php">./tests/Unit</directory>
+            <file>./tests/Unit/RepositorioUsuarioTest.php</file>
+            <file>./tests/Unit/RepositorioTelefonoTest.php</file>
+            <file>./tests/Unit/RepositorioTipoProyectoTest.php</file>
+            <file>./tests/Unit/RepositorioProyectoTest.php</file>
+            <file>./tests/Unit/RepositorioUsuarioHasProyectoTest.php</file>
+            <file>./tests/Unit/RepositorioIdiomaTest.php</file>
+            <file>./tests/Unit/RepositorioFormacionIdiomaTest.php</file>
+            <file>./tests/Unit/RepositorioInformeTest.php</file>
+            <file>./tests/Unit/RepositorioFormacionAcademicaTest.php</file>
+            <file>./tests/Unit/FormacionAcademicaTest.php</file>
+            <file>./tests/Unit/FormacionIdiomaTest.php</file>
+            <file>./tests/Unit/InformeTest.php</file>
+            <file>./tests/Unit/ProyectoTest.php</file>
+            <file>./tests/Unit/SemilleroTest.php</file>
+            <file>./tests/Unit/UsuarioTest.php</file>
         </testsuite>
         <testsuite name="Feature">
             <directory suffix="Test.php">./tests/Feature</directory>

@@ -9,4 +9,9 @@ class RepositorioIdioma implements IRepositorioIdioma{
 		$registros=DB::select('SELECT * FROM idioma');
 		return $registros;
 	}
+
+	public function insertar(string $nombre)
+	{
+		return DB::insert('insert into idioma (nombre) values (:nombre)',['nombre'=>$nombre]);
+	}
 }

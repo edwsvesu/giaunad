@@ -98,6 +98,7 @@ class InformeServicio implements IInformeServicio{
 						}
 						$this->RepositorioArchivoInforme->insertarArchivos($archivos);
 					}
+					return true;
 				}
 				else{
 					return false;

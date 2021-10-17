@@ -5,7 +5,7 @@ use App\Dominio\Persistencia\Repositorios\IRepositorioUsuario;
 
 class RepositorioUsuario implements IRepositorioUsuario{
     public function insertar(array $datos){
-        DB::insert("INSERT INTO usuario (nombres,apellidos,numero_documento,correo_principal,correo_secundario,password) VALUES (:nombres,:apellidos,:numero_documento,:correo_principal,:correo_secundario,:clave)",$datos);
+        return DB::insert("INSERT INTO usuario (nombres,apellidos,numero_documento,correo_principal,correo_secundario,password) VALUES (:nombres,:apellidos,:numero_documento,:correo_principal,:correo_secundario,:clave)",$datos);
     }
 
     public function buscarPorDocumento(string $numero_documento){

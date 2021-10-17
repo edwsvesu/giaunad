@@ -13,4 +13,7 @@ interface IReportes{
 	public function getDatosPersonalesUsuario(int $usuario_id);
 	public function getTodaFormacionAcademicaPorUsuario(int $usuario_id);
 	public function getFormacionAcademicaPorUsuario(int $formacion_id,int $usuario_id);
+	public function getUsuariosAptosComoLideresSemillero();
+	public function getUsuariosAptosComoCoordinadoresSemillero();
+	public function getInformacionGeneralSemillero(string $codigo);
 }

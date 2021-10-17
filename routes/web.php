@@ -30,8 +30,10 @@ use App\Http\Controllers\Proyectos\informeController;
 use App\Http\Controllers\Curriculum\DatosGenerales\datospersonalesController;
 use App\Http\Controllers\Curriculum\DatosGenerales\datospersonalesformController;
 use App\Http\Controllers\Curriculum\DatosGenerales\formacionidiomasController;
+use App\Http\Controllers\Semilleros\actividadController;
 use App\Http\Controllers\Semilleros\semilleroController;
-
+use App\Http\Controllers\Semilleros\semilleroformController;
+use App\Http\Controllers\Semilleros\vigentesController as semillerosVigentesController;
 
 Route::get('/',function(){
 	return redirect('/home');
@@ -52,11 +54,6 @@ Route::get('/entrega', function () {
     return view('administrador.proyectos.entrega');
 });
 
-
-Route::get('/actividad', function () {
-    return view('administrador.proyectos.actividad');
-});
-
 Route::get('/actividad2', function () {
     return view('administrador.proyectos.actividad2');
 });
@@ -71,8 +68,15 @@ Route::get('/idiomasform', function () {
 });
 //////////////////////////rutas semi completas//////////////////7
 Route::get('/semilleros/semillero/{codigo}',[semilleroController::class,'index']);
+Route::get('/semilleros/nuevo',[semilleroformController::class,'index']);
+Route::post('/semilleros/nuevo',[semilleroformController::class,'crearSemillero']);
+Route::get('/semilleros/semillero/{codigo}/semilleristas',[semilleroController::class,'getUsuariosAptosComoSemilleristas']);
+Route::post('/semilleros/semillero/{codigo}/semilleristas',[semilleroController::class,'agregarSemilleristas']);
+Route::post('/semilleros/semillero/{codigo}/actividad',[semilleroController::class,'crearActividad']);
+Route::get('/semilleros/semillero/{codigo}/actividad/{codigoa}',[actividadController::class,'index']);
+Route::get('/semilleros/vigentes',[semillerosVigentesController::class,'index']);
 
-///////////////////////////////////////////////////////////////////////////
+//////////////////rutas finales ///////////////////////////////////////////////77
 Route::get('/cuenta',[cuentaController::class,'index'])->middleware('guest');
 Route::post('/cuenta',[cuentaController::class,'login'])->middleware('guest');
 //rutas restringidas para usuarios autenticados

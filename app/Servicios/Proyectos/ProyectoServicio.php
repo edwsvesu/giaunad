@@ -54,6 +54,7 @@ class ProyectoServicio implements IProyectoServicio{
 				return true;
 	        }
     	}
+		return false;
 	}
 
 	public function proyectoEstaRegistrado(string $codigo){
