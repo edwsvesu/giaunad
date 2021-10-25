@@ -2,6 +2,7 @@
 namespace App\Dominio\Modelos;
 
 use Illuminate\Support\Facades\Validator;
+use App\Dominio\Modelos\EntregaActividad;
 
 class Actividad{
     private $id;
@@ -10,6 +11,13 @@ class Actividad{
     private $fecha_entrega;
     private $instrucciones;
     private $semillero_id;
+    private $entrega;
+
+    public function setEntrega($archivo)
+    {
+        $entrega=new EntregaActividad();
+        $entrega->setArchivo($archivo);
+    }
 
     public function setSemillero_id($semillero_id)
     {
@@ -84,5 +92,15 @@ class Actividad{
             'instrucciones'=>$this->instrucciones,
             'semillero_id'=>$this->semillero_id
         );
+    }
+
+    public function getValidezArchivoEntrega()
+    {
+        return $this->entrega->validarArchivo();
+    }
+
+    public function getArregloRegistroArchivoEntrega()
+    {
+        return $this->entrega->getArregloRegistroArchivo();
     }
 }

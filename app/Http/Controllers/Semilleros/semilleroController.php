@@ -36,6 +36,13 @@ class semilleroController extends Controller
                     $privilegio="none";
                     return view('codirector.semilleros.semillero',compact('infoGeneral','encargados','semilleristas','semilleristasInt','privilegio','actividades'));
                     break;
+                case 4:
+                    $privilegio="none";
+                    if($this->SemilleroServicio->usuarioEsLiderDeSemillero($infoGeneral[0]->id,$this->usuario_id)){
+                        $privilegio="lider";
+                    }
+                    return view('estudiante.semilleros.semillero',compact('infoGeneral','encargados','semilleristas','semilleristasInt','privilegio','actividades'));
+                    break;
                 default:
                     abort(403);
                     break;
@@ -46,7 +53,7 @@ class semilleroController extends Controller
 
     public function agregarSemilleristas(Request $request,$codigo)
     {
-        return $this->SemilleroServicio->agregarSemilleristas($request->all(),$codigo,$this->usuario_rol);
+        return $this->SemilleroServicio->agregarSemilleristas($request->all(),$codigo,$this->usuario_rol,$this->usuario_id);
     }
 
     public function getUsuariosAptosComoSemilleristas($codigo)
@@ -59,7 +66,7 @@ class semilleroController extends Controller
 
     public function crearActividad(Request $request,$semillero_codigo)
     {
-        if($salida=$this->SemilleroServicio->crearActividad($request->all(),$semillero_codigo,$this->usuario_rol)){
+        if($salida=$this->SemilleroServicio->crearActividad($request->all(),$semillero_codigo,$this->usuario_rol,$this->usuario_id)){
             return redirect("/semilleros/semillero/".$salida['codigo_semillero']."/actividad/".$salida['codigo_actividad']);
         }
         return back();

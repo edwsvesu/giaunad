@@ -10,11 +10,13 @@ use Illuminate\Support\Facades\Auth;
 class actividadController extends Controller
 {
     private $usuario_rol;
+    private $usuario_id;
     private ISemilleroServicio $SemilleroServicio;
     public function __construct(ISemilleroServicio $SemilleroServicio)
     {
         $this->middleware(function ($request, $next) {
             $this->usuario_rol=Auth::user()->rol_id;
+            $this->usuario_id=Auth::user()->id;
             return $next($request);
         });
         $this->SemilleroServicio=$SemilleroServicio;
@@ -28,6 +30,13 @@ class actividadController extends Controller
                     case 1:
                         return view("administrador.semilleros.actividad",compact('infoActividad'));
                         break;
+                    case 4:
+                        if($this->SemilleroServicio->usuarioEsLiderDeSemillero($infoSemillero[0]->id,$this->usuario_id)){
+                            return view('estudiante.semilleros.actividadg',compact('infoActividad'));
+                        }else{
+                            return view('estudiante.semilleros.actividad',compact('infoActividad'));
+                        }
+                        break;
                     default:
                         abort(403);
                         break;
@@ -36,5 +45,10 @@ class actividadController extends Controller
             abort(404);
         }
         abort(404);
+    }
+
+    public function subirArchivo(Request $request,$codigo_semillero,$codigo_actividad)
+    {
+        return $this->SemilleroServicio->subirArchivoEntrega($request->all(),$codigo_semillero,$codigo_actividad,$this->usuario_id);
     }
 }

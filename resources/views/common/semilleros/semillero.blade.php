@@ -158,7 +158,7 @@
                           <h4 class="panel-title">Semilleristas</h4>
                         </a>
                         <div id="collapseTwo2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                          @if($privilegio=="admin")
+                          @if($privilegio=="admin" || $privilegio=="lider")
                             <button type="button" class="btn-agregar btn btn-primary" data-toggle="modal" data-target="#modal-agregar-semilleristas">+ Agregar</button>
                           @endif
                           <div class="panel-body">
@@ -203,7 +203,7 @@
 
                 <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
 
-                  @if($privilegio=="admin")
+                  @if($privilegio=="admin" || $privilegio=="lider")
                     <div class="btn-group">
                       <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle btn-md" type="button" aria-expanded="false">Crear <span class="caret"></span>
                       </button>

@@ -120,4 +120,22 @@ class Reportes implements IReportes{
 		$registros=DB::select('SELECT * FROM semillero');
 		return $registros;
 	}
+
+	public function getSemillerosDeUsuario(int $usuario_id)
+	{
+		$registros=DB::select('SELECT nombre,codigo
+		FROM semillero
+		WHERE id IN (SELECT semillero_id
+					FROM usuario_has_semillero
+					WHERE usuario_id=:usuario_id) OR lider_id=:lider_id',['usuario_id'=>$usuario_id,'lider_id'=>$usuario_id]);
+		return $registros;
+	}
+
+	public function getInformacionDeEntrega(int $actividad_id,int $usuario_id)
+	{
+		$registro=DB::select('SELECT *
+		FROM entrega
+		WHERE actividad_id=:actividad_id AND usuario_id=:usuario_id',['actividad_id'=>$actividad_id,'usuario_id'=>$usuario_id]);
+		return $registro;
+	}
 }

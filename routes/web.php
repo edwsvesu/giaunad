@@ -31,6 +31,7 @@ use App\Http\Controllers\Curriculum\DatosGenerales\datospersonalesController;
 use App\Http\Controllers\Curriculum\DatosGenerales\datospersonalesformController;
 use App\Http\Controllers\Curriculum\DatosGenerales\formacionidiomasController;
 use App\Http\Controllers\Semilleros\actividadController;
+use App\Http\Controllers\semilleros\missemillerosController;
 use App\Http\Controllers\Semilleros\semilleroController;
 use App\Http\Controllers\Semilleros\semilleroformController;
 use App\Http\Controllers\Semilleros\vigentesController as semillerosVigentesController;
@@ -66,6 +67,7 @@ Route::get('/actividad2', function () {
 Route::get('/idiomasform', function () {
     return view('administrador.curriculum.formacionidiomasform');
 });
+
 //////////////////////////rutas semi completas//////////////////7
 Route::get('/semilleros/semillero/{codigo}',[semilleroController::class,'index']);
 Route::get('/semilleros/nuevo',[semilleroformController::class,'index']);
@@ -75,6 +77,8 @@ Route::post('/semilleros/semillero/{codigo}/semilleristas',[semilleroController:
 Route::post('/semilleros/semillero/{codigo}/actividad',[semilleroController::class,'crearActividad']);
 Route::get('/semilleros/semillero/{codigo}/actividad/{codigoa}',[actividadController::class,'index']);
 Route::get('/semilleros/vigentes',[semillerosVigentesController::class,'index']);
+Route::get('/semilleros/mis-semilleros',[missemillerosController::class,'index']);
+Route::post('/semilleros/semillero/{codigo}/actividad/{codigoa}/subir-archivo',[actividadController::class,'subirArchivo']);
 
 //////////////////rutas finales ///////////////////////////////////////////////77
 Route::get('/cuenta',[cuentaController::class,'index'])->middleware('guest');
