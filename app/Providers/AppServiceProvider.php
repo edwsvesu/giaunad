@@ -38,6 +38,7 @@ use App\Persistencia\Repositorios\RepositorioInforme;
 use App\Dominio\Servicios\Proyectos\IInformeServicio;
 use App\Servicios\Proyectos\InformeServicio;
 use App\Dominio\Persistencia\Repositorios\IRepositorioArchivoInforme;
+use App\Dominio\Persistencia\Repositorios\IRepositorioEntrega;
 use App\Persistencia\Repositorios\RepositorioArchivoInforme;
 use App\Dominio\Servicios\Usuarios\Curriculum\IDatosPersonalesServicio;
 use App\Servicios\Usuarios\Curriculum\DatosPersonalesServicio;
@@ -61,6 +62,7 @@ use App\Persistencia\Repositorios\RepositorioInstitucion;
 use App\Dominio\Servicios\Usuarios\IAutenticacionServicio;
 use App\Persistencia\Repositorios\RepositorioActividad;
 use App\Persistencia\Repositorios\RepositorioArchivoEntrega;
+use App\Persistencia\Repositorios\RepositorioEntrega;
 use App\Persistencia\Repositorios\RepositorioSemillero;
 use App\Persistencia\Repositorios\RepositorioUsuarioHasSemillero;
 use App\Servicios\Semilleros\SemilleroServicio;
@@ -106,6 +108,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IRepositorioUsuarioHasSemillero::class,RepositorioUsuarioHasSemillero::class);
         $this->app->bind(IRepositorioActividad::class,RepositorioActividad::class);
         $this->app->bind(IRepositorioArchivoEntrega::class,RepositorioArchivoEntrega::class);
+        $this->app->bind(IRepositorioEntrega::class,RepositorioEntrega::class);
     }
 
     /**

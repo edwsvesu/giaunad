@@ -102,7 +102,7 @@ class Reportes implements IReportes{
 	}
 
 	public function getInformacionDeSemilleristas(int $semillero_id){
-		$registros=DB::select("SELECT u.foto,u.nombres,u.apellidos,'semillerista' as funcion
+		$registros=DB::select("SELECT u.id,u.foto,u.nombres,u.apellidos,'semillerista' as funcion
 		FROM usuario u
 		JOIN usuario_has_semillero us ON u.id=us.usuario_id
 		WHERE us.semillero_id=:semillero_id",['semillero_id'=>$semillero_id]);

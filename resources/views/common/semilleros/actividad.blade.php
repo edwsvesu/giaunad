@@ -215,6 +215,7 @@
         });
 
         $("#input-upload").change(function(){
+
             if(this.files.length>0){
                 $("#btn-upload").show();
                 $("#btn-upload .badge").text(this.files.length);
@@ -234,39 +235,30 @@
             $("#btn-cancel").hide();
         });
 
-
-        /*<li class="list-group-item upload">
-                                        <div class="file">
-                                            <a href="Functional-requirements.docx"><i class="fa"></i> Functional-requirements.docx</a>
-                                        </div>
-                                        <div class="progress">
-                                            <div class="progress-bar  progress-bar-danger" role="progressbar" style="width: 75%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                            
-                                        </div>
-                                    </li>*/
-
-
         $("#btn-upload").click(function(){
-            $.each($("#input-upload")[0].files,function (ind,archivo){
-                var elemento=document.createElement("li");
-                elemento.setAttribute('class','list-group-item upload');
-                var file=$('<div/>', {
-                    'class':'file',
-                }).appendTo(elemento);
-                var link=$('<a/>',{
-                    'html':'<i class="fa"></i> '+archivo.name+' '
-                }).appendTo(file);
-                var barra=$('<div/>',{
-                    'class':'progress progress-striped active',
-                    'html':'<div class="progress-bar  progress-bar-success" role="progressbar" style="width: 0%" aria-valuemin="0" aria-valuemax="100">0%</div>'
-                }).appendTo(elemento);
-                $(".work-files .list-group").prepend(elemento);
-                var formData = new FormData();
-                formData.append('archivo',archivo);
-                subirDocumento(formData,elemento);
-            });
+            prepararEntrega();
         });
 
+        function subirDocumentos(){
+            $.each($("#input-upload")[0].files,function (ind,archivo){
+                    var elemento=document.createElement("li");
+                    elemento.setAttribute('class','list-group-item upload');
+                    var file=$('<div/>', {
+                        'class':'file',
+                    }).appendTo(elemento);
+                    var link=$('<a/>',{
+                        'html':'<i class="fa"></i> '+archivo.name+' '
+                    }).appendTo(file);
+                    var barra=$('<div/>',{
+                        'class':'progress progress-striped active',
+                        'html':'<div class="progress-bar  progress-bar-success" role="progressbar" style="width: 0%" aria-valuemin="0" aria-valuemax="100">0%</div>'
+                    }).appendTo(elemento);
+                    $(".work-files .list-group").prepend(elemento);
+                    var formData = new FormData();
+                    formData.append('archivo',archivo);
+                    subirDocumento(formData,elemento);
+            });
+        }
 
         function subirDocumento(formData,elemento){
             $.ajax({
@@ -295,6 +287,30 @@
                 },
                 error:function(){
                     marcarErrorSubida(elemento);
+                }
+            });
+        }
+
+        function prepararEntrega(){
+            $.ajax({
+                url:window.location.pathname+"/entrega",
+                beforeSend:function(){
+                    ActivarEfectoCargaPagina();
+                },
+                complete:function(){
+                    DesactivarEfectoCargaPagina();
+                },
+                method:'POST',
+                success: function(data){
+                    if(data){
+                        subirDocumentos();
+                    }
+                    else{
+                        mensajeError("No se pudo continuar la entrega");
+                    }
+                },
+                error:function(){
+                    mensajeError("Ha ocurrido un error, la acción no se ha realizado");
                 }
             });
         }

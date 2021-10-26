@@ -33,9 +33,11 @@ class actividadController extends Controller
                     case 4:
                         if($this->SemilleroServicio->usuarioEsLiderDeSemillero($infoSemillero[0]->id,$this->usuario_id)){
                             return view('estudiante.semilleros.actividadg',compact('infoActividad'));
-                        }else{
+                        }else if($this->SemilleroServicio->usuarioEsSemilleristaDeSemillero($infoSemillero[0]->id,$this->usuario_id)){
+                            //validar mas adelante el acceso a una actividad, en caso de asignacion de actividad especifica
                             return view('estudiante.semilleros.actividad',compact('infoActividad'));
                         }
+                        abort(403);
                         break;
                     default:
                         abort(403);
@@ -45,6 +47,11 @@ class actividadController extends Controller
             abort(404);
         }
         abort(404);
+    }
+
+    public function crearEntregaSiNoExiste()
+    {
+        return $this->SemilleroServicio->crearEntregaSiNoExiste();
     }
 
     public function subirArchivo(Request $request,$codigo_semillero,$codigo_actividad)

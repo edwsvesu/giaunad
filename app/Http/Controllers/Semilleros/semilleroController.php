@@ -37,11 +37,12 @@ class semilleroController extends Controller
                     return view('codirector.semilleros.semillero',compact('infoGeneral','encargados','semilleristas','semilleristasInt','privilegio','actividades'));
                     break;
                 case 4:
-                    $privilegio="none";
-                    if($this->SemilleroServicio->usuarioEsLiderDeSemillero($infoGeneral[0]->id,$this->usuario_id)){
-                        $privilegio="lider";
+                    $lider=$this->SemilleroServicio->usuarioEsLiderDeSemillero($infoGeneral[0]->id,$this->usuario_id);
+                    if($lider || $this->SemilleroServicio->usuarioEsSemilleristaDeSemillero($infoGeneral[0]->id,$this->usuario_id)){
+                        $privilegio= $lider ? "lider": "none";
+                        return view('estudiante.semilleros.semillero',compact('infoGeneral','encargados','semilleristas','semilleristasInt','privilegio','actividades'));
                     }
-                    return view('estudiante.semilleros.semillero',compact('infoGeneral','encargados','semilleristas','semilleristasInt','privilegio','actividades'));
+                    abort(403);
                     break;
                 default:
                     abort(403);

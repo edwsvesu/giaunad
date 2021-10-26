@@ -106,6 +106,16 @@ class Semillero{
         return false;
     }
 
+    public function usuarioEsSemilleristaDeSemillero($listaSemilleristas,$usuario_id)
+    {
+        foreach ($listaSemilleristas as $usuario) {
+            if($usuario->id==$usuario_id){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function usuariosSonAptosComoSemilleristas($listaUsuariosAptos)
     {
         if(!is_null($this->semilleristas_id) && count(array_unique($this->semilleristas_id))==count($this->semilleristas_id)){

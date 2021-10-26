@@ -79,6 +79,7 @@ Route::get('/semilleros/semillero/{codigo}/actividad/{codigoa}',[actividadContro
 Route::get('/semilleros/vigentes',[semillerosVigentesController::class,'index']);
 Route::get('/semilleros/mis-semilleros',[missemillerosController::class,'index']);
 Route::post('/semilleros/semillero/{codigo}/actividad/{codigoa}/subir-archivo',[actividadController::class,'subirArchivo']);
+Route::post('/semilleros/semillero/{codigo}/actividad/{codigoa}/entrega',[actividadController::class,'crearEntregaSiNoExiste']);
 
 //////////////////rutas finales ///////////////////////////////////////////////77
 Route::get('/cuenta',[cuentaController::class,'index'])->middleware('guest');

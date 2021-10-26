@@ -23,7 +23,6 @@ class misproyectosController extends Controller
     }
 
     public function index(){
-        //se pasa un documento temporal mientras se configura la autenticación.
         $proyectos=$this->ReporteServicio->getProyectosDeUsuario($this->usuario_id);
         switch ($this->usuario_rol){
             case 1:

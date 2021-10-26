@@ -7,6 +7,7 @@ use App\Dominio\Modelos\Semillero;
 use App\Dominio\Persistencia\Repositorios\IReportes;
 use App\Dominio\Persistencia\Repositorios\IRepositorioActividad;
 use App\Dominio\Persistencia\Repositorios\IRepositorioArchivoEntrega;
+use App\Dominio\Persistencia\Repositorios\IRepositorioEntrega;
 use App\Dominio\Persistencia\Repositorios\IRepositorioSemillero;
 use App\Dominio\Persistencia\Repositorios\IRepositorioUsuarioHasSemillero;
 use App\Dominio\Servicios\Semilleros\ISemilleroServicio;
@@ -18,14 +19,16 @@ class SemilleroServicio implements ISemilleroServicio{
     private IRepositorioUsuarioHasSemillero $RepositorioUsuarioHasSemillero;
     private IRepositorioActividad $RepositorioActividad; 
     private IRepositorioArchivoEntrega $RepositorioArchivoEntrega;
+    private IRepositorioEntrega $RepositorioEntrega;
 
-    public function __construct(IRepositorioSemillero $RepositorioSemillero,IReportes $Reportes,IRepositorioUsuarioHasSemillero $RepositorioUsuarioHasSemillero,IRepositorioActividad $RepositorioActividad,IRepositorioArchivoEntrega $RepositorioArchivoEntrega)
+    public function __construct(IRepositorioSemillero $RepositorioSemillero,IReportes $Reportes,IRepositorioUsuarioHasSemillero $RepositorioUsuarioHasSemillero,IRepositorioActividad $RepositorioActividad,IRepositorioArchivoEntrega $RepositorioArchivoEntrega,IRepositorioEntrega $RepositorioEntrega)
     {
         $this->RepositorioSemillero=$RepositorioSemillero;
         $this->Reportes=$Reportes;
         $this->RepositorioUsuarioHasSemillero=$RepositorioUsuarioHasSemillero;
         $this->RepositorioActividad=$RepositorioActividad;
         $this->RepositorioArchivoEntrega=$RepositorioArchivoEntrega;
+        $this->RepositorioEntrega=$RepositorioEntrega;
     }
     
     public function crear(array $datos,int $usuario_rol)
@@ -97,6 +100,12 @@ class SemilleroServicio implements ISemilleroServicio{
         return false;
     }
 
+    public function usuarioEsSemilleristaDeSemillero(int $semillero_id,int $usuario_id)
+    {
+        $semillero=new Semillero();
+        return $semillero->usuarioEsSemilleristaDeSemillero($this->getSemilleristas($semillero_id),$usuario_id);
+    }
+
     public function getSemillerosVigentes(){
         return $this->Reportes->getSemillerosVigentes();
     }
@@ -146,9 +155,12 @@ class SemilleroServicio implements ISemilleroServicio{
         return $this->Reportes->getInformacionDeEntrega($actividad_id,$usuario_id);
     }
 
-    public function FunctionName(Type $var = null)
+    public function crearEntregaSiNoExiste()
     {
-        # code...
+        if($this->getInformacionEntrega(1,1)){
+
+        }
+        return true;
     }
 
     public function subirArchivoEntrega(array $datos,$semillero_codigo,$actividad_codigo,$usuario_id)
