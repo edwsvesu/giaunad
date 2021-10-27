@@ -68,6 +68,11 @@ Route::get('/idiomasform', function () {
     return view('administrador.curriculum.formacionidiomasform');
 });
 
+Route::get('/ver', function () {
+    $pathToFile="storage/usuario/avatar/doc.docx";
+    return response()->file($pathToFile);
+});
+
 //////////////////////////rutas semi completas//////////////////7
 Route::get('/semilleros/semillero/{codigo}',[semilleroController::class,'index']);
 Route::get('/semilleros/nuevo',[semilleroformController::class,'index']);
@@ -80,6 +85,8 @@ Route::get('/semilleros/vigentes',[semillerosVigentesController::class,'index'])
 Route::get('/semilleros/mis-semilleros',[missemillerosController::class,'index']);
 Route::post('/semilleros/semillero/{codigo}/actividad/{codigoa}/subir-archivo',[actividadController::class,'subirArchivo']);
 Route::post('/semilleros/semillero/{codigo}/actividad/{codigoa}/entrega',[actividadController::class,'crearEntregaSiNoExiste']);
+Route::get('/semilleros/semillero/{codigo}/actividad/{codigoa}/archivo/{ruta}',[actividadController::class,'descargarArchivo'])->where('ruta','.*');
+Route::delete('/semilleros/semillero/{codigo}/actividad/{codigoa}/archivo/{ruta}',[actividadController::class,'eliminarArchivoEntrega'])->where('ruta','.*');
 
 //////////////////rutas finales ///////////////////////////////////////////////77
 Route::get('/cuenta',[cuentaController::class,'index'])->middleware('guest');

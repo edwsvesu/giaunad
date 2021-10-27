@@ -11,6 +11,7 @@ use App\Dominio\Persistencia\Repositorios\IRepositorioEntrega;
 use App\Dominio\Persistencia\Repositorios\IRepositorioSemillero;
 use App\Dominio\Persistencia\Repositorios\IRepositorioUsuarioHasSemillero;
 use App\Dominio\Servicios\Semilleros\ISemilleroServicio;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
 class SemilleroServicio implements ISemilleroServicio{
@@ -155,26 +156,69 @@ class SemilleroServicio implements ISemilleroServicio{
         return $this->Reportes->getInformacionDeEntrega($actividad_id,$usuario_id);
     }
 
-    public function crearEntregaSiNoExiste()
+    public function getArchivosDeEntrega(int $entrega_id)
     {
-        if($this->getInformacionEntrega(1,1)){
-
-        }
-        return true;
+        return $this->RepositorioArchivoEntrega->getArchivosDeEntrega($entrega_id);
     }
 
-    public function subirArchivoEntrega(array $datos,$semillero_codigo,$actividad_codigo,$usuario_id)
+    public function crearEntregaSiNoExiste($semillero_codigo,$codigo_actividad,$usuario_id)
     {
-        /*$actividad=new Actividad();
-        $archivo=isset($datos['archivo']) ? $datos['archivo']:null;
-        $actividad->setEntrega($archivo);
-        if(!$actividad->getValidezArchivoEntrega()->fails()){
-            $this->RepositorioArchivoEntrega->insertar($actividad->getArregloRegistroArchivoEntrega());
-        }*/
         if($infoSemillero=$this->getInformacionSemillero($semillero_codigo)){
-            if($infoActividad=$this->getInformacionActividad($infoSemillero[0]->id,$actividad_codigo)){
+            $integrante=$this->usuarioEsSemilleristaDeSemillero($infoSemillero[0]->id,$usuario_id);
+            if($integrante && $infoActividad=$this->getInformacionActividad($infoSemillero[0]->id,$codigo_actividad)){
+                if($this->getInformacionEntrega($infoActividad[0]->id,$usuario_id)){
+                    return true;
+                }
+                else{
+                    $actividad=new Actividad();
+                    $actividad->setEntrega($infoActividad[0]->id,$usuario_id);
+                    return $this->RepositorioEntrega->insertar($actividad->getArregloRegistroEntrega());
+                }
+            }
+        }
+    }
+
+    public function subirArchivoEntrega(array $datos,$codigo_semillero,$codigo_actividad,$usuario_id)
+    {
+        if($infoSemillero=$this->getInformacionSemillero($codigo_semillero)){
+            if($infoActividad=$this->getInformacionActividad($infoSemillero[0]->id,$codigo_actividad)){
+                //por el momento no es necesario validar si el usuario pertenece al semillero ya que esto se puede validar por medio de la misma existencia de la entrega.
                 if($infoEntrega=$this->getInformacionEntrega($infoActividad[0]->id,$usuario_id)){
-                    //verificar la entrega
+                    $actividad=new Actividad();
+                    $actividad->setArchivoEntrega($infoEntrega[0]->id,isset($datos['archivo']) ? $datos['archivo']:null);
+                    if(!$actividad->getValidezArchivoEntrega()->fails()){
+                        $infoArchivo=$actividad->getArregloRegistroArchivoEntrega();
+                        $this->RepositorioArchivoEntrega->insertar($infoArchivo);
+                        return $infoArchivo;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public function descargarArchivoEntrega($codigo_semillero,$codigo_actividad,$usuario_id,$ruta){
+        if($infoSemillero=$this->getInformacionSemillero($codigo_semillero)){
+            if($infoActividad=$this->getInformacionActividad($infoSemillero[0]->id,$codigo_actividad)){
+                if($infoEntrega=$this->getInformacionEntrega($infoActividad[0]->id,$usuario_id)){
+                    if($infoArchivo=$this->RepositorioArchivoEntrega->getNombreArchivo($ruta,$infoEntrega[0]->id)){
+                        return Storage::download($ruta,$infoArchivo[0]->nombre);
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public function eliminarArchivoEntrega(string $codigo_semillero,string $codigo_actividad,int $usuario_id,string $ruta)
+    {
+        if($infoSemillero=$this->getInformacionSemillero($codigo_semillero)){
+            if($infoActividad=$this->getInformacionActividad($infoSemillero[0]->id,$codigo_actividad)){
+                if($infoEntrega=$this->getInformacionEntrega($infoActividad[0]->id,$usuario_id)){
+                    if($this->RepositorioArchivoEntrega->eliminar($infoEntrega[0]->id,$ruta)){
+                        Storage::delete($ruta);
+                        return true;
+                    }
                 }
             }
         }

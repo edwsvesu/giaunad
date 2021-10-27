@@ -95,11 +95,30 @@
 
     .work-files .upload .file{
         margin-right: 10px;
+        width: auto;
     }
 
     .work-files .progress{
         flex: auto;
         margin-bottom: 0;
+    }
+
+    .work-files .file{
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .work-files .file .delete{
+        margin: 0;
+        margin-left: 10px;
+    }
+
+    .work-files .remove{
+        margin-left: 10px;
+        font-size: 1.3em;
+        cursor: pointer;
     }
     
 </style>
@@ -167,9 +186,10 @@
                             <a id="btn-cancel" style="display: none;" class="btn btn-app">
                                 <i class="fa fa-times-circle"></i> Cancelar
                             </a>
-                            <a class="btn btn-app">
+
+                            <!-- sin implementar aun<a class="btn btn-app">
                                 <i class="fa fa-save"></i> Entregar
-                            </a>
+                            </a>-->
                             
                         </div>
                         <!-- work-products es general, se refiere a cualquier tipo de productos del trabajo, puede ser entrega de archivos (work-files) entre otros como preguntas simplemente... -->
@@ -177,25 +197,16 @@
 
                             <div class="work-files">
                                 <ul class="list-group">
-                                    <!--<li class="list-group-item upload">
-                                        <div class="file">
-                                            <a href="Functional-requirements.docx"><i class="fa"></i> Functional-requirements.docx</a>
-                                        </div>
-                                        <div class="progress">
-                                            <div class="progress-bar  progress-bar-danger" role="progressbar" style="width: 75%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">0%</div>
-                                            
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <div>
-                                            <a href="UAT.pdf"><i class="fa"></i> UAT.pdf</a>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <div>
-                                            <a href="Logo.png"><i class="fa"></i> Logo.png</a>
-                                        </div>
-                                    </li>-->
+
+                                    @foreach ($archivosEntrega as $archivo)
+                                        <li class="list-group-item">
+                                            <div class="file">
+                                                <a href="{{Request::url()."/archivo/".$archivo->ruta}}"><i class="fa"></i> {{$archivo->nombre}}</a>
+                                                <button class="delete" value="{{$archivo->ruta}}"><span class="fa fa-trash"></span></button>
+                                            </div>
+                                        </li>
+                                    @endforeach
+
                                 </ul>
                             </div>
 
@@ -215,11 +226,11 @@
         });
 
         $("#input-upload").change(function(){
-
             if(this.files.length>0){
                 $("#btn-upload").show();
                 $("#btn-upload .badge").text(this.files.length);
-                $("#btn-cancel").show(); 
+                $("#btn-cancel").show();
+                $("#btn-add").hide();
             }
             else{
                 $("#btn-upload").hide();
@@ -229,16 +240,23 @@
         });
 
         $("#btn-cancel").click(function(){
+            reset()
+        });
+
+
+        $("#btn-upload").click(function(){
+            $("#btn-add").hide();
+            prepararEntrega();
+        });
+
+        function reset() {
             $("#form-upload").get(0).reset();
             $("#btn-upload .badge").text("");
             $("#btn-upload").hide();
             $("#btn-cancel").hide();
-        });
-
-        $("#btn-upload").click(function(){
-            prepararEntrega();
-        });
-
+            $("#btn-add").show();
+        }
+        
         function subirDocumentos(){
             $.each($("#input-upload")[0].files,function (ind,archivo){
                     var elemento=document.createElement("li");
@@ -258,6 +276,7 @@
                     formData.append('archivo',archivo);
                     subirDocumento(formData,elemento);
             });
+            reset();
         }
 
         function subirDocumento(formData,elemento){
@@ -279,7 +298,8 @@
                 method:'POST',
                 success: function(data){
                     if(data){
-                        
+                        $(elemento).children(".file").append("<button onclick='eliminarArchivoEntrega($(this));' value='"+data.ruta+"' class='delete'><span class='fa fa-trash'></span></button>").children("a").attr('href',window.location.pathname+'/archivo/'+data.ruta);
+                        $(elemento).removeClass("upload").children(".progress").remove();
                     }
                     else{
                         marcarErrorSubida(elemento);
@@ -316,7 +336,42 @@
         }
 
         function marcarErrorSubida(elemento){
-            $(elemento).children(".progress").removeClass("progress-striped active").children(".progress-bar").removeClass("progress-bar-success").addClass("progress-bar-danger").text("Error!").css('width','100%');
+            $(elemento).append("<div class='remove'><span class='fa fa-remove'></span></div>").children(".progress").removeClass("progress-striped active").children(".progress-bar").removeClass("progress-bar-success").addClass("progress-bar-danger").text("Error!").css('width','100%');
+            $(".work-files .remove").click(function(){
+                $(this).parent(".list-group-item").remove();
+            });
+        }
+
+        $(".work-files .delete").click(function(){
+            eliminarArchivoEntrega($(this)); 
+        });
+
+
+
+        function eliminarArchivoEntrega(elemento){
+            $.ajax({
+                url:window.location.pathname+"/archivo/"+$(elemento).val(),
+                beforeSend:function(){
+                    $(elemento).hide().parent().parent().css('opacity',0.5);
+                },
+                complete:function(){
+               
+                },
+                method:'DELETE',
+                success: function(data){
+                    if(data){
+                        $(elemento).parent().parent().remove();
+                    }
+                    else{
+                        $(elemento).show().parent().parent().css('opacity',1);
+                        mensajeError("No se pudo eliminar el archivo");
+                    }
+                },
+                error:function(){
+                    $(elemento).show().parent().parent().css('opacity',1);
+                    mensajeError("Ha ocurrido un error, la acción no se ha realizado");
+                }
+            });
         }
     </script>
 @endsection

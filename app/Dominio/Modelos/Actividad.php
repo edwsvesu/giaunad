@@ -13,10 +13,20 @@ class Actividad{
     private $semillero_id;
     private $entrega;
 
-    public function setEntrega($archivo)
+    public function setEntrega($actividad_id,$usuario_id)
     {
         $entrega=new EntregaActividad();
+        $entrega->setActividad_id($actividad_id);
+        $entrega->setUsuario_id($usuario_id);
+        $this->entrega=$entrega;
+    }
+
+    public function setArchivoEntrega($entrega_id,$archivo)
+    {
+        $entrega=new EntregaActividad();
+        $entrega->setId($entrega_id);
         $entrega->setArchivo($archivo);
+        $this->entrega=$entrega;
     }
 
     public function setSemillero_id($semillero_id)
@@ -102,5 +112,10 @@ class Actividad{
     public function getArregloRegistroArchivoEntrega()
     {
         return $this->entrega->getArregloRegistroArchivo();
+    }
+
+    public function getArregloRegistroEntrega()
+    {
+        return $this->entrega->getArregloRegistro();
     }
 }
