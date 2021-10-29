@@ -120,7 +120,6 @@
         font-size: 1.3em;
         cursor: pointer;
     }
-    
 </style>
 @endsection
 @section('contenido')
@@ -172,9 +171,6 @@
                 <div class="workspace">
                     <div class="delivery-space">
                         <h2 class="sub-one">Realización de la actividad</h2>
-                        <form id="form-upload">
-                            <input id="input-upload" type="file" multiple>
-                        </form>
                         <div class="actions">
                             <a id="btn-add" class="btn btn-app">
                                 <i class="fa fa-paperclip"></i> Añadir
@@ -196,6 +192,9 @@
                         <div class="work-products">
 
                             <div class="work-files">
+                                <form id="form-upload">
+                                    <input id="input-upload" type="file" multiple>
+                                </form>
                                 <ul class="list-group">
 
                                     @foreach ($archivosEntrega as $archivo)

@@ -31,6 +31,7 @@ use App\Http\Controllers\Curriculum\DatosGenerales\datospersonalesController;
 use App\Http\Controllers\Curriculum\DatosGenerales\datospersonalesformController;
 use App\Http\Controllers\Curriculum\DatosGenerales\formacionidiomasController;
 use App\Http\Controllers\Semilleros\actividadController;
+use App\Http\Controllers\Semilleros\entregaController;
 use App\Http\Controllers\semilleros\missemillerosController;
 use App\Http\Controllers\Semilleros\semilleroController;
 use App\Http\Controllers\Semilleros\semilleroformController;
@@ -56,7 +57,7 @@ Route::get('/entrega', function () {
 });
 
 Route::get('/actividad2', function () {
-    return view('administrador.proyectos.actividad2');
+    return view('administrador.proyectos.actividad');
 });
 
 //Route::post('/dpersonales/editar-telefono',[datospersonalesformController::class,'editarTelefono']);
@@ -87,6 +88,8 @@ Route::post('/semilleros/semillero/{codigo}/actividad/{codigoa}/subir-archivo',[
 Route::post('/semilleros/semillero/{codigo}/actividad/{codigoa}/entrega',[actividadController::class,'crearEntregaSiNoExiste']);
 Route::get('/semilleros/semillero/{codigo}/actividad/{codigoa}/archivo/{ruta}',[actividadController::class,'descargarArchivo'])->where('ruta','.*');
 Route::delete('/semilleros/semillero/{codigo}/actividad/{codigoa}/archivo/{ruta}',[actividadController::class,'eliminarArchivoEntrega'])->where('ruta','.*');
+Route::get('/semilleros/semillero/{codigo}/actividad/{codigoa}/entrega/{codigoe}',[entregaController::class,'index']);
+Route::get('/semilleros/semillero/{codigo}/actividad/{codigoa}/entrega/{codigoe}/archivo/{ruta}',[entregaController::class,'descargarArchivo'])->where('ruta','.*');
 
 //////////////////rutas finales ///////////////////////////////////////////////77
 Route::get('/cuenta',[cuentaController::class,'index'])->middleware('guest');

@@ -34,7 +34,8 @@ class actividadController extends Controller
                         break;
                     case 4:
                         if($this->SemilleroServicio->usuarioEsLiderDeSemillero($infoSemillero[0]->id,$this->usuario_id)){
-                            return view('estudiante.semilleros.actividadg',compact('infoActividad'));
+                            $entregas=$this->SemilleroServicio->getEntregasPorActividad($infoSemillero[0]->id);
+                            return view('estudiante.semilleros.actividadg',compact('infoActividad','entregas'));
                         }else if($this->SemilleroServicio->usuarioEsSemilleristaDeSemillero($infoSemillero[0]->id,$this->usuario_id)){
                             //validar mas adelante el acceso a una actividad, en caso de asignacion de actividad especifica
                             return view('estudiante.semilleros.actividad',compact('infoActividad','archivosEntrega'));
@@ -63,7 +64,8 @@ class actividadController extends Controller
 
     public function descargarArchivo($codigo_semillero,$codigo_actividad,$ruta)
     {
-        return $this->SemilleroServicio->descargarArchivoEntrega($codigo_semillero,$codigo_actividad,$this->usuario_id,$ruta);
+        //return $this->SemilleroServicio->descargarArchivoEntrega($codigo_semillero,$codigo_actividad,$this->usuario_id,$ruta);
+        return $this->SemilleroServicio->descargarArchivoEntrega($codigo_semillero,$codigo_actividad,$this->usuario_rol,$this->usuario_id,$ruta);
     }
 
     public function eliminarArchivoEntrega($codigo_semillero,$codigo_actividad,$ruta)

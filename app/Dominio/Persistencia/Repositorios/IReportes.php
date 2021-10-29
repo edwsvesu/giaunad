@@ -16,4 +16,5 @@ interface IReportes{
 	public function getUsuariosAptosComoLideresSemillero();
 	public function getUsuariosAptosComoCoordinadoresSemillero();
 	public function getInformacionGeneralSemillero(string $codigo);
+	public function getInformacionDeSemilleristas(int $semillero_id);
 }

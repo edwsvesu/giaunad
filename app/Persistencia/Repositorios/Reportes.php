@@ -102,7 +102,7 @@ class Reportes implements IReportes{
 	}
 
 	public function getInformacionDeSemilleristas(int $semillero_id){
-		$registros=DB::select("SELECT u.id,u.foto,u.nombres,u.apellidos,'semillerista' as funcion
+		$registros=DB::select("SELECT u.id,u.numero_documento,u.foto,u.nombres,u.apellidos,'semillerista' as funcion
 		FROM usuario u
 		JOIN usuario_has_semillero us ON u.id=us.usuario_id
 		WHERE us.semillero_id=:semillero_id",['semillero_id'=>$semillero_id]);
@@ -137,5 +137,14 @@ class Reportes implements IReportes{
 		FROM entrega
 		WHERE actividad_id=:actividad_id AND usuario_id=:usuario_id',['actividad_id'=>$actividad_id,'usuario_id'=>$usuario_id]);
 		return $registro;
+	}
+
+	public function getEntregasPorActividad(int $semillero_id)
+	{
+		$registros=DB::select('SELECT CONCAT(u.nombres," ",u.apellidos) as usuario,u.numero_documento as codigo
+		FROM usuario u
+		JOIN usuario_has_semillero us ON u.id=us.usuario_id
+		WHERE us.semillero_id=:semillero_id',['semillero_id'=>$semillero_id]);
+		return $registros;
 	}
 }

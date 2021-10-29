@@ -107,6 +107,12 @@ class SemilleroServicio implements ISemilleroServicio{
         return $semillero->usuarioEsSemilleristaDeSemillero($this->getSemilleristas($semillero_id),$usuario_id);
     }
 
+    public function usuarioEsSemilleristaDeSemilleroPorCodigo(int $semillero_id,string $usuario_cod)
+    {
+        $semillero=new Semillero();
+        return $semillero->usuarioEsSemilleristaDeSemilleroPorCodigo($this->getSemilleristas($semillero_id),$usuario_cod);
+    }
+
     public function getSemillerosVigentes(){
         return $this->Reportes->getSemillerosVigentes();
     }
@@ -197,10 +203,38 @@ class SemilleroServicio implements ISemilleroServicio{
         return false;
     }
 
-    public function descargarArchivoEntrega($codigo_semillero,$codigo_actividad,$usuario_id,$ruta){
+    public function pdescargarArchivoEntrega($codigo_semillero,$codigo_actividad,$usuario_id,$ruta){
         if($infoSemillero=$this->getInformacionSemillero($codigo_semillero)){
             if($infoActividad=$this->getInformacionActividad($infoSemillero[0]->id,$codigo_actividad)){
                 if($infoEntrega=$this->getInformacionEntrega($infoActividad[0]->id,$usuario_id)){
+                    if($infoArchivo=$this->RepositorioArchivoEntrega->getNombreArchivo($ruta,$infoEntrega[0]->id)){
+                        return Storage::download($ruta,$infoArchivo[0]->nombre);
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public function descargarArchivoEntrega($codigo_semillero,$codigo_actividad,$usuario_rol,$usuario_id,$ruta,$autor_codigo=null)
+    {
+        if($infoSemillero=$this->getInformacionSemillero($codigo_semillero)){
+            if($infoActividad=$this->getInformacionActividad($infoSemillero[0]->id,$codigo_actividad)){
+                switch ($usuario_rol) {
+                    case 4:
+                        if($this->usuarioEsLiderDeSemillero($infoSemillero[0]->id,$usuario_id)){
+                            $autor=$this->usuarioEsSemilleristaDeSemilleroPorCodigo($infoSemillero[0]->id,$autor_codigo);
+                            $autor_id= $autor ? $autor->id:0;
+                        }
+                        else{
+                            $autor_id=$usuario_id;
+                        }
+                        break;
+                    default:
+                        return false;
+                        break;
+                }
+                if($infoEntrega=$this->getInformacionEntrega($infoActividad[0]->id,$autor_id)){
                     if($infoArchivo=$this->RepositorioArchivoEntrega->getNombreArchivo($ruta,$infoEntrega[0]->id)){
                         return Storage::download($ruta,$infoArchivo[0]->nombre);
                     }
@@ -223,5 +257,10 @@ class SemilleroServicio implements ISemilleroServicio{
             }
         }
         return false;
+    }
+
+    public function getEntregasPorActividad(int $semillero_id)
+    {
+        return $this->Reportes->getEntregasPorActividad($semillero_id);
     }
 }
