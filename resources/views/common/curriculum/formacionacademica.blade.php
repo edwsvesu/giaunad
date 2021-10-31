@@ -33,7 +33,7 @@ var table = $('#datatable').DataTable({
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Formación académica</h2>
+                <h2><i class="fa fa-graduation-cap"></i> Formación académica</h2>
                 <div class="clearfix"></div>
             </div>
             <button id="btn-add-formacion" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-agregar-formacion">Nuevo</button>
@@ -55,8 +55,8 @@ var table = $('#datatable').DataTable({
             <td>{{$titulo->titulo}}</td>
             <td>{{$titulo->institucion}}</td>
             <td>
-                <button value="{{$titulo->id}}" data-toggle="modal" data-target="#modal-view-academica" class="btn btn-primary btn-xs view-info-form"><i class="fa fa-eye"></i> Ver</button>
-                <button value="{{$titulo->id}}" data-toggle="modal" data-target="#modal-agregar-formacion" class="btn btn-info btn-xs update-info-form"><i class="fa fa-pencil"></i> Editar</button>
+                <button value="{{$titulo->id}}" data-toggle="modal" data-target="#modal-view-academica" class="btn btn-info btn-xs view-info-form"><i class="fa fa-eye"></i> Ver</button>
+                <button value="{{$titulo->id}}" data-toggle="modal" data-target="#modal-agregar-formacion" class="btn btn-dark btn-xs update-info-form"><i class="fa fa-pencil"></i> Editar</button>
                 <button value="{{$titulo->id}}" data-toggle="modal" data-target="#modal-del-formacion" class="btn btn-danger btn-xs btn-del-form"><i class="fa fa-trash-o"></i> Borrar</button>
             </td>
             </tr>
@@ -77,10 +77,10 @@ var table = $('#datatable').DataTable({
           <h4 class="modal-title" id="myModalLabel">Formación académica</h4>
         </div>
         <div class="modal-body">  
-            <p>lored freig ri gjerigj erg jreogr j</p>
+            <p></p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
         </div>
       </div>
     </div>
@@ -101,7 +101,7 @@ var table = $('#datatable').DataTable({
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">CANCELAR</button>
-          <button id="btn-elim-form" type="button" class="btn btn-primary" data-dismiss="modal">ACEPTAR</button>
+          <button id="btn-elim-form" type="button" class="btn btn-danger" data-dismiss="modal">ACEPTAR</button>
         </div>
       </div>
     </div>
@@ -111,21 +111,19 @@ var table = $('#datatable').DataTable({
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
-          </button>
           <h4 class="modal-title" >Formación académica</h4>
         </div>
         <div class="modal-body">
           <!-- formulario-->
-          <form action="" method="post" data-parsley-validate class="form-horizontal form-label-left">
+          <form id="form-academica" action="" method="post" data-parsley-validate class="form-horizontal form-label-left">
             @csrf
             <input id='input-put-form' type='hidden'>
             <input id="formacion_id" type="hidden" name="formacion_id">
-            <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Nivel de formación</label>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Nivel de formación <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <select id="nivel_id" name="nivel_id" class="form-control">
-                              <option value="">Nivel de formación</option>
+                          <select id="nivel_id" name="nivel_id" class="form-control" required="required" data-parsley-required-message="Debe seleccionar un nivel de formación">
+                              <option value="">Seleccionar nivel de formación</option>
                               @foreach($niveles as $nivel)
                                 <option value="{{$nivel->id}}">{{$nivel->nombre}}</option>
                               @endforeach
@@ -137,47 +135,46 @@ var table = $('#datatable').DataTable({
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Título obtenido <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="titulo" name="titulo" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="titulo" name="titulo" class="form-control col-md-7 col-xs-12" maxlength="100" required="required" data-parsley-required-message="El título obtenido es obligatorio">
                         </div>
                       </div>
 
                       <div class="form-group">
-                        <label for="lider" class="control-label col-md-3 col-sm-3 col-xs-12">Institución</label>
+                        <label for="lider" class="control-label col-md-3 col-sm-3 col-xs-12">Institución <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <input type="hidden" id="institucion_id" name="institucion_id">
-                          <input id="lista-institucion" class="form-control col-md-7 col-xs-12" list="datalistOptions" type="text" autocomplete="off">
+                          <input id="lista-institucion" class="form-control col-md-7 col-xs-12" list="datalistOptions" type="text" autocomplete="off" required="required" data-parsley-required-message="La institución es obligatoria">
                           <datalist id="datalistOptions">
                             @foreach($instituciones as $institucion)
                               <option data-value="{{$institucion->id}}" value="{{$institucion->nombre}}"></option>
                             @endforeach
                           </datalist>
                         </div>
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-agregar-institucion">+ Crear</button>
+                        <!--<button type="button" class="btn btn-dark" data-toggle="modal" data-target="#modal-agregar-institucion">+ Crear</button>-->
                       </div>
 
 
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Intensidad horaria (semanal)<span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Intensidad horaria (semanal) <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="intensidad" name="intensidad" class="form-control col-md-7 col-xs-12">
+                          <input type="number" id="intensidad" name="intensidad" class="form-control col-md-7 col-xs-12" maxlength="2" required="required" data-parsley-required-message="La intensidad horaria es obligatoria" data-parsley-type-message="Debe ser un número entero" data-parsley-maxlength-message="No puede contener más de dos dígitos">
                         </div>
                       </div>
 
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Promedio acumulativo<span class="required">*</span>
-                        </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Promedio acumulativo</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="promedio" name="promedio" class="form-control col-md-7 col-xs-12">
+                          <input type="number" id="promedio" name="promedio" class="form-control col-md-7 col-xs-12" maxlength="5" max="10" min="0" step="0.01" data-parsley-type-message="Debe ser un valor numérico" data-parsley-range-message="Fuera de rango">
                         </div>
                       </div>
 
 
 
                       <div class="form-group">
-                        <label for="fecha_inicio" class="control-label col-md-3 col-sm-3 col-xs-12">Fecha inicio</label>
+                        <label for="fecha_inicio" class="control-label col-md-3 col-sm-3 col-xs-12">Fecha inicio <span class="required">*</span></label>
                         <div class="col-md-3 col-sm-3 col-xs-12">      
-                          <input id="fecha_inicio" name="fecha_inicio" type="date" class="form-control col-md-7 col-xs-12" placeholder="Fecha inicio">
+                          <input id="fecha_inicio" name="fecha_inicio" type="date" class="form-control col-md-7 col-xs-12" placeholder="Fecha inicio" required="required" data-parsley-required-message="La fecha de inicio es obligatoria">
                         </div>
                       </div>
 
@@ -189,13 +186,11 @@ var table = $('#datatable').DataTable({
                         </div>
                       </div>
 
-       
-          
-            
       <div class="ln_solid"></div>
       <div class="form-group">
         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-          <button type="submit" class="btn btn-success btn-lg">Guardar</button>
+          <button id="btn-reset" type="button" class="btn btn-default btn-lg" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
         </div>
       </div>
           </form>
@@ -277,6 +272,11 @@ var table = $('#datatable').DataTable({
  <script src="{{asset('js/responsive.bootstrap.js')}}"></script>
  <script src="{{asset('js/dataTables.scroller.min.js')}}"></script>
  <script>
+  $("#btn-reset").click(function(){
+    $("#form-academica")[0].reset();
+     $("#form-academica").parsley().reset();
+   });
+
     $(".update-info-form").click(function(){
         $("#input-put-form").replaceWith("<input id='input-put-form' type='hidden' name='_method' value='PUT'>");
         $("#formacion_id").val($(this).val());

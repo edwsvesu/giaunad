@@ -127,26 +127,6 @@ class ProyectoServicio implements IProyectoServicio{
 
 
 	//! crear arreglo en la clase proyecto para insertar documentos...
-	/*public function subirDocumentos(array $datos){
-
-		$proyecto=new Proyecto();
-		$proyecto->setDocumentos(isset($datos['documentos']) ? $datos['documentos']:'');
-		if($proyecto->validezArchivos() && isset($datos['proyecto_id'])){
-				if($this->proyectoEstaRegistradoPorId($datos['proyecto_id'])){
-					foreach ($datos['documentos'] as $file) {
-						$documentos[]=array(
-							'nombre'=>$file->getClientOriginalName(),
-							'ruta'=>$file->store('proyectos/documentos'),
-							'proyecto_id'=>$datos['proyecto_id']
-						);
-					}
-				$this->RepositorioDocumento->insertarDocumentos($documentos);
-				return $documentos;
-				}
-		}
-	}*/
-
-	//! crear arreglo en la clase proyecto para insertar documentos...
 	public function subirDocumentos(array $datos,string $proyecto_cod,int $usuario_id,int $usuario_rol){
 		if($this->proyectoEstaRegistrado($proyecto_cod) && isset($datos['documentos'])){
 			$proyecto_id=$this->getIdProyecto($proyecto_cod);

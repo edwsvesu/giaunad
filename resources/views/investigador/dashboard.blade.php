@@ -20,4 +20,9 @@ Investigador
     <li><a href="/proyectos/misproyectos">Mis proyectos</a></li>
     </ul>
 </li>
+<li><a><i class="fa fa-puzzle-piece"></i> Semilleros <span class="fa fa-chevron-down"></span></a>
+  <ul class="nav child_menu">
+    <li><a href="/semilleros/mis-semilleros">mis semilleros</a></li>
+  </ul>
+</li>
 @endsection

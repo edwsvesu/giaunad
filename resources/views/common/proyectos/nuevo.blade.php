@@ -37,46 +37,46 @@ var table = $('#datatable').DataTable({
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Crear nuevo proyecto</h2>
+                    <h2><i class="fa fa-folder"></i> Crear nuevo proyecto</h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
                     <br />
-                    <form action="/proyectos/nuevo" enctype="multipart/form-data" method="post" data-parsley-validate class="form-horizontal form-label-left">
+                    <form id="form-proyecto" action="/proyectos/nuevo" enctype="multipart/form-data" method="post" data-parsley-validate class="form-horizontal form-label-left">
                       @csrf
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Código <span class="required">*</span>
                         </label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
-                          <input name="codigo" type="text" class="form-control col-md-7 col-xs-12">
+                          <input name="codigo" type="text" class="form-control col-md-7 col-xs-12" required="required" maxlength="50">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Título <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" name="titulo" class="form-control col-md-7 col-xs-12">
+                          <input type="text" name="titulo" class="form-control col-md-7 col-xs-12" required="required" maxlength="330">
                         </div>
                       </div>
 
 
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Tipo de proyecto</label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Tipo de proyecto <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <select id="tipo_proyecto_id" name="tipo_proyecto_id" class="form-control">
+                          <select id="tipo_proyecto_id" name="tipo_proyecto_id" class="form-control" required="required">
                               <option selected value="">Seleccione un tipo</option>
                             @foreach($tipos_proyectos as $tipo)
                               <option value="{{$tipo->id}}">{{$tipo->nombre}}</option>
                             @endforeach
                           </select>
                         </div>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-crud-tipo"><i class="fa fa-edit"></i></button>
+                        <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#modal-crud-tipo"><i class="fa fa-edit"></i></button>
                       </div>
 
                       <div class="form-group">
-                        <label for="lider" class="control-label col-md-3 col-sm-3 col-xs-12">Lider</label>
+                        <label for="lider" class="control-label col-md-3 col-sm-3 col-xs-12">Lider <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="lidera" class="form-control col-md-7 col-xs-12" list="datalistOptions" type="text" autocomplete="off">
+                          <input id="lidera" class="form-control col-md-7 col-xs-12" list="datalistOptions" type="text" autocomplete="off" required="required">
                           <input id="lidera_id" type="hidden" name="lidera">
                           <datalist id="datalistOptions">
                             @foreach($usuarioslideres as $usuariolider)
@@ -88,9 +88,9 @@ var table = $('#datatable').DataTable({
 
 
                       <div class="form-group">
-                        <label for="fecha_inicio" class="control-label col-md-3 col-sm-3 col-xs-12">Fecha inicio</label>
+                        <label for="fecha_inicio" class="control-label col-md-3 col-sm-3 col-xs-12">Fecha inicio <span class="required">*</span></label>
                         <div class="col-md-3 col-sm-3 col-xs-12">      
-                          <input name="fecha_inicio" type="date" class="form-control col-md-7 col-xs-12" placeholder="fecha de inicio">
+                          <input name="fecha_inicio" type="date" class="form-control col-md-7 col-xs-12" placeholder="fecha de inicio" required="required">
                         </div>
                       </div>
 
@@ -103,7 +103,7 @@ var table = $('#datatable').DataTable({
                       </div>                      
 
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Documentacion <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Documentacion
                         </label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                           <input name="documento[]" type="file" multiple>
@@ -113,8 +113,8 @@ var table = $('#datatable').DataTable({
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                          <button type="reset" class="btn btn-danger">Borrar</button>
-                          <button type="submit" class="btn btn-success">Crear</button>
+                          <button id="btn-cancel" type="reset" class="btn btn-default">Cancelar</button>
+                          <button type="submit" class="btn btn-primary">Crear</button>
                         </div>
                       </div>
 
@@ -147,7 +147,7 @@ var table = $('#datatable').DataTable({
                   <tr>
                   <td>{{$tipo->nombre}}</td>
                   <td>
-                    <button class="btn btn-info btn-xs btn-edit-tipo" value="{{$tipo->id}}" data-value="{{$tipo->nombre}}" data-toggle="modal" data-target="#modal-form-tipo"><i class="fa fa-pencil"></i> Editar</button>
+                    <button class="btn btn-dark btn-xs btn-edit-tipo" value="{{$tipo->id}}" data-value="{{$tipo->nombre}}" data-toggle="modal" data-target="#modal-form-tipo"><i class="fa fa-pencil"></i> Editar</button>
 
                     <button value="{{$tipo->id}}" data-toggle="modal" data-target="#modal-eliminar-tipo" class="btn btn-danger btn-xs btn-eliminar-tipo"><i class="fa fa-trash-o"></i> Borrar</button>
                   </td>
@@ -157,8 +157,7 @@ var table = $('#datatable').DataTable({
             </table>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">CANCELAR</button>
-          <button id="btn-del-idioma" type="button" class="btn btn-primary" data-dismiss="modal">ACEPTAR</button>
+          <button type="button" class="btn btn-success" data-dismiss="modal">Aceptar</button>
         </div>
       </div>
     </div>
@@ -171,7 +170,7 @@ var table = $('#datatable').DataTable({
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
           </button>
-          <h4 class="modal-title" id="myModalLabel">Nuevo</h4>
+          <h4 class="modal-title" id="myModalLabel">Tipo de proyecto</h4>
         </div>
         <div class="modal-body">
           <label>Tipo</label>
@@ -179,8 +178,8 @@ var table = $('#datatable').DataTable({
           <input id="tipo_proyecto" type="text">
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">CANCELAR</button>
-          <button id="btn-action-form" type="button" class="btn btn-primary" data-dismiss="modal">GUARDAR</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+          <button id="btn-action-form" type="button" class="btn btn-primary" data-dismiss="modal">Guardar</button>
         </div>
       </div>
     </div>
@@ -235,6 +234,9 @@ var table = $('#datatable').DataTable({
     <!-- Switchery -->
     <script src="{{asset('js/switchery.min.js')}}"></script>
     <script>
+      $("#btn-cancel").click(function() {
+        $("#form-proyecto").parsley().reset();
+      });
         $("#fecha_nula").click(function(e){
           if($("#single_cal4").prop("disabled")==false){
             $("#single_cal4").attr("disabled","true");

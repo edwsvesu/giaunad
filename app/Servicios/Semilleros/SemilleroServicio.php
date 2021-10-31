@@ -76,7 +76,7 @@ class SemilleroServicio implements ISemilleroServicio{
     public function agregarSemilleristas(array $datos,$codigo,$usuario_rol,$usuario_id)
     {
         if($infoGeneral=$this->getInformacionSemillero($codigo)){
-            if($usuario_rol==1 || $this->usuarioEsLiderDeSemillero($infoGeneral[0]->id,$usuario_id)){
+            if($usuario_rol==1 || $usuario_rol==2 || $this->usuarioEsLiderDeSemillero($infoGeneral[0]->id,$usuario_id) || $this->usuarioEsCoordinadorDeSemillero($infoGeneral[0]->id,$usuario_id)){
                 $semillero=new Semillero();
                 $semillero->setSemilleristas_id(isset($datos['usuario_id']) ? $datos['usuario_id']:null);
                 if($semillero->usuariosSonAptosComoSemilleristas($this->getUsuariosAptosComoSemilleristas($infoGeneral[0]->id))){
@@ -99,6 +99,11 @@ class SemilleroServicio implements ISemilleroServicio{
             return true;
         }
         return false;
+    }
+
+    public function usuarioEsCoordinadorDeSemillero($semillero_id,$usuario_id)
+    {
+        return $this->RepositorioSemillero->buscarPorSemilleroIdYCoordinadorId($semillero_id,$usuario_id) ? true:false;
     }
 
     public function usuarioEsSemilleristaDeSemillero(int $semillero_id,int $usuario_id)
@@ -126,7 +131,7 @@ class SemilleroServicio implements ISemilleroServicio{
     public function crearActividad(array $datos,string $semillero_codigo,int $usuario_rol,int $usuario_id)
     {
         if($info=$this->getInformacionSemillero($semillero_codigo)){
-            if($usuario_rol==1 || $this->usuarioEsLiderDeSemillero($info[0]->id,$usuario_id)){
+            if($usuario_rol==1 || $usuario_rol==2 || $this->usuarioEsLiderDeSemillero($info[0]->id,$usuario_id) || $this->usuarioEsCoordinadorDeSemillero($info[0]->id,$usuario_id)){
                 $actividad=new Actividad();
                 $actividad->setTitulo(isset($datos['titulo']) ? $datos['titulo']:null);
                 $actividad->setFecha_entrega(isset($datos['fecha_entrega']) ? $datos['fecha_entrega']:null);
@@ -220,7 +225,22 @@ class SemilleroServicio implements ISemilleroServicio{
     {
         if($infoSemillero=$this->getInformacionSemillero($codigo_semillero)){
             if($infoActividad=$this->getInformacionActividad($infoSemillero[0]->id,$codigo_actividad)){
-                switch ($usuario_rol) {
+                $autor_id=0;
+                switch ($usuario_rol){
+                    case 1:
+                        $autor=$this->usuarioEsSemilleristaDeSemilleroPorCodigo($infoSemillero[0]->id,$autor_codigo);
+                        $autor_id= $autor ? $autor->id:0;
+                        break;
+                    case 2:
+                        $autor=$this->usuarioEsSemilleristaDeSemilleroPorCodigo($infoSemillero[0]->id,$autor_codigo);
+                        $autor_id= $autor ? $autor->id:0;
+                        break;
+                    case 3:
+                        if($this->usuarioEsCoordinadorDeSemillero($infoSemillero[0]->id,$usuario_id)){
+                            $autor=$this->usuarioEsSemilleristaDeSemilleroPorCodigo($infoSemillero[0]->id,$autor_codigo);
+                            $autor_id= $autor ? $autor->id:0;
+                        }
+                        break;
                     case 4:
                         if($this->usuarioEsLiderDeSemillero($infoSemillero[0]->id,$usuario_id)){
                             $autor=$this->usuarioEsSemilleristaDeSemilleroPorCodigo($infoSemillero[0]->id,$autor_codigo);

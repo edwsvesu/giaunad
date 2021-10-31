@@ -97,7 +97,7 @@ class Reportes implements IReportes{
 	{
 		$consulta=DB::select("SELECT u.id,u.foto,u.nombres,u.apellidos,CONCAT(u.nombres,' ',u.apellidos,' | CC. ',u.numero_documento) as usuario
 		FROM usuario u
-		WHERE u.verificado=1 AND u.id NOT IN (SELECT usuario_id FROM usuario_has_semillero WHERE semillero_id=:semillero_id) AND u.id NOT IN ((SELECT lider_id FROM semillero s WHERE s.id=:semillero_id2),(SELECT coordinador_id FROM semillero s WHERE s.id=:semillero_id3))",['semillero_id'=>$semillero_id,'semillero_id2'=>$semillero_id,'semillero_id3'=>$semillero_id]);
+		WHERE u.verificado=1 AND u.rol_id=4 AND u.id NOT IN (SELECT usuario_id FROM usuario_has_semillero WHERE semillero_id=:semillero_id) AND u.id NOT IN (SELECT lider_id FROM semillero s WHERE s.id=:semillero_id2)",['semillero_id'=>$semillero_id,'semillero_id2'=>$semillero_id]);
 		return $consulta;
 	}
 
@@ -127,7 +127,7 @@ class Reportes implements IReportes{
 		FROM semillero
 		WHERE id IN (SELECT semillero_id
 					FROM usuario_has_semillero
-					WHERE usuario_id=:usuario_id) OR lider_id=:lider_id',['usuario_id'=>$usuario_id,'lider_id'=>$usuario_id]);
+					WHERE usuario_id=:usuario_id) OR lider_id=:lider_id OR coordinador_id=:coordinador_id',['usuario_id'=>$usuario_id,'lider_id'=>$usuario_id,'coordinador_id'=>$usuario_id]);
 		return $registros;
 	}
 

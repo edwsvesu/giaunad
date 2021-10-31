@@ -28,13 +28,22 @@ class actividadController extends Controller
             if($infoActividad=$this->SemilleroServicio->getInformacionActividad($infoSemillero[0]->id,$codigo_actividad)){
                 $infoEntrega=$this->SemilleroServicio->getInformacionEntrega($infoActividad[0]->id,$this->usuario_id);
                 $archivosEntrega=isset($infoEntrega[0]->id) ? $this->SemilleroServicio->getArchivosDeEntrega($infoEntrega[0]->id):[];
-                switch ($this->usuario_rol) {
+                $entregas=$this->SemilleroServicio->getEntregasPorActividad($infoSemillero[0]->id);
+                switch ($this->usuario_rol){
                     case 1:
-                        return view("administrador.semilleros.actividad",compact('infoActividad'));
+                        return view('administrador.semilleros.actividad',compact('infoActividad','entregas'));
+                        break;
+                    case 2:
+                        return view('codirector.semilleros.actividad',compact('infoActividad','entregas'));
+                        break;
+                    case 3:
+                        if($this->SemilleroServicio->usuarioEsCoordinadorDeSemillero($infoSemillero[0]->id,$this->usuario_id)){
+                            return view('investigador.semilleros.actividad',compact('infoActividad','entregas'));
+                        }
+                        abort(403);
                         break;
                     case 4:
                         if($this->SemilleroServicio->usuarioEsLiderDeSemillero($infoSemillero[0]->id,$this->usuario_id)){
-                            $entregas=$this->SemilleroServicio->getEntregasPorActividad($infoSemillero[0]->id);
                             return view('estudiante.semilleros.actividadg',compact('infoActividad','entregas'));
                         }else if($this->SemilleroServicio->usuarioEsSemilleristaDeSemillero($infoSemillero[0]->id,$this->usuario_id)){
                             //validar mas adelante el acceso a una actividad, en caso de asignacion de actividad especifica

@@ -85,10 +85,12 @@ class FormacionAcademica{
 	public function validez(){
         $atributos=array(
             'titulo'=>$this->titulo,
+			'institucion_id'=>$this->institucion->getId()
         );
 
         $validacion=Validator::make($atributos,[
-            'titulo'=>'required'
+            'titulo'=>'required',
+			'institucion_id'=>'required'
         ]);
         return $validacion;
     }

@@ -80,7 +80,8 @@ class Proyecto{
         );*/
 
         $validacion=Validator::make($atributos,[
-            'titulo'=>'required'
+            'titulo'=>'required',
+            'lidera'=>'required'
         ]);
         return $validacion;
     }

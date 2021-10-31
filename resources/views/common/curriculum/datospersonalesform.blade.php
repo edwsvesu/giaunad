@@ -11,14 +11,14 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2><i class="fa fa-book"></i> Nombre de la actividad</h2>
+                <h2><i class="fa fa-info-circle"></i> Datos personales</h2>
                 <div class="clearfix"></div>
             </div>
 
             <div class="x_content">
-              <form method="post" action="/curriculum/datos-generales/datos-personales/editar" enctype="multipart/form-data">
+              <form id="form-edit-info" method="post" action="/curriculum/datos-generales/datos-personales/editar" enctype="multipart/form-data" data-parsley-validate>
                 @csrf
-                    <div class="col-md-3 col-sm-3 col-xs-12 profile_left">
+                    <div style="text-align: center;" class="col-md-3 col-sm-3 col-xs-12 profile_left">
                       <div class="profile_img">
                         <div id="crop-avatar">
                           <!-- Current avatar -->
@@ -27,9 +27,13 @@
                       </div>
                       <br>
                       <input id="load-image" style="display: none;" type="file" name="foto">
-                      <button id="btn-add-image" type="button" class="btn btn-dark"> <i class="fa fa-photo m-right-xs"> </i> Cambiar imagen</button>
+                      <button id="btn-add-image" type="button" class="btn btn-dark btn-sm"> <i class="fa fa-photo m-right-xs"> </i> Cambiar imagen</button>
                       <br>
-                      <button id="btn-send-form" type="submit" class="btn btn-primary"> <i class="fa fa-edit m-right-xs"> </i> Guardar cambios</button>
+                      <button id="btn-delete-image" type="button" class="btn btn-danger btn-sm"> <i class="fa fa-cut m-right-xs"> </i> Quitar imagen</button>
+                      <br>
+                      <button id="btn-send-form" type="submit" class="btn btn-primary btn-lg"> <i class="fa fa-edit m-right-xs"> </i> Guardar cambios</button>
+                      <br>
+                      <a class="btn btn-default btn-lg" href="/curriculum/datos-generales/datos-personales"> <i class="fa fa-remove m-right-xs"> </i> Cancelar cambios</a>
                       <br />
 
 
@@ -44,8 +48,8 @@
                       <br>
                       <ul>
                       	<li><span><strong>Documento de identificación:</strong> {{$datos[0]->numero_documento}} </span></li>
-                      	<li><span><strong>Nombres:</strong> <input type="text" name="nombres" value="{{$datos[0]->nombres}}"></span></li>
-                      	<li><span><strong>Apellidos:</strong> <input type="text" name="apellidos" value="{{$datos[0]->apellidos}}"></span></li>
+                      	<li><span><strong>Nombres:</strong> <input type="text" name="nombres" value="{{$datos[0]->nombres}}" required="required" maxlength="60" data-parsley-required-message="los nombres son obligatorios"></span></li>
+                      	<li><span><strong>Apellidos:</strong> <input type="text" name="apellidos" value="{{$datos[0]->apellidos}}" required="required" maxlength="60" data-parsley-required-message="los apellidos son obligatorios"></span></li>
                       </ul>
                       <div class="profile_title">
                         <div class="col-md-6">
@@ -54,15 +58,15 @@
                       </div>
                       <br>
                       <ul>
-                      	<li><span><strong>Correo electrónico principal:</strong> <input type="text" name="correo_principal" value="{{$datos[0]->correo_principal}}"></span></li>
-                      	<li><span><strong>correo electrónico secundario:</strong> <input type="text" name="correo_secundario" value="{{$datos[0]->correo_secundario}}"></span></li>
+                      	<li><span><strong>Correo electrónico principal:</strong> <input type="email" name="correo_principal" value="{{$datos[0]->correo_principal}}" required="required" maxlength="150" data-parsley-required-message="El correo electrónico principal es obligatorio" data-parsley-type-message="El correo electrónico no es valido"></span></li>
+                      	<li><span><strong>correo electrónico secundario:</strong> <input type="email" name="correo_secundario" value="{{$datos[0]->correo_secundario}}" maxlength="150" data-parsley-type-message="El correo electrónico no es valido"></span></li>
                       	<li>
                       		<span><strong>Telefonos:</strong></span>
                       		<ul id="lista-telefonos">
                             @foreach($datos['telefonos'] as $telefono)
                               <li> <input type="hidden" name="telefonos[][id]" value="{{$telefono->id}}"> <span><strong>Descripción: </strong><input name="telefonos[][descripcion]" type="text" value="{{$telefono->descripcion}}"> <strong>Número: </strong> <input name="telefonos[][numero]" type="text" value="{{$telefono->numero}}"></span> <button type="button" value="{{$telefono->id}}" class="btn-del-tel btn btn-danger"><i class="fa fa-trash"></i></button></li>
                             @endforeach
-                            <li><input id="in-usu-tel" value="{{$datos[0]->id}}" type="hidden"> <strong>Agregar nuevo:</strong> <span>Descripción:<input id="in-des-tel" type="text">Número: <input id="in-num-tel" type="text"></span> <button type="button" id="agregar-telefono" class="btn btn-primary"><i class="fa fa-plus"></i></button></li>
+                            <li><input id="in-usu-tel" value="{{$datos[0]->id}}" type="hidden"> <strong>Agregar nuevo:</strong> <span>Descripción:<input id="in-des-tel" type="text">Número: <input id="in-num-tel" type="text"></span> <button type="button" id="agregar-telefono" class="btn btn-dark"><i class="fa fa-plus"></i></button></li>
                       		</ul>
                       	</li>
                       </ul>
@@ -82,6 +86,11 @@
 
   $("#load-image").change(function () {
     filePreview(this);
+  });
+
+  $("#btn-delete-image").click(function(){
+    $("#user-image").attr('src','/images/user.png');
+    $("#form-edit-info").append("<input type='hidden' name='foto_null' value='true'>");
   });
 
 function filePreview(input) {

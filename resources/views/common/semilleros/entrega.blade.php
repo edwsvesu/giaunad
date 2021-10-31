@@ -99,13 +99,20 @@
                             <h3 class="sub-two">Archivos</h3>
                             <div>
                                 <ul class="list-group">
-                                    @foreach ($archivosEntrega as $archivo)
+                                    @if ($archivosEntrega)
+                                        @foreach ($archivosEntrega as $archivo)
                                         <li class="list-group-item">
                                             <div class="file">
                                                 <a href="{{Request::url()."/archivo/".$archivo->ruta}}"><i class="fa"></i> {{$archivo->nombre}}</a>
                                             </div>
                                         </li>
-                                    @endforeach
+                                        @endforeach
+                                    @else
+                                        <li  class="list-group-item">
+                                            No se han adjuntado archivos
+                                        </li>
+                                        
+                                    @endif
                                 </ul>
                             </div>
                         </div>

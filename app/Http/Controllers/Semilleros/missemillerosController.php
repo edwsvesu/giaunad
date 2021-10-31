@@ -26,11 +26,14 @@ class missemillerosController extends Controller
     {
         $semilleros=$this->SemilleroServicio->getSemillerosDeUsuario($this->usuario_id);
         switch ($this->usuario_rol) {
+            case 3:
+                return view('investigador.semilleros.missemilleros',compact('semilleros'));
+                break;
             case 4:
                 return view('estudiante.semilleros.missemilleros',compact('semilleros'));
                 break;
             default:
-                abort(404);
+                abort(403);
                 break;
         }
         return view('estudiante.semilleros.missemilleros');

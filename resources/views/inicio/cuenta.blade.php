@@ -53,7 +53,7 @@
               </div>
               <div>
                 <button type="submit" class="btn btn-default submit">Iniciar sesión</button>
-                <a class="reset_pass" href="#">¿perdiste tu contraseña?</a>
+                <!--<a class="reset_pass" href="#">¿perdiste tu contraseña?</a>-->
               </div>
 
               <div class="clearfix"></div>
@@ -66,10 +66,10 @@
                 <div class="clearfix"></div>
                 <br />
 
-                <!--<div>
-                  <h1><i class="fa fa-paw"></i> Gentelella Alela!</h1>
-                  <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
-                </div>-->
+                <div>
+                  <h1>GIAUNAD</h1>
+                  <!--<p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>-->
+                </div>
               </div>
             </form>
           </section>
@@ -77,30 +77,30 @@
 
         <div id="register" class="animate form registration_form">
           <section class="login_content">
-            <form method="post" action="/registrarse">
+            <form id="form-create" method="post" action="/registrarse" data-parsley-validate>
               @csrf
               <h1>Crear cuenta</h1>
               <div>
-                  <input name="numero_documento" type="text" class="form-control" placeholder="Documento" required="required"/>
+                  <input name="numero_documento" type="text" class="form-control" placeholder="Documento" required="required" maxlength="15" data-parsley-required-message="El número de documento es obligatorio"/>
               </div>
               <div>
-                <input name="nombres" type="text" class="form-control" placeholder="Nombres" required="required" />
+                <input name="nombres" type="text" class="form-control" placeholder="Nombres" required="required" maxlength="60" data-parsley-required-message="los nombres son obligatorios"/>
               </div>
              <div>
-                <input name="apellidos" type="text" class="form-control" placeholder="Apellidos" required="required" />
+                <input name="apellidos" type="text" class="form-control" placeholder="Apellidos" required="required" maxlength="60" data-parsley-required-message="los apellidos son obligatorios"/>
               </div>
               <div>
-                <input name="correo_principal" type="email" class="form-control" placeholder="Correo electrónico principal" required="required" />
+                <input name="correo_principal" type="email" class="form-control" placeholder="Correo electrónico principal" required="required" maxlength="150" data-parsley-required-message="El correo electrónico principal es obligatorio" data-parsley-type-message="El correo electrónico no es valido"/>
               </div>
               <div>
-                <input name="correo_secundario" type="email" class="form-control" placeholder="Correo electrónico secundario" required="" />
+                <input name="correo_secundario" type="email" class="form-control" placeholder="Correo electrónico secundario (opcional)" maxlength="150" data-parsley-type-message="El correo electrónico no es valido"/>
               </div>
               <div>
-                <input name="clave" type="password" class="form-control" placeholder="Contraseña" required="required" />
+                <input id="passp" name="clave" type="password" class="form-control" placeholder="Contraseña" defaultvalue="1234" required="required" data-parsley-required-message="Debe incluir una contraseña"/>
               </div>
 
               <div>
-                <input type="password" class="form-control" placeholder="Confirmar contraseña" required="required" />
+                <input type="password" class="form-control" placeholder="Confirmar contraseña" required="required" data-parsley-equalto="#passp" data-parsley-equalto-message="Las contraseñas no coinciden" data-parsley-required-message="Debe confirmar la contraseña"/>
               </div>
               <div>
                 <button type="submit" class="btn btn-dark">Enviar</button>
@@ -116,10 +116,10 @@
                 <div class="clearfix"></div>
                 <br />
 
-                <!--<div>
-                  <h1><i class="fa fa-paw"></i> Gentelella Alela!</h1>
-                  <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
-                </div>-->
+                <div>
+                  <h1>GIAUNAD</h1>
+                  <!--<p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>-->
+                </div>
               </div>
             </form>
           </section>

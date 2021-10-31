@@ -44,12 +44,7 @@ class RepositorioUsuario implements IRepositorioUsuario{
     }
 
     public function editar(array $datos){
-        if(isset($datos['foto'])){
-           $sql="UPDATE usuario set nombres=:nombres,apellidos=:apellidos,correo_principal=:correo_principal,correo_secundario=:correo_secundario,foto=:foto WHERE id=:id";
-        }
-        else{
-            $sql="UPDATE usuario set nombres=:nombres,apellidos=:apellidos,correo_principal=:correo_principal,correo_secundario=:correo_secundario WHERE id=:id";
-        }
+        $sql="UPDATE usuario set nombres=:nombres,apellidos=:apellidos,correo_principal=:correo_principal,correo_secundario=:correo_secundario,foto=:foto WHERE id=:id";
         $actualizado=DB::update($sql,$datos);
         return $actualizado;
     }

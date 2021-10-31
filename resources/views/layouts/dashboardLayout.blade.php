@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>TITULO</title>
+    <title>Giaunad</title>
     <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
 <!-- Font Awesome -->
 <link href="{{asset('css/font-awesome.min.css')}}" rel="stylesheet">
@@ -32,7 +32,7 @@
         <div class="col-md-3 left_col menu_fixed">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index.html" class="site_title"></i><i class="fa fa-home"></i> <span>Grupo Giaunad</span></a>
+              <a href="index.html" class="site_title"></i><i class="fa fa-home"></i> <span>Giaunad</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -56,23 +56,7 @@
               <div class="menu_section">
                 <h3>Menu</h3>
                 <ul class="nav side-menu">
-                  <!--<li><a><i class="fa fa-archive"></i> Currículum <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                        <li><a href="#level1_1">Datos generales</a>
-                        <li><a>Level One<span class="fa fa-chevron-down"></span></a>
-                          <ul class="nav child_menu">
-                            <li class="sub_menu"><a href="level2.html">Level Two</a>
-                            </li>
-                            <li><a href="#level2_1">Level Two</a>
-                            </li>
-                            <li><a href="#level2_2">Level Two</a>
-                            </li>
-                          </ul>
-                        </li>
-                        <li><a href="#level1_2">Level One</a>
-                        </li>
-                    </ul>
-                  </li>-->
+                  <li><a href="/home"><i class="fa fa-laptop"></i> Inicio</a></li>
                     @yield('menuLateral')
                 </ul>
               </div>
@@ -96,14 +80,8 @@
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
-                    <!--<li><a href="javascript:;"> Perfil</a></li>
-                    <li>
-                      <a href="javascript:;">
-                        <span>Ajustes</span>
-                      </a>
-                    </li>
-                    <li><a href="javascript:;">Ayuda</a></li>
-                  -->
+                    <li><a href="/perfil/cambiar-contrasena">Cambiar contraseña</a></li>
+                  
                     <li>
                       <form id="form_out" method="POST" action="/salir">
                         @csrf
@@ -126,10 +104,10 @@
 
         <!-- footer content -->
         <footer>
-          <div class="pull-right">
-            Pie de página <a href="https://colorlib.com">Enlace</a>
+          <!--<div class="pull-right">
+            Pie de página <a href="#">Enlace</a>
           </div>
-          <div class="clearfix"></div>
+          <div class="clearfix"></div>-->
         </footer>
         <!-- /footer content -->
       </div>
@@ -159,7 +137,9 @@
 
     <!-- jQuery custom content scroller -->
     <script src="{{asset('js/jquery.mCustomScrollbar.concat.min.js')}}"></script>
-
+    <!-- Parsley -->
+    <script src="{{asset('js/parsley.min.js')}}"></script>
+    <script src="{{asset('js/i18n/es.js')}}"></script>
     <!-- Custom Theme Scripts -->
     <script src="{{asset('js/custom.min.js')}}"></script>
   </body>

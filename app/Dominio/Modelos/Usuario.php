@@ -187,7 +187,7 @@ class Usuario{
         $validacion=Validator::make($atributos,[
             'nombres'=>'required|min:2|max:60',
             'apellidos'=>'required|min:2|max:60',
-            'foto'=>'file|image'
+            'foto'=>'file|image|nullable'
         ]);
         return $validacion;
     }

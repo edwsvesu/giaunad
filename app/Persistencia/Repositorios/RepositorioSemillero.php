@@ -16,4 +16,10 @@ class RepositorioSemillero implements IRepositorioSemillero{
         $registro=DB::select('SELECT * FROM semillero WHERE id=:id AND lider_id=:lider_id',['id'=>$semillero_id,'lider_id'=>$lider_id]);
         return $registro;
     }
+
+    public function buscarPorSemilleroIdYCoordinadorId(int $semillero_id,int $coordinador_id)
+    {
+        $registro=DB::select('SELECT * FROM semillero WHERE id=:id AND coordinador_id=:coordinador_id',['id'=>$semillero_id,'coordinador_id'=>$coordinador_id]);
+        return $registro;
+    }
 }

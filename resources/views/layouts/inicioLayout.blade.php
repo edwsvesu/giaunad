@@ -25,8 +25,7 @@
 
   <body class="inicio">
     @yield('contenido')
-
-        <!-- jQuery -->
+    <!-- jQuery -->
     <script src="{{asset('js/jquery.min.js')}}"></script>
     <!-- Bootstrap -->
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
@@ -34,9 +33,8 @@
     <script src="{{asset('js/fastclick.js')}}"></script>
     <!-- NProgress -->
     <script src="{{asset('js/nprogress.js')}}"></script>
-    <!-- validator -->
-    <!--<script src="{{asset('js/validator.js')}}"></script>-->
-
+    <!-- Parsley -->
+    <script src="{{asset('js/parsley.min.js')}}"></script>
     <!-- Custom Theme Scripts -->
     <script src="{{asset('js/custom.min.js')}}"></script>
   </body>

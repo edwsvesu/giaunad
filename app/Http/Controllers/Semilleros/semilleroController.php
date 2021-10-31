@@ -28,14 +28,21 @@ class semilleroController extends Controller
             $semilleristasInt=$this->SemilleroServicio->getSemilleristas($infoGeneral[0]->id);
             $actividades=$this->SemilleroServicio->getActividades($infoGeneral[0]->id);
             switch ($this->usuario_rol) {
-                /*case 1:
+                case 1:
                     $privilegio="admin";
                     return view('administrador.semilleros.semillero',compact('infoGeneral','encargados','semilleristas','semilleristasInt','privilegio','actividades'));
                     break;
                 case 2:
-                    $privilegio="none";
+                    $privilegio="codirector";
                     return view('codirector.semilleros.semillero',compact('infoGeneral','encargados','semilleristas','semilleristasInt','privilegio','actividades'));
-                    break;*/
+                    break;
+                case 3:
+                    if($this->SemilleroServicio->usuarioEsCoordinadorDeSemillero($infoGeneral[0]->id,$this->usuario_id)){
+                        $privilegio="coordinador";
+                        return view('investigador.semilleros.semillero',compact('infoGeneral','encargados','semilleristas','semilleristasInt','privilegio','actividades'));
+                    }
+                    abort(403);
+                    break;
                 case 4:
                     $lider=$this->SemilleroServicio->usuarioEsLiderDeSemillero($infoGeneral[0]->id,$this->usuario_id);
                     if($lider || $this->SemilleroServicio->usuarioEsSemilleristaDeSemillero($infoGeneral[0]->id,$this->usuario_id)){

@@ -59,6 +59,10 @@
                         <div id="collapseOne1" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                           <div class="panel-body">
                             <div class="form-horizontal form-label-left">
+                                    <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                        <label class="control-label col-md-3">Código:</label>
+                                        <p style="margin-top:7px" class="col-md-9">{{$infoGeneral[0]->codigo}}</p>
+                                    </div>
 
                                     <div class="col-md-12 col-sm-12 col-xs-12 form-group">
                                         <label class="control-label col-md-3">Titulo:</label>
@@ -158,7 +162,7 @@
                           <h4 class="panel-title">Semilleristas</h4>
                         </a>
                         <div id="collapseTwo2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                          @if($privilegio=="admin" || $privilegio=="lider")
+                          @if($privilegio=="admin" || $privilegio=="lider" || $privilegio=="coordinador" || $privilegio=="codirector")
                             <button type="button" class="btn-agregar btn btn-primary" data-toggle="modal" data-target="#modal-agregar-semilleristas">+ Agregar</button>
                           @endif
                           <div class="panel-body">
@@ -203,7 +207,7 @@
 
                 <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
 
-                  @if($privilegio=="admin" || $privilegio=="lider")
+                  @if($privilegio=="admin" || $privilegio=="lider" || $privilegio=="coordinador" || $privilegio=="codirector")
                     <div class="btn-group">
                       <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle btn-md" type="button" aria-expanded="false">Crear <span class="caret"></span>
                       </button>

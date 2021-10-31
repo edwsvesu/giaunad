@@ -33,7 +33,7 @@ var table = $('#datatable').DataTable({
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Formación de idiomas</h2>
+                <h2><i class="fa fa-flag"></i> Formación de idiomas</h2>
                 <div class="clearfix"></div>
             </div>
             <button id="btn-add-idioma" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-agregar-idioma">Nuevo</button>
@@ -58,7 +58,7 @@ var table = $('#datatable').DataTable({
             <td>{{$idioma->escritura}}</td>
             <td>{{$idioma->habla}}</td>
             <td>{{$idioma->escucha}}</td>
-            <td><button class="btn btn-info btn-xs btn-edit-idioma" data-toggle="modal" data-target="#modal-agregar-idioma" data-idioma="{{$idioma->idioma_id}}" data-lectura="{{$idioma->lectura}}" data-escritura="{{$idioma->escritura}}" data-habla="{{$idioma->habla}}" data-escucha="{{$idioma->escucha}}" value="{{$idioma->id}}"><i class="fa fa-pencil"></i> Editar</button>
+            <td><button class="btn btn-dark btn-xs btn-edit-idioma" data-toggle="modal" data-target="#modal-agregar-idioma" data-idioma="{{$idioma->idioma_id}}" data-lectura="{{$idioma->lectura}}" data-escritura="{{$idioma->escritura}}" data-habla="{{$idioma->habla}}" data-escucha="{{$idioma->escucha}}" value="{{$idioma->id}}"><i class="fa fa-pencil"></i> Editar</button>
             <button value="{{$idioma->id}}" data-toggle="modal" data-target="#modal-eliminar-idioma" class="btn btn-danger btn-xs btn-eliminar-fidioma"><i class="fa fa-trash-o"></i> Borrar</button>
             </td>
             </tr>
@@ -73,20 +73,18 @@ var table = $('#datatable').DataTable({
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
-          </button>
-          <h4 class="modal-title" >Nuevo integrante del proyecto</h4>
+          <h4 class="modal-title" >Formación de idiomas</h4>
         </div>
         <div class="modal-body">
           <!-- formulario-->
-          <form action="" method="post" data-parsley-validate class="form-horizontal form-label-left">
+          <form id="form-idioma" action="" method="post" data-parsley-validate class="form-horizontal form-label-left">
             @csrf
             <input id='input-put-form' type='hidden'>
             <input id="formacion_id" type="hidden" name="formacion_id">
             <div id="input-idio-form" class="form-group">
                 <label class="control-label col-md-4 col-sm-4 col-xs-12">Idioma</label>
                 <div class="col-md-4 col-sm-4 col-xs-12">
-                  <select id="select-opt-idioma" name="idioma_id" class="form-control">
+                  <select id="select-opt-idioma" name="idioma_id" class="form-control" required="required" data-parsley-required-message="Campo obligatorio">
                       <option  value="">Seleccione un idioma</option>
                       @foreach($idiomas as $idioma)
                        <option value="{{$idioma->id}}">{{$idioma->nombre}}</option>
@@ -97,7 +95,7 @@ var table = $('#datatable').DataTable({
             <div class="form-group">
                 <label class="control-label col-md-4 col-sm-4 col-xs-12">Nivel de lectura</label>
                 <div class="col-md-4 col-sm-4 col-xs-12">
-                  <select id="select-lec" name="lectura" class="form-control">
+                  <select id="select-lec" name="lectura" class="form-control" required="required" data-parsley-required-message="Campo obligatorio">
                       <option value="">Seleccione un nivel</option>
                       <option value="Bueno">Bueno</option>
                       <option value="Aceptable">Aceptable</option>
@@ -108,7 +106,7 @@ var table = $('#datatable').DataTable({
             <div class="form-group">
                 <label class="control-label col-md-4 col-sm-4 col-xs-12">Nivel de escritura</label>
                 <div class="col-md-4 col-sm-4 col-xs-12">
-                  <select id="select-esc" name="escritura" class="form-control">
+                  <select id="select-esc" name="escritura" class="form-control" required="required" data-parsley-required-message="Campo obligatorio">
                       <option value="">Seleccione un nivel</option>
                       <option value="Bueno">Bueno</option>
                       <option value="Aceptable">Aceptable</option>
@@ -119,7 +117,7 @@ var table = $('#datatable').DataTable({
             <div class="form-group">
                 <label class="control-label col-md-4 col-sm-4 col-xs-12">Nivel de habla</label>
                 <div class="col-md-4 col-sm-4 col-xs-12">
-                  <select id="select-hab" name="habla" class="form-control">
+                  <select id="select-hab" name="habla" class="form-control" required="required" data-parsley-required-message="Campo obligatorio">
                       <option value="">Seleccione un nivel</option>
                       <option value="Bueno">Bueno</option>
                       <option value="Aceptable">Aceptable</option>
@@ -130,7 +128,7 @@ var table = $('#datatable').DataTable({
             <div class="form-group">
                 <label class="control-label col-md-4 col-sm-4 col-xs-12">Nivel de escucha</label>
                 <div class="col-md-4 col-sm-4 col-xs-12">
-                  <select id="select-escu" name="escucha" class="form-control">
+                  <select id="select-escu" name="escucha" class="form-control" required="required" data-parsley-required-message="Campo obligatorio">
                       <option value="">Seleccione un nivel</option>
                       <option value="Bueno">Bueno</option>
                       <option value="Aceptable">Aceptable</option>
@@ -141,8 +139,8 @@ var table = $('#datatable').DataTable({
       <div class="ln_solid"></div>
       <div class="form-group">
         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-          <button type="reset" class="btn btn-danger btn-lg">Cancelar</button>
-          <button type="submit" class="btn btn-success btn-lg">Guardar</button>
+          <button id="btn-cancel" type="button" class="btn btn-default btn-lg" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
         </div>
       </div>
           </form>
@@ -167,7 +165,7 @@ var table = $('#datatable').DataTable({
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">CANCELAR</button>
-          <button id="btn-del-idioma" type="button" class="btn btn-primary" data-dismiss="modal">ACEPTAR</button>
+          <button id="btn-del-idioma" type="button" class="btn btn-danger" data-dismiss="modal">ACEPTAR</button>
         </div>
       </div>
     </div>
@@ -188,16 +186,20 @@ var table = $('#datatable').DataTable({
  <script src="{{asset('js/responsive.bootstrap.js')}}"></script>
  <script src="{{asset('js/dataTables.scroller.min.js')}}"></script>
  <script>
-     $(".btn-edit-idioma").click(function(){
-        $("#input-put-form").replaceWith("<input id='input-put-form' type='hidden' name='_method' value='PUT'>");
-        $("#formacion_id").val($(this).val());
-        $("#select-opt-idioma").val($(this).data("idioma"));
-        $("#select-opt-idioma").attr("disabled",true);
-        $("#select-lec").val($(this).data("lectura"));
-        $("#select-hab").val($(this).data("habla"));
-        $("#select-esc").val($(this).data("escritura"));
-        $("#select-escu").val($(this).data("escucha"));
-     });
+  $("#btn-cancel").click(function(){
+    $("#form-idioma").parsley().reset();
+  });
+
+  $(".btn-edit-idioma").click(function(){
+      $("#input-put-form").replaceWith("<input id='input-put-form' type='hidden' name='_method' value='PUT'>");
+      $("#formacion_id").val($(this).val());
+      $("#select-opt-idioma").val($(this).data("idioma"));
+      $("#select-opt-idioma").attr("disabled",true);
+      $("#select-lec").val($(this).data("lectura"));
+      $("#select-hab").val($(this).data("habla"));
+      $("#select-esc").val($(this).data("escritura"));
+      $("#select-escu").val($(this).data("escucha"));
+  });
      $("#btn-add-idioma").click(function(){
         $("#input-put-form").replaceWith("<input id='input-put-form' type='hidden'>");
         $("#select-opt-idioma").val("");
@@ -207,7 +209,6 @@ var table = $('#datatable').DataTable({
         $("#select-hab").val("");
         $("#select-esc").val("");
         $("#select-escu").val("");
-
      });
 
      var elementoSeleccionado;

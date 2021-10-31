@@ -33,21 +33,24 @@ class DatosPersonalesServicio implements IDatosPersonalesServicio{
 
 	public function editarInformacion(array $datos,int $id){
 		$usuario=new Usuario();
-		//$usuario->setNumero_documento(isset($datos['numero_documento']) ? $datos['numero_documento']:'');
 		$usuario->setId($id);
 		$usuario->setNombres(isset($datos['nombres']) ? $datos['nombres']:'');
 		$usuario->setApellidos(isset($datos['apellidos']) ? $datos['apellidos']:'');
 		$usuario->setCorreo_principal(isset($datos['correo_principal']) ? $datos['correo_principal']:'');
 		$usuario->setCorreo_secundario(isset($datos['correo_secundario']) ? $datos['correo_secundario']:'');
-		$usuario->setFoto(isset($datos['foto']) ? $datos['foto']:'');
+		$usuario->setFoto(isset($datos['foto']) ? $datos['foto']: (isset($datos['foto_null']) ? null:''));
 		$usuario->setTelefonos(isset($datos['telefonos']) ? $datos['telefonos']:'');
 		if(!($usuario->validez2()->fails()) && $usuario->validarTelefonos()){
 			$datos=$usuario->getArregloEditar();
 			$foto=$usuario->getFoto();
-			if($foto){
-				$ruta=$this->RepositorioUsuario->getFoto($id)[0]->foto;
-				Storage::disk('public')->delete($ruta);
-				$datos['foto']=Storage::disk('public')->put('usuario/avatar',$foto);	
+			$datos['foto']=$this->RepositorioUsuario->getFoto($id)[0]->foto;
+			if(is_null($foto)){
+				Storage::disk('public')->delete($datos['foto']);
+				$datos['foto']=null;	
+			}
+			else if(!empty($foto)){
+				Storage::disk('public')->delete($datos['foto']);
+				$datos['foto']=Storage::disk('public')->put('usuario/avatar',$foto);
 			}
 			$this->RepositorioUsuario->editar($datos);
 			$telefonos=$usuario->getTelefonos();

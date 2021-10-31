@@ -39,7 +39,7 @@ var table = $('#datatable').DataTable({
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Integrantes del grupo</h2>
+                <h2><i class="fa fa-users"></i> Integrantes del grupo</h2>
                 <div class="clearfix"></div>
             </div>
 <table id="datatable" class="table table-striped table-bordered">
