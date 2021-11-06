@@ -33,7 +33,7 @@ var table = $('#datatable').DataTable({
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Mis proyectos</h2>
+                <h2><i class="fa fa-folder"></i> Mis proyectos</h2>
                 <div class="clearfix"></div>
             </div>
 <table id="datatable" class="table table-striped table-bordered">
@@ -61,7 +61,10 @@ var table = $('#datatable').DataTable({
         <td>{{$proyecto->fecha_fin}}</td>
         <td>{{$proyecto->lider}}</td>
         <td>
-            <a href="/proyectos/proyecto/{{$proyecto->codigo}}" class="btn btn-primary btn-xs view-info-form"><i class="fa fa-eye"></i> Ir</a>
+            <a href="/proyectos/proyecto/{{$proyecto->codigo}}" class="btn btn-info btn-xs view-info-form"><i class="fa fa-eye"></i> Ir</a>
+            @if($privilegio=="admin" || $privilegio=="codirector")
+                <a href="/proyectos/proyecto/{{$proyecto->codigo}}/editar" class="btn btn-dark btn-xs view-info-form"><i class="fa fa-edit"></i> Editar</a>
+            @endif
         </td>
         </tr>
         @endforeach

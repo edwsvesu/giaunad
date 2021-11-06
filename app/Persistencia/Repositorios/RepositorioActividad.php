@@ -16,4 +16,15 @@ class RepositorioActividad implements IRepositorioActividad{
         $registros=DB::select("SELECT * FROM actividad WHERE semillero_id=:semillero_id",['semillero_id'=>$semillero_id]);
         return $registros;
     }
+
+    public function editar(array $datos)
+    {
+        $actualizado=DB::update('UPDATE actividad SET titulo=:titulo,fecha_entrega=:fecha_entrega,instrucciones=:instrucciones WHERE id=:id',$datos);
+        return $actualizado;
+    }
+
+    public function eliminar(int $id)
+    {
+        return DB::delete('DELETE FROM actividad WHERE id=:id', ['id'=>$id]);
+    }
 }

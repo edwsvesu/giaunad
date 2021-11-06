@@ -24,7 +24,7 @@ class InformeServicio implements IInformeServicio{
 	public function crear(array $datos,string $proyecto_cod,int $usuario_id,int $usuario_rol){
 		if($this->proyectoEstaRegistradoPorCodigo($proyecto_cod)){
 			$proyecto_id=$this->getIdProyecto($proyecto_cod);
-			if($this->usuarioEsLiderDeProyecto($proyecto_id,$usuario_id) || $usuario_rol==1){
+			if($this->usuarioEsLiderDeProyecto($proyecto_id,$usuario_id) || $usuario_rol==1 || $usuario_rol==2){
 				$informe=new Informe();
 				$informe->setTitulo(isset($datos['titulo']) ? $datos['titulo']: '');
 				$informe->setDescripcion(isset($datos['descripcion']) ? $datos['descripcion']: '');
@@ -82,7 +82,7 @@ class InformeServicio implements IInformeServicio{
 	public function realizarEntrega(array $datos,string $proyecto_cod,int $informe_id,int $usuario_id,int $usuario_rol){
 		$informeInfo=$this->getInforme($informe_id,$proyecto_cod);
 		if($informeInfo){
-			if($this->usuarioEsLiderDeProyecto($informeInfo[0]->proyecto_id,$usuario_id) || $usuario_rol==1){
+			if($this->usuarioEsLiderDeProyecto($informeInfo[0]->proyecto_id,$usuario_id) || $usuario_rol==1 || $usuario_rol==2){
 				$informe=new Informe();
 				$informe->setArchivos(isset($datos['archivos']) ? $datos['archivos']: '');
 				$informe_id=$informeInfo[0]->id;
@@ -168,6 +168,26 @@ class InformeServicio implements IInformeServicio{
 		}
 		else{
 			return false;
+		}
+	}
+
+	public function editar(array $datos,$id)
+	{
+		$entrada=array(
+			'titulo'=>$datos['titulo'],
+			'fecha_limite'=>$datos['fecha_limite'],
+			'descripcion'=>$datos['descripcion'],
+			'id'=>$id
+		);
+		return $this->RepositorioInforme->editar($entrada);
+	}
+
+	public function eliminarInforme(string $codigo_proyecto,int $id,int $usuario_rol,int $usuario_id)
+	{
+		if($infoInforme=$this->getInforme($id,$codigo_proyecto)){
+			if($usuario_rol==1 || $usuario_rol==2 || $this->usuarioEsLiderDeProyecto($infoInforme[0]->proyecto_id,$usuario_id)){
+				return $this->RepositorioInforme->eliminar($id);
+			}
 		}
 	}
 }

@@ -18,6 +18,12 @@ class RepositorioProyecto implements IRepositorioProyecto{
         });
     }
 
+    public function editar(array $datos)
+    {
+        $actualizado=DB::update('UPDATE proyecto SET codigo=:codigo,titulo=:titulo,fecha_inicio=:fecha_inicio,fecha_fin=:fecha_fin,tipo_proyecto_id=:tipo_proyecto_id WHERE id=:id',$datos);
+        return $actualizado;
+    }
+
     public function buscarPorCodigo(string $codigo){
         $registro=DB::select("SELECT * FROM proyecto WHERE codigo=:codigo",['codigo'=>$codigo]);
         return $registro;

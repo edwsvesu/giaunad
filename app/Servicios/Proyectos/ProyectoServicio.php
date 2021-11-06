@@ -16,17 +16,23 @@ class ProyectoServicio implements IProyectoServicio{
 	private IRepositorioDocumento $RepositorioDocumento;
 	private IRepositorioUsuario $RepositorioUsuario;
 	private IRepositorioUsuarioHasProyecto $RepositorioUsuarioHasProyecto;
+	private IReportes $Reportes;
 
-	public function __construct(IRepositorioTipoProyecto $RepositorioTipoProyecto,IRepositorioProyecto $RepositorioProyecto,IRepositorioDocumento $RepositorioDocumento,IRepositorioUsuario $RepositorioUsuario,IRepositorioUsuarioHasProyecto $RepositorioUsuarioHasProyecto){
+	public function __construct(IRepositorioTipoProyecto $RepositorioTipoProyecto,IRepositorioProyecto $RepositorioProyecto,IRepositorioDocumento $RepositorioDocumento,IRepositorioUsuario $RepositorioUsuario,IRepositorioUsuarioHasProyecto $RepositorioUsuarioHasProyecto,IReportes $Reportes){
 		$this->RepositorioTipoProyecto=$RepositorioTipoProyecto;
 		$this->RepositorioProyecto=$RepositorioProyecto;
 		$this->RepositorioDocumento=$RepositorioDocumento;
 		$this->RepositorioUsuario=$RepositorioUsuario;
 		$this->RepositorioUsuarioHasProyecto=$RepositorioUsuarioHasProyecto;
+		$this->Reportes=$Reportes;
 	}
 
 	public function getTodosTiposDeProyectos(){
 		return $this->RepositorioTipoProyecto->getTodos();
+	}
+
+	public function getInformacionGeneralProyecto(string $codigo){
+		return $this->Reportes->getInformacionGeneralProyecto($codigo);
 	}
 
 	public function registrarNuevoProyecto(array $datos,int $usuario_rol){
@@ -56,6 +62,26 @@ class ProyectoServicio implements IProyectoServicio{
     	}
 		return false;
 	}
+
+	public function editarProyecto(array $datos,string $codigo_proyecto,int $usuario_rol)
+	{
+		if($infoProyecto=$this->getInformacionGeneralProyecto($codigo_proyecto)){
+			if($usuario_rol==1 || $usuario_rol==2){
+				$proyecto=new Proyecto();
+				$proyecto->setId($infoProyecto[0]->id);
+				$proyecto->setCodigo(isset($datos['codigo']) ? $datos['codigo']:null);
+				$proyecto->setTitulo(isset($datos['titulo']) ? $datos['titulo']:null);
+				$proyecto->setFecha_inicio(isset($datos['fecha_inicio']) ? $datos['fecha_inicio']:null);
+				$proyecto->setFecha_fin(isset($datos['fecha_fin']) ? $datos['fecha_fin']:null);
+				$proyecto->setTipo_proyecto_id(isset($datos['tipo_proyecto_id']) ? $datos['tipo_proyecto_id']:null);
+				if(!$proyecto->validarEditar($this->getTodosTiposDeProyectos(),$codigo_proyecto,$this->proyectoEstaRegistrado($proyecto->getCodigo()))->fails()){
+					return $this->RepositorioProyecto->editar($proyecto->getArregloEditar()) ? $proyecto->getCodigo():false;
+				}
+			}
+		}
+		return false;
+	}
+
 
 	public function proyectoEstaRegistrado(string $codigo){
 		$registro=$this->RepositorioProyecto->buscarPorCodigo($codigo);
@@ -130,7 +156,7 @@ class ProyectoServicio implements IProyectoServicio{
 	public function subirDocumentos(array $datos,string $proyecto_cod,int $usuario_id,int $usuario_rol){
 		if($this->proyectoEstaRegistrado($proyecto_cod) && isset($datos['documentos'])){
 			$proyecto_id=$this->getIdProyecto($proyecto_cod);
-			if($this->usuarioEsLiderDeProyecto($proyecto_id,$usuario_id) || $usuario_rol==1){
+			if($this->usuarioEsLiderDeProyecto($proyecto_id,$usuario_id) || $usuario_rol==1 || $usuario_rol==2){
 				$proyecto=new Proyecto();
 				$proyecto->setDocumentos($datos['documentos']);
 				if($proyecto->validezArchivos()){
@@ -152,7 +178,7 @@ class ProyectoServicio implements IProyectoServicio{
 	public function borrarDocumento(array $datos,string $proyecto_cod,int $usuario_id,int $usuario_rol){
 		if(isset($datos['ruta']) && $this->proyectoEstaRegistrado($proyecto_cod)){
 			$proyecto_id=$this->getIdProyecto($proyecto_cod);
-			if($this->usuarioEsLiderDeProyecto($proyecto_id,$usuario_id) || $usuario_rol==1){
+			if($this->usuarioEsLiderDeProyecto($proyecto_id,$usuario_id) || $usuario_rol==1 || $usuario_rol=2){
 				if($this->RepositorioDocumento->eliminarDocumento($datos['ruta'],$proyecto_id)){
 					Storage::delete($datos['ruta']);
 					return true;
@@ -184,7 +210,7 @@ class ProyectoServicio implements IProyectoServicio{
 	public function setIntegranteProyecto(array $datos,string $proyecto_cod,int $usuario_id,int $usuario_rol){
 		if(isset($datos['usuario_id']) && $this->proyectoEstaRegistrado($proyecto_cod)){
 			$proyecto_id=$this->getIdProyecto($proyecto_cod);
-			if(ctype_digit($datos['usuario_id']) && ($this->usuarioEsLiderDeProyecto($proyecto_id,$usuario_id) || $usuario_rol==1)){
+			if(ctype_digit($datos['usuario_id']) && ($this->usuarioEsLiderDeProyecto($proyecto_id,$usuario_id) || $usuario_rol==1 || $usuario_rol==2)){
 				$this->RepositorioUsuarioHasProyecto->insertar(array(
 					'proyecto_id'=>$proyecto_id,
 					'usuario_id'=>$datos['usuario_id']

@@ -67,4 +67,17 @@ class informeController extends Controller
     public function borrarArchivo($proyecto_cod,$informe_id,Request $request){
         return $this->InformeServicio->borrarArchivo($request->all(),$proyecto_cod,$informe_id,$this->usuario_id,$this->usuario_rol);
     }
+
+    public function editar(Request $request,$codigo_proyecto,$codigo_informe)
+    {
+        $this->InformeServicio->editar($request->all(),$codigo_informe);
+        return back();
+    }
+
+    public function eliminarInforme($codigo_proyecto,$id)
+    {
+        if($this->InformeServicio->eliminarInforme($codigo_proyecto,$id,$this->usuario_rol,$this->usuario_id)){
+            return redirect("/proyectos/proyecto/$codigo_proyecto"); 
+        }
+    }
 }

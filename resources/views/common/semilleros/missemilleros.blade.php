@@ -48,7 +48,9 @@ var table = $('#datatable').DataTable({
         @foreach ($semilleros as $semillero)
             <tr>
                 <td>{{$semillero->nombre}}</td>
-                <td><a href="/semilleros/semillero/{{$semillero->codigo}}" class="btn btn-primary btn-xs view-info-form"><i class="fa fa-eye"></i> Ir</a></td>
+                <td>
+                    <a href="/semilleros/semillero/{{$semillero->codigo}}" class="btn btn-info btn-xs view-info-form"><i class="fa fa-eye"></i> Ir</a>
+                </td>
             </tr>
         @endforeach
     </tbody>

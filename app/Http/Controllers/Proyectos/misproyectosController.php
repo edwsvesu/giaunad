@@ -26,13 +26,16 @@ class misproyectosController extends Controller
         $proyectos=$this->ReporteServicio->getProyectosDeUsuario($this->usuario_id);
         switch ($this->usuario_rol){
             case 1:
-                return view('administrador.proyectos.misproyectos',compact('proyectos'));
+                $privilegio="admin";
+                return view('administrador.proyectos.misproyectos',compact('proyectos','privilegio'));
                 break;
             case 2:
-                return view('codirector.proyectos.misproyectos',compact('proyectos'));
+                $privilegio="codirector";
+                return view('codirector.proyectos.misproyectos',compact('proyectos','privilegio'));
                 break;
             case 3:
-                return view('investigador.proyectos.misproyectos',compact('proyectos'));
+                $privilegio="none";
+                return view('investigador.proyectos.misproyectos',compact('proyectos','privilegio'));
                 break;
             default:
                 abort(403);

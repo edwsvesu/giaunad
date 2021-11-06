@@ -35,6 +35,17 @@
         <div class="x_panel">
             <div class="x_title">
                 <h2><strong>Semillero:</strong> {{$infoGeneral[0]->nombre}}</h2>
+                @if($privilegio=="admin" || $privilegio=="codirector")
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li class="dropdown right">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                      <ul class="dropdown-menu" role="menu">
+                        <li><a href="{{Request::url()."/editar"}}">Editar</a>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                @endif
                 <div class="clearfix"></div>
             </div>
 
@@ -234,7 +245,7 @@
                               <label class="control-label col-md-2 col-sm-2 col-xs-12" for="first-name">Título <span class="required">*</span>
                           </label>
                           <div class="col-md-10 col-sm-10 col-xs-12">
-                            <input type="text" name="titulo" class="form-control col-md-7 col-xs-12">
+                            <input type="text" name="titulo" class="form-control col-md-7 col-xs-12" required="required">
                           </div>
                             </div>
 
@@ -251,15 +262,14 @@
                           </label>
                           <div class="col-md-10 col-sm-10 col-xs-12">
 
-                          <textarea class="form-control" name="instrucciones" data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-maxlength="100" data-parsley-minlength-message="Come on! You need to enter at least a 20 caracters long comment.."
-                            data-parsley-validation-threshold="10"></textarea>
+                          <textarea class="form-control" name="instrucciones"></textarea>
 
                           </div>
                             </div>
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                          <button type="submit" class="btn btn-success btn-lg">Guardar</button>
+                          <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
                         </div>
                       </div>
                           </form>
@@ -276,11 +286,11 @@
                         <i style="margin-right: 15px;" class="fa fa-book"></i>
                         {{$actividad->titulo}}
                       </a>
-                      <div role="presentation" class="dropdown">
+                      <!--<div role="presentation" class="dropdown">
                       <div class="activity-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
                                   <span class="fa fa-ellipsis-v"></span>
                               </div>
-                      <!--<ul class="dropdown-menu animated fadeInDown" role="menu">
+                      <ul class="dropdown-menu animated fadeInDown" role="menu">
                         <li role="presentation"><a role="menuitem" tabindex="-1" href="https://twitter.com/fat">Action</a>
                         </li>
                         <li role="presentation"><a role="menuitem" tabindex="-1" href="https://twitter.com/fat">Another action</a>
@@ -290,8 +300,8 @@
                         <li role="presentation" class="divider"></li>
                         <li role="presentation"><a role="menuitem" tabindex="-1" href="https://twitter.com/fat">Separated link</a>
                         </li>
-                      </ul>-->
-                      </div>
+                      </ul>
+                      </div>-->
                     </div>
                     @endforeach
                   </div>

@@ -25,7 +25,7 @@ class Reportes implements IReportes{
 	}
 
 	public function getInformacionGeneralProyecto(string $codigo){
-		$registro=DB::select("SELECT p.id,p.codigo,titulo,fecha_inicio,fecha_fin,t.nombre as tipo FROM proyecto p JOIN tipo_proyecto t on p.tipo_proyecto_id=t.id WHERE codigo=:codigo",['codigo'=>$codigo]);
+		$registro=DB::select("SELECT p.id,p.codigo,titulo,fecha_inicio,fecha_fin,t.nombre as tipo,t.id as tipo_id FROM proyecto p JOIN tipo_proyecto t on p.tipo_proyecto_id=t.id WHERE codigo=:codigo",['codigo'=>$codigo]);
 		return $registro;
 	}
 
@@ -81,12 +81,12 @@ class Reportes implements IReportes{
 
 	public function getInformacionEncargadosDeSemillero(int $id)
 	{
-		$consulta=DB::select("SELECT u.foto,u.nombres,u.apellidos,'Coordinador' as funcion
+		$consulta=DB::select("SELECT u.foto,u.id,u.numero_documento,u.nombres,u.apellidos,'Coordinador' as funcion
 		FROM usuario u
 		JOIN semillero s ON u.id=s.coordinador_id
 		WHERE s.id=:id
 		UNION
-		SELECT u.foto,u.nombres,u.apellidos,'Lider'
+		SELECT u.foto,u.id,u.numero_documento,u.nombres,u.apellidos,'Lider'
 		FROM usuario u
 		JOIN semillero s ON u.id=s.lider_id
 		WHERE s.id=:id2",['id'=>$id,'id2'=>$id]);

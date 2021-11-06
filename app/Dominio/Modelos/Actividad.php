@@ -93,6 +93,15 @@ class Actividad{
         return $validacion;
     }
 
+    public function validarEditar()
+    {
+        $datos=$this->getArregloEditar();
+        $validacion=Validator::make($datos,[
+            'titulo'=>'required'
+        ]);
+        return $validacion;
+    }
+
     public function getArregloRegistro()
     {
         return array(
@@ -101,6 +110,16 @@ class Actividad{
             'fecha_entrega'=>$this->fecha_entrega,
             'instrucciones'=>$this->instrucciones,
             'semillero_id'=>$this->semillero_id
+        );
+    }
+
+    public function getArregloEditar()
+    {
+        return array(
+            'titulo'=>$this->titulo,
+            'fecha_entrega'=>$this->fecha_entrega,
+            'instrucciones'=>$this->instrucciones,
+            'id'=>$this->id
         );
     }
 

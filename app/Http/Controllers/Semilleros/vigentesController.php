@@ -26,11 +26,13 @@ class vigentesController extends Controller
         switch ($this->usuario_rol) {
             case 1:
                 $semilleros=$this->SemilleroServicio->getSemillerosVigentes();
-                return view('administrador.semilleros.vigentes',compact('semilleros'));
+                $privilegio="admin";
+                return view('administrador.semilleros.vigentes',compact('semilleros','privilegio'));
                 break;
             case 2:
                 $semilleros=$this->SemilleroServicio->getSemillerosVigentes();
-                return view('codirector.semilleros.vigentes',compact('semilleros'));
+                $privilegio="codirector";
+                return view('codirector.semilleros.vigentes',compact('semilleros','privilegio'));
                 break;
             default:
                 abort(403);

@@ -71,6 +71,19 @@
         <div class="x_panel">
             <div class="x_title">
                 <h2><i class="fa fa-book"></i> {{$infoActividad[0]->titulo}}</h2>
+               
+                <ul class="nav navbar-right panel_toolbox">
+                  <li class="dropdown right">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                    <ul class="dropdown-menu" role="menu">
+                      <li><a href="{{Request::url()."/editar"}}" data-toggle="modal" data-target="#modal-editar-actividad">Editar</a>
+                      </li>
+                      <li><a href="#" data-toggle="modal" data-target="#modal-del-actividad">Eliminar</a>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+     
                 <div class="clearfix"></div>
             </div>
             <div class="section-activity-deliveries">
@@ -84,7 +97,7 @@
                             <p>{{$infoActividad[0]->instrucciones}}</p>
                         </div>
                     @endif
-                    <!-- aun no se ha implementado -->
+                    <!-- ........ -->
                     <!--<div class="support-files">
                         <h3 class="sub-two">Archivos adjuntos</h3>
                         <div class="file">
@@ -134,6 +147,80 @@
             </div>
 		</div>
 	</div>
+</div>
+
+<div id="modal-editar-actividad" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="myModalLabel">Editar actividad</h4>
+        </div>
+        <div class="modal-body">
+          <form method="post" action="" data-parsley-validate class="form-horizontal form-label-left">
+            @csrf
+            <input type="hidden" name="_method" value="PUT">
+            <div class="form-group">
+              <label class="control-label col-md-2 col-sm-2 col-xs-12" for="first-name">Título <span class="required">*</span>
+          </label>
+          <div class="col-md-10 col-sm-10 col-xs-12">
+            <input type="text" name="titulo" value="{{$infoActividad[0]->titulo}}" class="form-control col-md-7 col-xs-12" required="required" maxlength="200">
+          </div>
+            </div>
+
+          <div class="form-group">
+        <label for="fecha_entrega" class="control-label col-md-2 col-sm-2 col-xs-12">Fecha de entrega</label>
+        <div class="col-md-3 col-sm-3 col-xs-12">      
+          <input name="fecha_entrega" value="{{$infoActividad[0]->fecha_entrega}}" type="date" class="form-control has-feedback-left col-md-7 col-xs-12" placeholder="fecha_limite">
+          <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+        </div>
+      </div>
+
+            <div class="form-group">
+              <label class="control-label col-md-2 col-sm-2 col-xs-12" for="first-name">Instrucciones
+          </label>
+          <div class="col-md-10 col-sm-10 col-xs-12">
+
+          <textarea class="form-control" name="instrucciones">{{$infoActividad[0]->instrucciones}}</textarea>
+
+          </div>
+            </div>
+      <div class="ln_solid"></div>
+      <div class="form-group">
+        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+          <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
+        </div>
+      </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-del-actividad" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+          </button>
+          <h4 class="modal-title" id="myModalLabel">Eliminar actividad</h4>
+        </div>
+        <div class="modal-body">
+          <h4>¿Está seguro que desea eliminar la actividad?</h4>
+          <p>Si continua con esta acción se eliminará permanentemente, pulse <strong>ACEPTAR</strong> para continuar.</p>
+        </div>
+        <div class="modal-footer">
+          <form action="" method="post">
+            @csrf
+            <input type="hidden" name="_method" value="DELETE">
+            <button type="button" class="btn btn-default" data-dismiss="modal">CANCELAR</button>
+            <button id="btn-elim-form" type="submit" class="btn btn-danger">ACEPTAR</button>
+          </form>
+        </div>
+      </div>
+    </div>
 </div>
 @endsection
 @section('javascript')

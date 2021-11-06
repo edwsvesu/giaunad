@@ -23,7 +23,7 @@
     font-size: 1.1em;
   }
 
-  .btn-agregar{
+  .btn-agregar,.btn-editar{
     margin-top: 10px;
     margin-left: 25px;
   }
@@ -35,7 +35,7 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Titulo del proyecto</h2>
+                <h2><i class="fa fa-folder"></i> {{$infoGeneral[0]->titulo}}</h2>
                 <div class="clearfix"></div>
             </div>
 
@@ -58,8 +58,15 @@
                           <h4 class="panel-title">Datos generales</h4>
                         </a>
                         <div id="collapseOne1" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                          @if($privilegio=="admin" || $privilegio=="codirector")
+                                 <a href="{{Request::url()."/editar"}}" class="btn-editar btn btn-primary">Editar</a>
+                          @endif
                           <div class="panel-body">
                             <div class="form-horizontal form-label-left">
+                                    <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+                                      <label class="control-label col-md-3">Código:</label>
+                                      <p style="margin-top:7px" class="col-md-9">{{$infoGeneral[0]->codigo}}</p>
+                                    </div>
 
                                     <div class="col-md-12 col-sm-12 col-xs-12 form-group">
                                         <label class="control-label col-md-3">Titulo:</label>
@@ -94,7 +101,7 @@
                             <p><strong>Documentos cargados</strong></p>
                             <div>
                               <ul class="list-group">
-                                @if($privilegio=="lider" || $privilegio=="admin")
+                                @if($privilegio=="lider" || $privilegio=="admin" || $privilegio=="codirector")
                                 <li class="list-group-item control-upload">
                                   <form id="form-upload">
                               <input id="input-upload" type="file" name="documentos[]" multiple>
@@ -107,7 +114,7 @@
                               @if($documentos)
                                   @foreach($documentos as $documento)
                                     <li class="list-group-item"><div><a href="/descargar/documento-proyecto/{{$documento->ruta}}/{{$documento->nombre}}" target="_blank"><span class="fa fa-download"></span>{{$documento->nombre}}</a></div> 
-                                      @if($privilegio=="lider" || $privilegio=="admin")
+                                      @if($privilegio=="lider" || $privilegio=="admin" || $privilegio=="codirector")
                                       <button value="{{$documento->ruta}}" class="delete-file-doc" data-value="{{$infoGeneral[0]->codigo}}" data-toggle="modal" data-target="#modal-borrar-documento"><span class="fa fa-trash"></span></button>
                                       @endif
 
@@ -121,7 +128,8 @@
                           </div>
                         </div>
                       </div>
-                      <div class="panel">
+
+                      <!--<div class="panel">
                         <a class="panel-heading collapsed" role="tab" id="headingThree1" data-toggle="collapse" data-parent="#accordion1" href="#collapseThree1" aria-expanded="false" aria-controls="collapseThree">
                           <h4 class="panel-title">Mas informacion</h4>
                         </a>
@@ -132,7 +140,8 @@
                             Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor
                           </div>
                         </div>
-                      </div>
+                      </div>-->
+
                     </div>
                     <!-- end of accordion -->
                 </div>
@@ -145,7 +154,7 @@
                           <h4 class="panel-title">Equipo de investigación</h4>
                         </a>
                         <div id="collapseOne2" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                                @if($privilegio=="lider" || $privilegio=="admin")
+                                @if($privilegio=="lider" || $privilegio=="admin" || $privilegio=="codirector")
                                  <button type="button" class="btn-agregar btn btn-primary" data-toggle="modal" data-target="#modal-agregar-integrante">+ Agregar</button>
                                 @endif
                           <div class="panel-body">
@@ -172,9 +181,9 @@
                                 <!-- otro boton por aca-->
                             </div>
                             <div class="col-xs-12 col-sm-6 emphasis">
-                              <button type="button" class="btn btn-primary btn-xs">
+                              <!--<button type="button" class="btn btn-primary btn-xs">
                                 <i class="fa fa-user"> </i> Ver Perfil
-                              </button>
+                              </button>-->
                             </div>
                           </div>
                         </div>
@@ -183,7 +192,8 @@
                           </div>
                         </div>
                       </div>
-                      <div class="panel">
+
+                      <!--<div class="panel">
                         <a class="panel-heading collapsed" role="tab" id="headingTwo2" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo2" aria-expanded="false" aria-controls="collapseTwo">
                           <h4 class="panel-title">Mas informacion</h4>
                         </a>
@@ -194,8 +204,9 @@
                             Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
                           </div>
                         </div>
-                      </div>
-                      <div class="panel">
+                      </div>-->
+
+                      <!--<div class="panel">
                         <a class="panel-heading collapsed" role="tab" id="headingThree2" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree2" aria-expanded="false" aria-controls="collapseThree">
                           <h4 class="panel-title">Mas informacion</h4>
                         </a>
@@ -206,7 +217,7 @@
                             Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor
                           </div>
                         </div>
-                      </div>
+                      </div>-->
                     </div>
                     <!-- end of accordion -->
 
@@ -216,7 +227,7 @@
                   <!--modal-->
 
 
-                @if($privilegio=="lider" || $privilegio=="admin")
+                @if($privilegio=="lider" || $privilegio=="admin" || $privilegio=="codirector")
                   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-agregar-tarea">+ Crear</button>
                 @endif
 
@@ -227,7 +238,7 @@
                         <div class="modal-header">
                           <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
                           </button>
-                          <h4 class="modal-title" id="myModalLabel">Nuevo Informe</h4>
+                          <h4 class="modal-title" id="myModalLabel">Informe</h4>
                         </div>
                         <div class="modal-body">
 
@@ -243,12 +254,12 @@
                               <label class="control-label col-md-2 col-sm-2 col-xs-12" for="first-name">Título <span class="required">*</span>
                           </label>
                           <div class="col-md-10 col-sm-10 col-xs-12">
-                            <input type="text" name="titulo" class="form-control col-md-7 col-xs-12">
+                            <input type="text" name="titulo" class="form-control col-md-7 col-xs-12" required="required" maxlength="90">
                           </div>
                             </div>
 
                           <div class="form-group">
-                        <label for="fecha_inicio" class="control-label col-md-2 col-sm-2 col-xs-12">Fecha limite de entrega</label>
+                        <label for="fecha_inicio" class="control-label col-md-2 col-sm-2 col-xs-12">Fecha de entrega</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">      
                           <input name="fecha_limite" type="date" class="form-control has-feedback-left col-md-7 col-xs-12" placeholder="fecha_limite">
                           <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
@@ -256,19 +267,18 @@
                       </div>
 
                             <div class="form-group">
-                              <label class="control-label col-md-2 col-sm-2 col-xs-12" for="first-name">Descripcion
+                              <label class="control-label col-md-2 col-sm-2 col-xs-12" for="first-name">Descripción
                           </label>
                           <div class="col-md-10 col-sm-10 col-xs-12">
 
-                          <textarea id="instrucciones" class="form-control" name="descripcion" data-parsley-trigger="keyup" data-parsley-minlength="20" data-parsley-maxlength="100" data-parsley-minlength-message="Come on! You need to enter at least a 20 caracters long comment.."
-                            data-parsley-validation-threshold="10"></textarea>
+                          <textarea id="instrucciones" class="form-control" name="descripcion" maxlength="1000"></textarea>
 
                           </div>
                             </div>
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                          <button type="submit" class="btn btn-success btn-lg">Guardar</button>
+                          <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
                         </div>
                       </div>
 
@@ -288,22 +298,16 @@
                         <i style="margin-right: 15px;" class="fa fa-book"></i>
                         {{$informe->titulo}}
                       </a>
-                      <div role="presentation" class="dropdown">
+                      <!--<div role="presentation" class="dropdown">
                       <div class="activity-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
                                   <span class="fa fa-ellipsis-v"></span>
                               </div>
                       <ul class="dropdown-menu animated fadeInDown" role="menu">
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="https://twitter.com/fat">Action</a>
-                        </li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="https://twitter.com/fat">Another action</a>
-                        </li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="https://twitter.com/fat">Something else here</a>
-                        </li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="javascript:;">opcion</a></li>
                         <li role="presentation" class="divider"></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="https://twitter.com/fat">Separated link</a>
                         </li>
                       </ul>
-                      </div>
+                      </div>-->
                     </div>
                     @endforeach
                   </div>
@@ -369,8 +373,8 @@
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                          <button data-dismiss="modal" type="button" class="btn btn-danger btn-lg">Cancelar</button>
-                          <button data-dismiss="modal" id="btn-agregar-integrante" type="submit" class="btn btn-success btn-lg">Agregar integrante</button>
+                          <button data-dismiss="modal" type="button" class="btn btn-default btn-lg">Cancelar</button>
+                          <button data-dismiss="modal" id="btn-agregar-integrante" type="submit" class="btn btn-primary btn-lg">Agregar integrante</button>
                         </div>
                       </div>
                           </form>
@@ -428,7 +432,7 @@
                   else{
                     foto="/storage/"+data[0].foto;
                   }
-                  $("#collapseOne2 .panel-body").append("<div class='col-md-5 col-sm-5 col-xs-12 profile_details'><div class='well profile_view'><div class='col-sm-12'><h4 class='brief'><i>"+data[0].funcion+"</i></h4><div class='left col-xs-7'><h2>"+data[0].nombre+"</h2><p><strong>perfil: </strong>"+data[0].perfil+"</p></div><div class='right col-xs-5 text-center'><img src='"+foto+"' alt='' class='img-circle img-responsive'></div></div><div class='col-xs-12 bottom text-center'><div class='col-xs-12 col-sm-6 emphasis'></div><div class='col-xs-12 col-sm-6 emphasis'><button type='button' class='btn btn-primary btn-xs'><i class='fa fa-user'> </i> Ver Perfil</button></div></div></div></div>");
+                  $("#collapseOne2 .panel-body").append("<div class='col-md-5 col-sm-5 col-xs-12 profile_details'><div class='well profile_view'><div class='col-sm-12'><h4 class='brief'><i>"+data[0].funcion+"</i></h4><div class='left col-xs-7'><h2>"+data[0].nombre+"</h2><p><strong>perfil: </strong>"+data[0].perfil+"</p></div><div class='right col-xs-5 text-center'><img src='"+foto+"' alt='' class='img-circle img-responsive'></div></div><div class='col-xs-12 bottom text-center'><div class='col-xs-12 col-sm-6 emphasis'></div><div class='col-xs-12 col-sm-6 emphasis'></div></div></div></div>");
                 }
                 else{
                     mensajeError("No se pudo agregar el nuevo integrante");

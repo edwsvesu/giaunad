@@ -52,6 +52,44 @@ class SemilleroServicio implements ISemilleroServicio{
         return false;
     }
 
+    public function editarSemillero(array $datos,string $codigo_semillero,int $usuario_rol)
+    {
+        if($infoSemillero=$this->getInformacionSemillero($codigo_semillero)){
+            if($usuario_rol==1 || $usuario_rol==2){
+                $semillero=new Semillero();
+                $semillero->setNombre(isset($datos['nombre']) ? $datos['nombre']:null);
+                $semillero->setFecha_inicio(isset($datos['fecha_inicio']) ? $datos['fecha_inicio']:null);
+                $semillero->setId($infoSemillero[0]->id);
+                $semillero->setCoordinador_id(isset($datos['coordinador_id']) ? $datos['coordinador_id']:null);
+                $semillero->setLider_id(isset($datos['lider_id']) ? $datos['lider_id']:null);
+                if(!$semillero->validarEditar()->fails()){
+                    return $this->RepositorioSemillero->editar($semillero->getArregloEditar());
+                }
+            }
+        }
+        return false;
+    }
+
+   /* public function editarProyecto(array $datos,string $codigo_proyecto,int $usuario_rol)
+	{
+		if($infoProyecto=$this->getInformacionGeneralProyecto($codigo_proyecto)){
+			if($usuario_rol==1){
+				$proyecto=new Proyecto();
+				$proyecto->setId($infoProyecto[0]->id);
+				$proyecto->setCodigo(isset($datos['codigo']) ? $datos['codigo']:null);
+				$proyecto->setTitulo(isset($datos['titulo']) ? $datos['titulo']:null);
+				$proyecto->setFecha_inicio(isset($datos['fecha_inicio']) ? $datos['fecha_inicio']:null);
+				$proyecto->setFecha_fin(isset($datos['fecha_fin']) ? $datos['fecha_fin']:null);
+				$proyecto->setTipo_proyecto_id(isset($datos['tipo_proyecto_id']) ? $datos['tipo_proyecto_id']:null);
+				if(!$proyecto->validarEditar($this->getTodosTiposDeProyectos(),$codigo_proyecto,$this->proyectoEstaRegistrado($proyecto->getCodigo()))->fails()){
+					return $this->RepositorioProyecto->editar($proyecto->getArregloEditar()) ? $proyecto->getCodigo():false;
+				}
+			}
+		}
+		return false;
+	}*/
+
+
     public function getUsuariosAptosComoLideresSemillero(){
         return $this->Reportes->getUsuariosAptosComoLideresSemillero();
     }
@@ -145,6 +183,25 @@ class SemilleroServicio implements ISemilleroServicio{
                             'codigo_actividad'=>$actividad->getCodigo()
                         );
                         return $salida;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public function editarActividad(array $datos,string $codigo_semillero,string $codigo_actividad,int $usuario_rol,int $usuario_id)
+    {
+        if($infoSemillero=$this->getInformacionSemillero($codigo_semillero)){
+            if($infoActividad=$this->getInformacionActividad($infoSemillero[0]->id,$codigo_actividad)){
+                if($usuario_rol==1 || $usuario_rol==2 || $this->usuarioEsCoordinadorDeSemillero($infoSemillero[0]->id,$usuario_id) || $this->usuarioEsLiderDeSemillero($infoSemillero[0]->id,$usuario_id)){
+                    $actividad=new Actividad();
+                    $actividad->setTitulo(isset($datos['titulo']) ? $datos['titulo']:null);
+                    $actividad->setFecha_entrega(isset($datos['fecha_entrega']) ? $datos['fecha_entrega']:null);
+                    $actividad->setInstrucciones(isset($datos['instrucciones']) ? $datos['instrucciones']:null);
+                    $actividad->setId($infoActividad[0]->id);
+                    if(!$actividad->validarEditar()->fails()){
+                        return $this->RepositorioActividad->editar($actividad->getArregloEditar());
                     }
                 }
             }

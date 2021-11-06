@@ -37,25 +37,25 @@ var table = $('#datatable').DataTable({
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2><i class="fa fa-folder"></i> Crear nuevo proyecto</h2>
+                    <h2><i class="fa fa-folder"></i> Modificar: {{$infoProyecto[0]->titulo}}</h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <br />
-                    <form id="form-proyecto" action="/proyectos/nuevo" enctype="multipart/form-data" method="post" data-parsley-validate class="form-horizontal form-label-left">
+                    <br/>
+                    <form id="form-proyecto" action="" method="post" data-parsley-validate class="form-horizontal form-label-left">
                       @csrf
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Código <span class="required">*</span>
                         </label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
-                          <input name="codigo" type="text" class="form-control col-md-7 col-xs-12" required="required" maxlength="50">
+                          <input name="codigo" type="text" value="{{$infoProyecto[0]->codigo}}" class="form-control col-md-7 col-xs-12" required="required" maxlength="50">
                         </div>
                       </div>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Título <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" name="titulo" class="form-control col-md-7 col-xs-12" required="required" maxlength="330">
+                          <input type="text" name="titulo" value="{{$infoProyecto[0]->titulo}}" class="form-control col-md-7 col-xs-12" required="required" maxlength="330">
                         </div>
                       </div>
 
@@ -64,33 +64,33 @@ var table = $('#datatable').DataTable({
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Tipo de proyecto <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <select id="tipo_proyecto_id" name="tipo_proyecto_id" class="form-control" required="required">
-                              <option selected value="">Seleccione un tipo</option>
+                              <option value="">Seleccione un tipo</option>
                             @foreach($tipos_proyectos as $tipo)
-                              <option value="{{$tipo->id}}">{{$tipo->nombre}}</option>
+                              <option value="{{$tipo->id}}" {{$tipo->id==$infoProyecto[0]->tipo_id ? 'selected':''}}>{{$tipo->nombre}}</option>
                             @endforeach
                           </select>
                         </div>
                         <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#modal-crud-tipo"><i class="fa fa-edit"></i></button>
                       </div>
 
-                      <div class="form-group">
+                      <!--<div class="form-group">
                         <label for="lider" class="control-label col-md-3 col-sm-3 col-xs-12">Lider <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input id="lidera" class="form-control col-md-7 col-xs-12" list="datalistOptions" type="text" autocomplete="off" required="required">
                           <input id="lidera_id" type="hidden" name="lidera">
                           <datalist id="datalistOptions">
-                            @foreach($usuarioslideres as $usuariolider)
+                            @foreach($usuarioslideres=[] as $usuariolider)
                               <option data-value="{{$usuariolider->id}}" value="{{$usuariolider->usuario}}"></option>
                             @endforeach
                           </datalist>
                         </div>
-                      </div>
+                      </div>-->
 
 
                       <div class="form-group">
                         <label for="fecha_inicio" class="control-label col-md-3 col-sm-3 col-xs-12">Fecha inicio <span class="required">*</span></label>
                         <div class="col-md-3 col-sm-3 col-xs-12">      
-                          <input name="fecha_inicio" type="date" class="form-control col-md-7 col-xs-12" placeholder="fecha de inicio" required="required">
+                          <input name="fecha_inicio" type="date" value="{{$infoProyecto[0]->fecha_inicio}}" class="form-control col-md-7 col-xs-12" placeholder="fecha de inicio" required="required">
                         </div>
                       </div>
 
@@ -98,23 +98,14 @@ var table = $('#datatable').DataTable({
                       <div class="form-group">
                         <label for="fecha_fin" class="control-label col-md-3 col-sm-3 col-xs-12">Fecha fin</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">      
-                          <input name="fecha_fin" type="date" class="form-control col-md-7 col-xs-12" placeholder="Fecha fin">
+                          <input name="fecha_fin" type="date" value="{{$infoProyecto[0]->fecha_fin}}" class="form-control col-md-7 col-xs-12" placeholder="Fecha fin">
                         </div>
                       </div>                      
 
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Documentacion
-                        </label>
-                        <div class="col-md-3 col-sm-3 col-xs-12">
-                          <input name="documento[]" type="file" multiple>
-                        </div>
-                      </div>
-
                       <div class="ln_solid"></div>
-                      <div class="form-group">
+                      <div class="form-group"> 
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                          <button id="btn-cancel" type="reset" class="btn btn-default">Cancelar</button>
-                          <button type="submit" class="btn btn-primary">Crear</button>
+                          <button type="submit" class="btn btn-primary">Guardar</button>
                         </div>
                       </div>
 

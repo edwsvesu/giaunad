@@ -6,6 +6,7 @@ use App\Dominio\Servicios\Semilleros\ISemilleroServicio;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use phpDocumentor\Reflection\Types\This;
 
 class actividadController extends Controller
 {
@@ -80,5 +81,11 @@ class actividadController extends Controller
     public function eliminarArchivoEntrega($codigo_semillero,$codigo_actividad,$ruta)
     {
         return $this->SemilleroServicio->eliminarArchivoEntrega($codigo_semillero,$codigo_actividad,$this->usuario_id,$ruta);
+    }
+
+    public function editarActividad(Request $request,$codigo_semillero,$codigo_actividad)
+    {
+        $this->SemilleroServicio->editarActividad($request->all(),$codigo_semillero,$codigo_actividad,$this->usuario_rol,$this->usuario_id);
+        return back();
     }
 }

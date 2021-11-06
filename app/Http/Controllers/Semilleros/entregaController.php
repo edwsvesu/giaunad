@@ -31,20 +31,20 @@ class entregaController extends Controller
                     $archivosEntrega=isset($infoEntrega[0]->id) ? $this->SemilleroServicio->getArchivosDeEntrega($infoEntrega[0]->id):[];
                     switch ($this->usuario_rol){
                         case 1:
-                            return view('administrador.semilleros.entrega',compact('autor','archivosEntrega'));
+                            return view('administrador.semilleros.entrega',compact('autor','archivosEntrega','infoActividad'));
                             break;
                         case 2:
-                            return view('codirector.semilleros.entrega',compact('autor','archivosEntrega'));
+                            return view('codirector.semilleros.entrega',compact('autor','archivosEntrega','infoActividad'));
                             break;
                         case 3:
                             if($this->SemilleroServicio->usuarioEsCoordinadorDeSemillero($infoSemillero[0]->id,$this->usuario_id)){
-                                return view('investigador.semilleros.entrega',compact('autor','archivosEntrega'));
+                                return view('investigador.semilleros.entrega',compact('autor','archivosEntrega','infoActividad'));
                             }
                             abort(403);
                             break;
                         case 4:
                             if($this->SemilleroServicio->usuarioEsLiderDeSemillero($infoSemillero[0]->id,$this->usuario_id)){
-                                return view('estudiante.semilleros.entrega',compact('autor','archivosEntrega'));
+                                return view('estudiante.semilleros.entrega',compact('autor','archivosEntrega','infoActividad'));
                             }
                             abort(403);
                             break;

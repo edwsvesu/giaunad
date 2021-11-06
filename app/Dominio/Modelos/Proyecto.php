@@ -3,6 +3,7 @@ namespace App\Dominio\Modelos;
 use Illuminate\Support\Facades\Validator;
 
 class Proyecto{
+    private $id;
     private $titulo;
     private $fecha_inicio;
     private $fecha_fin;
@@ -11,6 +12,11 @@ class Proyecto{
     private $tipo_proyecto;
     private $tipo_proyecto_id;
     private $lider_id;
+
+    public function setId($id)
+    {
+        $this->id=$id;
+    }
 
     public function setTipo_proyecto($tipo_proyecto){
         $this->tipo_proyecto=$tipo_proyecto;
@@ -48,6 +54,11 @@ class Proyecto{
 
     public function setCodigo($codigo){
         $this->codigo=$codigo;
+    }
+
+    public function getCodigo()
+    {
+        return $this->codigo;
     }
 
     public function setTipo_proyecto_id($tipo_proyecto_id){
@@ -122,5 +133,43 @@ class Proyecto{
             'tipo_proyecto'=>'required'
         ]);
         return $validacion;
+    }
+
+    public function getArregloEditar()
+    {
+        return array(
+            'codigo'=>$this->codigo,
+            'titulo'=>$this->titulo,
+            'fecha_inicio'=>$this->fecha_inicio,
+            'fecha_fin'=>$this->fecha_fin,
+            'tipo_proyecto_id'=>$this->tipo_proyecto_id,
+            'id'=>$this->id
+        );
+    }
+
+    public function validarEditar($listaTipoProyectos,$codigo_proyecto,$codigo_registrado)
+    {
+        if(!$this->tipoDeProyectoEsValido($listaTipoProyectos)){
+            $this->tipo_proyecto_id=null;
+        }
+        if($codigo_proyecto!=$this->codigo && $codigo_registrado){
+            $this->codigo=null;
+        }
+        $atributos=$this->getArregloEditar();
+        $validacion=Validator::make($atributos,[
+            'codigo'=>'required',
+            'tipo_proyecto_id'=>'required'
+        ]);
+        return $validacion;
+    }
+
+    public function tipoDeProyectoEsValido($listaTipoProyectos)
+    {
+        foreach ($listaTipoProyectos as $tipo) {
+            if($tipo->id==$this->tipo_proyecto_id){
+                return true;
+            }
+        }
+        return false;
     }
 }

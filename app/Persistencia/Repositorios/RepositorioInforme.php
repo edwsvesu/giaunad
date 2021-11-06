@@ -22,4 +22,15 @@ class RepositorioInforme implements IRepositorioInforme{
 		$registro=DB::select("SELECT * FROM informe WHERE id=:informe_id",['informe_id'=>$informe_id]);
 		return $registro;
 	}
+
+	public function editar(array $datos)
+	{
+		$actualizado=DB::update('UPDATE informe SET titulo=:titulo,fecha_limite=:fecha_limite,descripcion=:descripcion WHERE id=:id',$datos);
+		return $actualizado;
+	}
+
+	public function eliminar(int $id)
+	{
+		return DB::delete('DELETE FROM informe WHERE id=:id',['id'=>$id]);
+	}
 }

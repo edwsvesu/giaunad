@@ -158,4 +158,39 @@ class Semillero{
         }
         return $arreglo;
     }
+
+    public function getArregloEditar()
+    {
+        return array(
+            'nombre'=>$this->nombre,
+            'fecha_inicio'=>$this->fecha_inicio,
+            'coordinador_id'=>$this->coordinador_id,
+            'lider_id'=>$this->lider_id,
+            'id'=>$this->id
+        );
+    }
+
+    public function validarEditar()
+    {
+        $atributos=$this->getArregloEditar();
+        $validacion=Validator::make($atributos,[
+            'nombre'=>'required',
+            'coordinador_id'=>'required',
+            'lider_id'=>'required'
+        ]);
+        return $validacion;
+        /*
+                if(!$this->tipoDeProyectoEsValido($listaTipoProyectos)){
+            $this->tipo_proyecto_id=null;
+        }
+        if($codigo_proyecto!=$this->codigo && $codigo_registrado){
+            $this->codigo=null;
+        }
+        $atributos=$this->getArregloEditar();
+        $validacion=Validator::make($atributos,[
+            'codigo'=>'required',
+            'tipo_proyecto_id'=>'required'
+        ]);
+        return $validacion;*/
+    }
 }
