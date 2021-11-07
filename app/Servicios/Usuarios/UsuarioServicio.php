@@ -1,5 +1,7 @@
 <?php
 namespace App\Servicios\Usuarios;
+
+use App\Dominio\Modelos\Usuario;
 use App\Dominio\Servicios\Usuarios\IUsuarioServicio;
 use App\Dominio\Persistencia\Repositorios\IRepositorioUsuario;
 use App\Dominio\Persistencia\Repositorios\IRepositorioRol;
@@ -52,6 +54,31 @@ class UsuarioServicio implements IUsuarioServicio{
 
 	public function getUsuariosAptosComoLideres(){
 		return $this->RepositorioUsuario->getUsuariosAptosComoLideres();
+	}
+
+	public function eliminarUsuario(array $datos,int $usuario_rol)
+	{
+		if($usuario_rol==1){
+			return $this->RepositorioUsuario->eliminar(isset($datos['numero_documento']) ? $datos['numero_documento']:'');
+		}
+		return false;
+	}
+
+	public function cambiarContra(array $datos,$hash,$usuario_id)
+	{
+		$usuario=new Usuario();
+		$usuario->setPasswordHash($hash);
+		if($usuario->ClaveCorrecta(isset($datos['anterior']) ? $datos['anterior']:'')){
+			$usuario->setClave($datos['nueva']);
+			return $this->RepositorioUsuario->editarPassword($usuario->getClaveEncriptada(),$usuario_id);
+		}
+	}
+
+	public function cambiarContraTodos(array $datos,int $usuario_id)
+	{
+		$usuario=new Usuario();
+		$usuario->setClave($datos['nueva']);
+		return $this->RepositorioUsuario->editarPassword($usuario->getClaveEncriptada(),$usuario_id);
 	}
 }
 

@@ -28,4 +28,9 @@ class RepositorioSemillero implements IRepositorioSemillero{
         $registro=DB::select('SELECT * FROM semillero WHERE id=:id AND coordinador_id=:coordinador_id',['id'=>$semillero_id,'coordinador_id'=>$coordinador_id]);
         return $registro;
     }
+
+    public function eliminar(int $id)
+    {
+        return DB::delete('DELETE FROM semillero WHERE id=:id', ['id'=>$id]);
+    }
 }

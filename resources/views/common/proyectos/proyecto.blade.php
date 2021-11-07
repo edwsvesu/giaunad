@@ -181,9 +181,11 @@
                                 <!-- otro boton por aca-->
                             </div>
                             <div class="col-xs-12 col-sm-6 emphasis">
-                              <!--<button type="button" class="btn btn-primary btn-xs">
-                                <i class="fa fa-user"> </i> Ver Perfil
-                              </button>-->
+                              @if(($privilegio=="admin" || $privilegio=="codirector" || $privilegio=="lider") && $integrante->funcion=="Integrante")
+                                <button type="button" value="{{$integrante->id}}" class="btn btn-danger btn-xs btn-quit-integrante">
+                                  <i class="fa fa-trash"> </i> Quitar
+                                </button>
+                              @endif
                             </div>
                           </div>
                         </div>
@@ -426,13 +428,12 @@
                 if(data){
                   var foto;
                   if(data[0].foto==null){
-                    //foto='http://localhost:8000/images/user.png';
                     foto="{{asset('images/user.png')}}";
                   }
                   else{
                     foto="/storage/"+data[0].foto;
                   }
-                  $("#collapseOne2 .panel-body").append("<div class='col-md-5 col-sm-5 col-xs-12 profile_details'><div class='well profile_view'><div class='col-sm-12'><h4 class='brief'><i>"+data[0].funcion+"</i></h4><div class='left col-xs-7'><h2>"+data[0].nombre+"</h2><p><strong>perfil: </strong>"+data[0].perfil+"</p></div><div class='right col-xs-5 text-center'><img src='"+foto+"' alt='' class='img-circle img-responsive'></div></div><div class='col-xs-12 bottom text-center'><div class='col-xs-12 col-sm-6 emphasis'></div><div class='col-xs-12 col-sm-6 emphasis'></div></div></div></div>");
+                  $("#collapseOne2 .panel-body").append("<div class='col-md-5 col-sm-5 col-xs-12 profile_details'><div class='well profile_view'><div class='col-sm-12'><h4 class='brief'><i>"+data[0].funcion+"</i></h4><div class='left col-xs-7'><h2>"+data[0].nombre+"</h2><p><strong>perfil: </strong>"+data[0].perfil+"</p></div><div class='right col-xs-5 text-center'><img src='"+foto+"' alt='' class='img-circle img-responsive'></div></div><div class='col-xs-12 bottom text-center'><div class='col-xs-12 col-sm-6 emphasis'><button value='"+data[0].id+"' onclick='quitarIntegrante(this)' type='button' class='btn btn-danger btn-xs btn-quit-integrante'><i class='fa fa-trash'> </i> Quitar</button></div><div class='col-xs-12 col-sm-6 emphasis'></div></div></div></div>");
                 }
                 else{
                     mensajeError("No se pudo agregar el nuevo integrante");
@@ -528,6 +529,39 @@
                 }
                 else{
                     mensajeError("Los archivos no se pudieron subir");
+                }
+            },
+            error:function(){
+                mensajeError("Ha ocurrido un error, la acción no se ha realizado");
+            }
+        });
+      }
+
+      $(".btn-quit-integrante").click(function(){
+        quitarIntegrante($(this));
+      });
+
+      function quitarIntegrante(elemento){
+        $.ajax({
+            url:window.location.pathname+'/integrante',
+            data:{
+              usuario_id:$(elemento).val()
+            },
+            beforeSend:function(){
+                ActivarEfectoCargaPagina();
+            },
+            complete:function(){
+                DesactivarEfectoCargaPagina();
+            },
+            method:'DELETE',
+            success: function(data){
+                if(data!=0){
+
+                  $(elemento).parent().parent().parent().parent().remove();
+                  mensajeExito("Se ha eliminado correctamente");
+                }
+                else{
+                    mensajeError("No se pudo eliminar");
                 }
             },
             error:function(){

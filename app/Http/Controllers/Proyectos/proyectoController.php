@@ -98,4 +98,14 @@ class proyectoController extends Controller
             return back();
         }
     }
+
+    public function eliminarProyecto($codigo_proyecto)
+    {
+        return $this->ProyectoServicio->eliminarProyecto($codigo_proyecto,$this->usuario_rol);
+    }
+
+    public function quitarIntegrante(Request $request,$codigo_proyecto)
+    {
+        return $this->ProyectoServicio->quitarIntegrante($request->all(),$codigo_proyecto);
+    }
 }

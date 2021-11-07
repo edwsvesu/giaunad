@@ -48,4 +48,14 @@ class RepositorioProyecto implements IRepositorioProyecto{
         $registro=DB::select("SELECT id FROM proyecto WHERE codigo=:codigo",['codigo'=>$codigo]);
         return $registro;
     }
+
+    public function eliminar(int $id)
+    {
+        return DB::delete('DELETE FROM proyecto WHERE id=:id', ['id'=>$id]);
+    }
+
+    public function actualizarFinalizado($id,$num)
+    {
+        return DB::update('UPDATE proyecto SET finalizado=:num WHERE id=:id', ['num'=>$num,'id'=>$id]);
+    }
 }

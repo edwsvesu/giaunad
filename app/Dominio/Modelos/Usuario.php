@@ -17,6 +17,12 @@ class Usuario{
     private $foto;
     private $formacion_idioma;
     private $formacion_academica;
+    private $passwordHash;
+
+    public function setPasswordHash($hash)
+    {
+        $this->passwordHash=$hash;
+    }
 
     public function getId(){
         return $this->id;
@@ -120,6 +126,14 @@ class Usuario{
 
     public function getClaveEncriptada(){
         return Hash::make($this->clave);
+    }
+
+    public function ClaveCorrecta($password)
+    {
+        if(Hash::check($password,$this->passwordHash)){
+            return true;
+        }   
+        return false;
     }
 
     public function setNombres($nombres){

@@ -340,4 +340,36 @@ class SemilleroServicio implements ISemilleroServicio{
     {
         return $this->Reportes->getEntregasPorActividad($semillero_id);
     }
+
+    public function eliminarActividad(string $codigo_semillero,string $codigo_actividad,int $usuario_id,int $usuario_rol)
+    {
+        if($infoSemillero=$this->getInformacionSemillero($codigo_semillero)){
+            if($infoActividad=$this->getInformacionActividad($infoSemillero[0]->id,$codigo_actividad)){
+                if($usuario_rol==1 || $usuario_rol==2 || $this->usuarioEsLiderDeSemillero($infoSemillero[0]->id,$usuario_id) || $this->usuarioEsCoordinadorDeSemillero($infoSemillero[0]->id,$usuario_id)){
+                    return $this->RepositorioActividad->eliminar($infoActividad[0]->id);
+                }
+            }
+        }
+        return false;
+    }
+
+    public function eliminarSemillero(string $codigo_semillero,int $usuario_rol)
+    {
+        if($infoSemillero=$this->getInformacionSemillero($codigo_semillero)){
+            if($usuario_rol==1){
+                return $this->RepositorioSemillero->eliminar($infoSemillero[0]->id);
+            }
+        }
+        return false;
+    }
+
+    public function quitarSemillerista(array $datos,string $codigo_semillero)
+    {
+        if($infoSemillero=$this->getInformacionSemillero($codigo_semillero)){
+            if($this->usuarioEsSemilleristaDeSemillero($infoSemillero[0]->id,isset($datos['usuario_id']) ? $datos['usuario_id']:0)){
+                return $this->RepositorioUsuarioHasSemillero->eliminar($datos['usuario_id'],$infoSemillero[0]->id);
+            }
+        }
+        return false;
+    }
 }

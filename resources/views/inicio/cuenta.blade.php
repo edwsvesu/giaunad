@@ -96,7 +96,7 @@
                 <input name="correo_secundario" type="email" class="form-control" placeholder="Correo electrónico secundario (opcional)" maxlength="150" data-parsley-type-message="El correo electrónico no es valido"/>
               </div>
               <div>
-                <input id="passp" name="clave" type="password" class="form-control" placeholder="Contraseña" defaultvalue="1234" required="required" data-parsley-required-message="Debe incluir una contraseña"/>
+                <input id="passp" name="clave" type="password" class="form-control" placeholder="Contraseña" required="required" data-parsley-required-message="Debe incluir una contraseña"/>
               </div>
 
               <div>

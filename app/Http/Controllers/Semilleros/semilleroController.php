@@ -79,4 +79,14 @@ class semilleroController extends Controller
         }
         return back();
     }
+
+    public function eliminarSemillero($codigo_semillero)
+    {
+        return $this->SemilleroServicio->eliminarSemillero($codigo_semillero,$this->usuario_rol);
+    }
+
+    public function quitarSemillerista(Request $request,$codigo_semillero)
+    {
+        return $this->SemilleroServicio->quitarSemillerista($request->all(),$codigo_semillero);
+    }
 }

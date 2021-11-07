@@ -12,4 +12,9 @@ class RepositorioUsuarioHasProyecto implements IRepositorioUsuarioHasProyecto{
 		$registro=DB::select("SELECT * FROM usuario_has_proyecto WHERE usuario_id=:usuario_id AND proyecto_id=:proyecto_id",['usuario_id'=>$usuario_id,'proyecto_id'=>$proyecto_id]);
 		return $registro;
 	}
+
+	public function eliminar(int $usuario_id,int $proyecto_id)
+	{
+		return DB::delete('DELETE FROM usuario_has_proyecto WHERE usuario_id=:usuario_id AND proyecto_id=:proyecto_id', ['usuario_id'=>$usuario_id,'proyecto_id'=>$proyecto_id]);
+	}
 }

@@ -259,4 +259,30 @@ class ProyectoServicio implements IProyectoServicio{
 	public function getIdProyecto(string $codigo){
 		return $this->RepositorioProyecto->getId($codigo)[0]->id;
 	}
+
+	public function eliminarProyecto(string $codigo_proyecto,int $usuario_rol)
+	{
+		if($infoProyecto=$this->getInformacionGeneralProyecto($codigo_proyecto)){
+			if($usuario_rol==1){
+				return $this->RepositorioProyecto->eliminar($infoProyecto[0]->id);
+			}
+		}
+		return false;
+	}
+
+	public function quitarIntegrante(array $datos,string $codigo_proyecto)
+	{
+		if($infoProyecto=$this->getInformacionGeneralProyecto($codigo_proyecto)){
+			return $this->RepositorioUsuarioHasProyecto->eliminar(isset($datos['usuario_id']) ? $datos['usuario_id']:0,$infoProyecto[0]->id);
+		}
+		return false;
+	}
+
+	public function cerrarProyecto(string $codigo_proyecto)
+	{
+		if($infoProyecto=$this->getInformacionGeneralProyecto($codigo_proyecto)){
+			return $this->RepositorioProyecto->actualizarFinalizado($infoProyecto[0]->id,1);
+		}
+		return false;
+	}
 }

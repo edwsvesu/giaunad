@@ -5,7 +5,7 @@ use App\Dominio\Persistencia\Repositorios\IReportes;
 
 class Reportes implements IReportes{
 	public function getIntegrantesDelGrupo(){
-		$registros=DB::select("select u.nombres,u.apellidos,u.numero_documento,IFNULL(GROUP_CONCAT(CONCAT(t.numero,' | ',t.descripcion) SEPARATOR '; '),'Sin información') as telefonos,u.correo_principal,u.correo_secundario,r.nombre as rol from usuario u join rol r on u.rol_id=r.id left join telefono t on t.usuario_id=u.id where u.verificado=1 GROUP BY u.nombres,u.apellidos,u.numero_documento,u.correo_principal,u.correo_secundario,r.nombre");
+		$registros=DB::select("select u.id,u.nombres,u.apellidos,u.numero_documento,IFNULL(GROUP_CONCAT(CONCAT(t.numero,' | ',t.descripcion) SEPARATOR '; '),'Sin información') as telefonos,u.correo_principal,u.correo_secundario,r.nombre as rol from usuario u join rol r on u.rol_id=r.id left join telefono t on t.usuario_id=u.id where u.verificado=1 GROUP BY u.id,u.nombres,u.apellidos,u.numero_documento,u.correo_principal,u.correo_secundario,r.nombre");
 		return $registros;
 	}
 
@@ -30,12 +30,12 @@ class Reportes implements IReportes{
 	}
 
 	public function getIntegrantesDeProyecto(int $proyecto_id){
-		$registros=DB::select("SELECT CONCAT(u.nombres,' ',u.apellidos) as nombre,r.nombre as perfil,u.foto, CASE WHEN u.id=p.lidera THEN 'Lider del proyecto' ELSE 'Integrante' END as funcion FROM usuario u JOIN rol r ON r.id=u.rol_id JOIN usuario_has_proyecto up ON u.id=up.usuario_id JOIN proyecto p ON up.proyecto_id=p.id WHERE up.proyecto_id=:proyecto_id",['proyecto_id'=>$proyecto_id]);
+		$registros=DB::select("SELECT u.id,CONCAT(u.nombres,' ',u.apellidos) as nombre,r.nombre as perfil,u.foto, CASE WHEN u.id=p.lidera THEN 'Lider del proyecto' ELSE 'Integrante' END as funcion FROM usuario u JOIN rol r ON r.id=u.rol_id JOIN usuario_has_proyecto up ON u.id=up.usuario_id JOIN proyecto p ON up.proyecto_id=p.id WHERE up.proyecto_id=:proyecto_id",['proyecto_id'=>$proyecto_id]);
 		return $registros;
 	}
 
 	public function getIntegranteDeProyecto(string $proyecto_cod,int $usuario_id){
-		$registros=DB::select("SELECT CONCAT(u.nombres,' ',u.apellidos) as nombre,r.nombre as perfil,u.foto, CASE WHEN u.id=p.lidera THEN 'Lider del proyecto' ELSE 'Integrante' END as funcion FROM usuario u JOIN rol r ON r.id=u.rol_id JOIN usuario_has_proyecto up ON u.id=up.usuario_id JOIN proyecto p ON up.proyecto_id=p.id WHERE p.codigo=:proyecto_cod AND u.id=:usuario_id",['proyecto_cod'=>$proyecto_cod,'usuario_id'=>$usuario_id]);
+		$registros=DB::select("SELECT u.id,CONCAT(u.nombres,' ',u.apellidos) as nombre,r.nombre as perfil,u.foto, CASE WHEN u.id=p.lidera THEN 'Lider del proyecto' ELSE 'Integrante' END as funcion FROM usuario u JOIN rol r ON r.id=u.rol_id JOIN usuario_has_proyecto up ON u.id=up.usuario_id JOIN proyecto p ON up.proyecto_id=p.id WHERE p.codigo=:proyecto_cod AND u.id=:usuario_id",['proyecto_cod'=>$proyecto_cod,'usuario_id'=>$usuario_id]);
 		return $registros;
 	}
 

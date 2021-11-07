@@ -88,4 +88,12 @@ class actividadController extends Controller
         $this->SemilleroServicio->editarActividad($request->all(),$codigo_semillero,$codigo_actividad,$this->usuario_rol,$this->usuario_id);
         return back();
     }
+
+    public function eliminar($codigo_semillero,$codigo_actividad)
+    {
+        if($this->SemilleroServicio->eliminarActividad($codigo_semillero,$codigo_actividad,$this->usuario_id,$this->usuario_rol)){
+            return redirect("/semilleros/semillero/$codigo_semillero");
+        }
+        return back();
+    }
 }

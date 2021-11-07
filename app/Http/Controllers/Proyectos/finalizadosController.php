@@ -23,10 +23,12 @@ class finalizadosController extends Controller
         $proyectos=$this->ReporteServicio->getProyectosFinalizados();
         switch ($this->usuario_rol) {
             case 1:
-                return view('administrador.proyectos.finalizados',compact('proyectos'));
+                $privilegio="admin";
+                return view('administrador.proyectos.finalizados',compact('proyectos','privilegio'));
                 break;
             case 2:
-                return view('codirector.proyectos.finalizados',compact('proyectos'));
+                $privilegio="codirector";
+                return view('codirector.proyectos.finalizados',compact('proyectos','privilegio'));
                 break;
             default:
                 abort(403);

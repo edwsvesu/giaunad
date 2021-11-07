@@ -52,4 +52,14 @@ class RepositorioUsuario implements IRepositorioUsuario{
     public function getFoto(int $id){
         return DB::select("SELECT foto from usuario WHERE id=:id",['id'=>$id]);
     }
+
+    public function eliminar(string $numero_documento)
+    {
+        return DB::delete('DELETE FROM usuario WHERE numero_documento=:numero_documento', ['numero_documento'=>$numero_documento]);
+    }
+
+    public function editarPassword(string $password,int $id)
+    {
+        return DB::update('UPDATE usuario SET password=:password WHERE id=:id', ['password'=>$password,'id'=>$id]);
+    }
 }

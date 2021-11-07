@@ -199,9 +199,11 @@
                                         <!-- otro boton por aca-->
                                     </div>
                                     <div class="col-xs-12 col-sm-6 emphasis">
-                                      <!--<button type="button" class="btn btn-primary btn-xs">
-                                        <i class="fa fa-user"> </i> Ver Perfil
-                                      </button>-->
+                                      @if($privilegio=="admin" || $privilegio=="codirector" || $privilegio=="coordinador" || $privilegio=="lider")
+                                        <button value="{{$semillerista->id}}" type="button" class="btn btn-danger btn-xs btn-quit-semillerista">
+                                          <i class="fa fa-trash"> </i> Quitar
+                                        </button>
+                                      @endif
                                     </div>
                                   </div>
                                 </div>
@@ -365,7 +367,7 @@
       $("#semillerista-search").change(function(){
         var option=$("#datalistSemilleristas option[value='"+$(this).val()+"']");
         if(!(option.data('value')==$("#semilleristas-list .semillerista input[value='"+option.data('value')+"']").val())){
-          $("#semilleristas-list").prepend("<div class='semillerista' data-nombres='"+option.data('nombres')+"' data-apellidos='"+option.data('apellidos')+"' data-foto='"+option.data('foto')+"'><input type='hidden' name='usuario_id[]' value='"+option.data('value')+"' /><div class='userinfo'><span>"+$(this).val()+"</span></div><div><button type='button' class='delete'><span class='fa fa-times-circle'></span></button></div></div>");
+          $("#semilleristas-list").prepend("<div class='semillerista' data-value='"+option.data('value')+"' data-nombres='"+option.data('nombres')+"' data-apellidos='"+option.data('apellidos')+"' data-foto='"+option.data('foto')+"'><input type='hidden' name='usuario_id[]' value='"+option.data('value')+"' /><div class='userinfo'><span>"+$(this).val()+"</span></div><div><button type='button' class='delete'><span class='fa fa-times-circle'></span></button></div></div>");
           $("#semilleristas-list .semillerista .delete").click(function(){
             $(this).parent().parent().remove();
           });
@@ -426,6 +428,7 @@
                     $.each($("#semilleristas-list .semillerista"), function (ind, elem){
                       var nom=$(elem).data('nombres');
                       var ape=$(elem).data('apellidos');
+                      var id=$(elem).data('value');
                       var foto;
                       if($(elem).data('foto')=="" || $(elem).data('foto')==null){
                         foto="{{asset('images/user.png')}}";
@@ -433,7 +436,7 @@
                       else{
                         foto="/storage/"+$(elem).data('foto');
                       }
-                      $("#collapseTwo2 .panel-body").append("<div class='col-md-5 col-sm-5 col-xs-12 profile_details'><div class='well profile_view'><div class='col-sm-12'><h4 class='brief'><i>Semillerista</i></h4><div class='left col-xs-7'><h2>"+nom+"</h2><h2>"+ape+"</h2></div><div class='right col-xs-5 text-center'><img src='"+foto+"' alt='' class='img-circle img-responsive'></div></div><div class='col-xs-12 bottom text-center'><div class='col-xs-12 col-sm-6 emphasis'></div><div class='col-xs-12 col-sm-6 emphasis'></div></div></div></div>");
+                      $("#collapseTwo2 .panel-body").append("<div class='col-md-5 col-sm-5 col-xs-12 profile_details'><div class='well profile_view'><div class='col-sm-12'><h4 class='brief'><i>Semillerista</i></h4><div class='left col-xs-7'><h2>"+nom+"</h2><h2>"+ape+"</h2></div><div class='right col-xs-5 text-center'><img src='"+foto+"' alt='' class='img-circle img-responsive'></div></div><div class='col-xs-12 bottom text-center'><div class='col-xs-12 col-sm-6 emphasis'><button onclick='quitarSemillerista(this)' value='"+id+"' type='button' class='btn btn-danger btn-xs btn-quit-semillerista'><i class='fa fa-trash'></i> Quitar</button></div><div class='col-xs-12 col-sm-6 emphasis'></div></div></div></div>");
                     }); 
                     resetearSemilleristas();
                     $("#semilleristas-list").empty();
@@ -445,6 +448,40 @@
             },
             error:function(){
                 $("#semilleristas-list").empty();
+                mensajeError("Ha ocurrido un error, la acción no se ha realizado");
+            }
+        });
+      }
+
+      $(".btn-quit-semillerista").click(function(){
+        quitarSemillerista($(this));
+      });
+
+      function quitarSemillerista(elemento){
+        $.ajax({
+            url:window.location.pathname+'/semilleristas',
+            data:{
+              usuario_id:$(elemento).val()
+            },
+            beforeSend:function(){
+                ActivarEfectoCargaPagina();
+            },
+            complete:function(){
+                DesactivarEfectoCargaPagina();
+            },
+            method:'DELETE',
+            success: function(data){
+                if(data!=0){
+
+                  $(elemento).parent().parent().parent().parent().remove();
+                  resetearSemilleristas();
+                  mensajeExito("Se ha eliminado correctamente");
+                }
+                else{
+                    mensajeError("No se pudo eliminar");
+                }
+            },
+            error:function(){
                 mensajeError("Ha ocurrido un error, la acción no se ha realizado");
             }
         });

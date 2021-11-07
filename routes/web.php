@@ -24,7 +24,6 @@ use App\Http\Controllers\Proyectos\finalizadosController;
 use App\Http\Controllers\Proyectos\misproyectosController;
 use App\Http\Controllers\Proyectos\nuevoController;
 use App\Http\Controllers\Proyectos\proyectoController;
-//use App\Http\Controllers\administrador\Curriculum\DatosGenerales\formacionacademicaformController;
 use App\Http\Controllers\Curriculum\DatosGenerales\formacionacademicaController;
 use App\Http\Controllers\Proyectos\informeController;
 use App\Http\Controllers\Curriculum\DatosGenerales\datospersonalesController;
@@ -38,6 +37,8 @@ use App\Http\Controllers\semilleros\missemillerosController;
 use App\Http\Controllers\Semilleros\semilleroController;
 use App\Http\Controllers\Semilleros\semilleroformController;
 use App\Http\Controllers\Semilleros\vigentesController as semillerosVigentesController;
+use App\Http\Controllers\Usuarios\contraController;
+use App\Http\Controllers\Usuarios\contraTodosController;
 
 Route::get('/',function(){
 	return redirect('/home');
@@ -58,47 +59,12 @@ Route::get('/entrega', function () {
     return view('administrador.proyectos.entrega');
 });
 
-Route::get('/actividad2', function () {
-    return view('administrador.proyectos.actividad');
-});
-
-//Route::post('/dpersonales/editar-telefono',[datospersonalesformController::class,'editarTelefono']);
-
-//Route::get('/nuevoacademica',[formacionacademicaformController::class,'index']);
-
 
 Route::get('/idiomasform', function () {
     return view('administrador.curriculum.formacionidiomasform');
 });
 
-Route::get('/ver', function () {
-    $pathToFile="storage/usuario/avatar/doc.docx";
-    return response()->file($pathToFile);
-});
 
-//////////////////////////rutas semi completas//////////////////7
-Route::get('/semilleros/semillero/{codigo}',[semilleroController::class,'index']);
-Route::get('/semilleros/nuevo',[semilleroformController::class,'index']);
-Route::post('/semilleros/nuevo',[semilleroformController::class,'crearSemillero']);
-Route::get('/semilleros/semillero/{codigo}/semilleristas',[semilleroController::class,'getUsuariosAptosComoSemilleristas']);
-Route::post('/semilleros/semillero/{codigo}/semilleristas',[semilleroController::class,'agregarSemilleristas']);
-Route::post('/semilleros/semillero/{codigo}/actividad',[semilleroController::class,'crearActividad']);
-Route::get('/semilleros/semillero/{codigo}/actividad/{codigoa}',[actividadController::class,'index']);
-Route::get('/semilleros/vigentes',[semillerosVigentesController::class,'index']);
-Route::get('/semilleros/mis-semilleros',[missemillerosController::class,'index']);
-Route::post('/semilleros/semillero/{codigo}/actividad/{codigoa}/subir-archivo',[actividadController::class,'subirArchivo']);
-Route::post('/semilleros/semillero/{codigo}/actividad/{codigoa}/entrega',[actividadController::class,'crearEntregaSiNoExiste']);
-Route::get('/semilleros/semillero/{codigo}/actividad/{codigoa}/archivo/{ruta}',[actividadController::class,'descargarArchivo'])->where('ruta','.*');
-Route::delete('/semilleros/semillero/{codigo}/actividad/{codigoa}/archivo/{ruta}',[actividadController::class,'eliminarArchivoEntrega'])->where('ruta','.*');
-Route::get('/semilleros/semillero/{codigo}/actividad/{codigoa}/entrega/{codigoe}',[entregaController::class,'index']);
-Route::get('/semilleros/semillero/{codigo}/actividad/{codigoa}/entrega/{codigoe}/archivo/{ruta}',[entregaController::class,'descargarArchivo'])->where('ruta','.*');
-Route::get('/proyectos/proyecto/{codigo}/editar',[editarProyectoController::class,'index']);
-Route::post('/proyectos/proyecto/{codigo}/editar',[editarProyectoController::class,'editar']);
-Route::put('/proyectos/proyecto/{codigo}/informe/{codinforme}',[informeController::class,'editar']);
-Route::get('/semilleros/semillero/{codigo}/editar',[editarSemilleroController::class,'index']);
-Route::post('/semilleros/semillero/{codigo}/editar',[editarSemilleroController::class,'editar']);
-Route::put('/semilleros/semillero/{codigo}/actividad/{codigoa}',[actividadController::class,'editarActividad']);
-Route::delete('/proyectos/proyecto/{codigo}/informe/{codinforme}',[informeController::class,'eliminarInforme']);
 
 //////////////////rutas finales ///////////////////////////////////////////////77
 Route::get('/cuenta',[cuentaController::class,'index'])->middleware('guest');
@@ -145,4 +111,39 @@ Route::post('/proyectos/nuevo/tipo-proyecto',[nuevoController::class,'crearTipoP
 Route::get('/proyectos/vigentes',[vigentesController::class,'index']);
 Route::get('/proyectos/finalizados',[finalizadosController::class,'index']);
 Route::post('/proyectos/nuevo',[nuevoController::class,'crear']);
+
+Route::get('/semilleros/semillero/{codigo}',[semilleroController::class,'index']);
+Route::get('/semilleros/nuevo',[semilleroformController::class,'index']);
+Route::post('/semilleros/nuevo',[semilleroformController::class,'crearSemillero']);
+Route::get('/semilleros/semillero/{codigo}/semilleristas',[semilleroController::class,'getUsuariosAptosComoSemilleristas']);
+Route::post('/semilleros/semillero/{codigo}/semilleristas',[semilleroController::class,'agregarSemilleristas']);
+Route::post('/semilleros/semillero/{codigo}/actividad',[semilleroController::class,'crearActividad']);
+Route::get('/semilleros/semillero/{codigo}/actividad/{codigoa}',[actividadController::class,'index']);
+Route::get('/semilleros/vigentes',[semillerosVigentesController::class,'index']);
+Route::get('/semilleros/mis-semilleros',[missemillerosController::class,'index']);
+Route::post('/semilleros/semillero/{codigo}/actividad/{codigoa}/subir-archivo',[actividadController::class,'subirArchivo']);
+Route::post('/semilleros/semillero/{codigo}/actividad/{codigoa}/entrega',[actividadController::class,'crearEntregaSiNoExiste']);
+Route::get('/semilleros/semillero/{codigo}/actividad/{codigoa}/archivo/{ruta}',[actividadController::class,'descargarArchivo'])->where('ruta','.*');
+Route::delete('/semilleros/semillero/{codigo}/actividad/{codigoa}/archivo/{ruta}',[actividadController::class,'eliminarArchivoEntrega'])->where('ruta','.*');
+Route::get('/semilleros/semillero/{codigo}/actividad/{codigoa}/entrega/{codigoe}',[entregaController::class,'index']);
+Route::get('/semilleros/semillero/{codigo}/actividad/{codigoa}/entrega/{codigoe}/archivo/{ruta}',[entregaController::class,'descargarArchivo'])->where('ruta','.*');
+Route::get('/proyectos/proyecto/{codigo}/editar',[editarProyectoController::class,'index']);
+Route::post('/proyectos/proyecto/{codigo}/editar',[editarProyectoController::class,'editar']);
+Route::put('/proyectos/proyecto/{codigo}/informe/{codinforme}',[informeController::class,'editar']);
+Route::get('/semilleros/semillero/{codigo}/editar',[editarSemilleroController::class,'index']);
+Route::post('/semilleros/semillero/{codigo}/editar',[editarSemilleroController::class,'editar']);
+Route::put('/semilleros/semillero/{codigo}/actividad/{codigoa}',[actividadController::class,'editarActividad']);
+Route::delete('/proyectos/proyecto/{codigo}/informe/{codinforme}',[informeController::class,'eliminarInforme']);
+Route::delete('/semilleros/semillero/{codigo}/actividad/{codigoa}',[actividadController::class,'eliminar']);
+Route::delete('/usuarios',[usuariosController::class,'eliminar']);
+Route::delete('/proyectos/proyecto/{codigo}',[proyectoController::class,'eliminarProyecto']);
+Route::delete('/semilleros/semillero/{codigo}',[semilleroController::class,'eliminarSemillero']);
+Route::delete('/semilleros/semillero/{codigo}/semilleristas',[semilleroController::class,'quitarSemillerista']);
+Route::delete('/proyectos/proyecto/{codigo}/integrante',[proyectoController::class,'quitarIntegrante']);
+Route::get('/perfil/cambiar-contrasena',[contraController::class,'index']);
+Route::post('/perfil/cambiar-contrasena',[contraController::class,'cambiar']);
+Route::get('/usuario/{id}/cambiar-contrasena',[contraTodosController::class,'index']);
+Route::post('/usuario/{id}/cambiar-contrasena',[contraTodosController::class,'cambiar']);
+Route::post('/proyectos/proyecto/{codigo}/cerrar',[vigentesController::class,'cerrar']);
+
 });
