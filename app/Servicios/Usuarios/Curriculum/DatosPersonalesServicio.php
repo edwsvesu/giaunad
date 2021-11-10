@@ -27,7 +27,7 @@ class DatosPersonalesServicio implements IDatosPersonalesServicio{
 	}
 
 	public function eliminarTelefono(array $datos,int $usuario_id){
-		$id=isset($datos['telefono_id']) ? (ctype_digit($datos['telefono_id']) ? $datos['telefono_id']:0):0;
+		$id=isset($datos['telefono_id']) ? $datos['telefono_id']:0;
 		return $this->RepositorioTelefono->eliminar($id,$usuario_id);
 	}
 

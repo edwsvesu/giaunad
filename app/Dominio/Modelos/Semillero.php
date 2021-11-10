@@ -179,18 +179,5 @@ class Semillero{
             'lider_id'=>'required'
         ]);
         return $validacion;
-        /*
-                if(!$this->tipoDeProyectoEsValido($listaTipoProyectos)){
-            $this->tipo_proyecto_id=null;
-        }
-        if($codigo_proyecto!=$this->codigo && $codigo_registrado){
-            $this->codigo=null;
-        }
-        $atributos=$this->getArregloEditar();
-        $validacion=Validator::make($atributos,[
-            'codigo'=>'required',
-            'tipo_proyecto_id'=>'required'
-        ]);
-        return $validacion;*/
     }
 }

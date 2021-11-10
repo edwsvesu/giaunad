@@ -30,6 +30,21 @@ class RegistrarseServicioTest extends TestCase
         $this->assertEquals($servicio->registrarse($usuario),$salida);
     }
 
+    public function test_realizar_un_segundo_sin_correo_secundario_registro_de_usuario()
+    {
+        $usuario=array(
+            'nombres'=>'Gissel Mariana',
+            'apellidos'=>"Avila Carrascal",
+            'numero_documento'=>'9985653358',
+            'correo_principal'=>'mari@gmail.com',
+            'correo_secundario'=>null,
+            'clave'=>'1234'
+        );
+        $servicio=new RegistrarseServicio(new RepositorioUsuario);
+        $salida=array('accion'=>'true','mensaje'=>'Debes esperar hasta que el administrador te permita ingresar al sistema');
+        $this->assertEquals($servicio->registrarse($usuario),$salida);
+    }
+
     public function test_realizar_un_nuevo_registro_de_usuario_ya_existente()
     {
         $usuario=array(

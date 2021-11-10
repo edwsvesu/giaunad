@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\semilleros;
+namespace App\Http\Controllers\Semilleros;
 
 use App\Http\Controllers\Controller;
 use App\Servicios\Semilleros\SemilleroServicio;

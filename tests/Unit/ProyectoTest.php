@@ -34,6 +34,7 @@ class ProyectoTest extends TestCase
     public function test_proyecto_valido()
     {
         $proyecto=new Proyecto();
+        $proyecto->setLider_id(1);
         $proyecto->setTitulo('sistema de informacion para gestion de inventario');
         $this->assertFalse($proyecto->validez()->fails());
     }

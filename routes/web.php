@@ -33,7 +33,7 @@ use App\Http\Controllers\Proyectos\editarController as editarProyectoController;
 use App\Http\Controllers\Semilleros\actividadController;
 use App\Http\Controllers\Semilleros\editarController as editarSemilleroController;
 use App\Http\Controllers\Semilleros\entregaController;
-use App\Http\Controllers\semilleros\missemillerosController;
+use App\Http\Controllers\Semilleros\missemillerosController;
 use App\Http\Controllers\Semilleros\semilleroController;
 use App\Http\Controllers\Semilleros\semilleroformController;
 use App\Http\Controllers\Semilleros\vigentesController as semillerosVigentesController;

@@ -263,7 +263,7 @@
                           <div class="form-group">
                         <label for="fecha_inicio" class="control-label col-md-2 col-sm-2 col-xs-12">Fecha de entrega</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">      
-                          <input name="fecha_limite" type="date" class="form-control has-feedback-left col-md-7 col-xs-12" placeholder="fecha_limite">
+                          <input name="fecha_limite" type="date"  class="form-control has-feedback-left col-md-7 col-xs-12" placeholder="fecha_limite">
                           <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                         </div>
                       </div>

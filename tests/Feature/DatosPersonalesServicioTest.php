@@ -39,5 +39,24 @@ class DatosPersonalesServicioTest extends TestCase
         $this->assertIsInt($servicio->agregarTelefono($datos,1));
     }
 
+    public function test_agregar_segundo_telefono_al_usuario()
+    {
+        $servicio=new DatosPersonalesServicio(new Reportes,new RepositorioTelefono,new RepositorioUsuario);
+        $datos=array(
+            'descripcion'=>'casa',
+            'numero'=>'658741'
+        );
+        $this->assertIsInt($servicio->agregarTelefono($datos,1));
+    }
+
+    public function test_eliminar_telefono_de_un_usuario()
+    {
+        $datos['telefono_id']=4;
+        $servicio=new DatosPersonalesServicio(new Reportes,new RepositorioTelefono,new RepositorioUsuario);
+        $this->assertEquals($servicio->eliminarTelefono($datos,1),1);
+    }
+
+
+
 
 }

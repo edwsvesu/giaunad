@@ -31,7 +31,7 @@ class FormacionAcademicaServicio implements IFormacionAcademicaServicio{
 	}
 
 	public function eliminar(array $datos,int $usuario_id){
-		$id=isset($datos['formacion_id_del']) ? (ctype_digit($datos['formacion_id_del']) ? $datos['formacion_id_del']:0):0;
+		$id=isset($datos['formacion_id_del']) ? $datos['formacion_id_del']:0;
 		return $this->RepositorioFormacionAcademica->eliminar($id,$usuario_id);
 	}
 
@@ -56,7 +56,7 @@ class FormacionAcademicaServicio implements IFormacionAcademicaServicio{
 		$usuario->setFormacion_academica($nivel_id,$titulo,$institucion_id,$intensidad,$promedio,$fecha_inicio,$fecha_fin);
 		if(!($usuario->getFormacion_academica()->validez()->fails())){
 			$datos=$usuario->getArregloFormacionAcademica();
-			$this->RepositorioFormacionAcademica->insertar($datos);
+			return $this->RepositorioFormacionAcademica->insertar($datos);
 		}
 	}
 
@@ -74,7 +74,7 @@ class FormacionAcademicaServicio implements IFormacionAcademicaServicio{
 		$usuario->setFormacion_academica($nivel_id,$titulo,$institucion_id,$intensidad,$promedio,$fecha_inicio,$fecha_fin,$id);
 		if(!($usuario->getFormacion_academica()->validez()->fails())){
 			$datos=$usuario->getArregloFormacionAcademica();
-			$this->RepositorioFormacionAcademica->editar($datos);
+			return $this->RepositorioFormacionAcademica->editar($datos);
 		}
 	}
 }

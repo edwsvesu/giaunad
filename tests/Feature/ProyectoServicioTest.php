@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Persistencia\Repositorios\Reportes;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use App\Persistencia\Repositorios\RepositorioDocumento;
@@ -30,7 +31,7 @@ class ProyectoServicioTest extends TestCase
             'documentos'=>null,
             'lidera'=>1
         );
-        $servicio=new ProyectoServicio(new RepositorioTipoProyecto,new RepositorioProyecto,new RepositorioDocumento,new RepositorioUsuario,new RepositorioUsuarioHasProyecto);
+        $servicio=new ProyectoServicio(new RepositorioTipoProyecto,new RepositorioProyecto,new RepositorioDocumento,new RepositorioUsuario,new RepositorioUsuarioHasProyecto,new Reportes);
         $this->assertTrue($servicio->registrarNuevoProyecto($proyecto,1));
     }
 
@@ -45,7 +46,7 @@ class ProyectoServicioTest extends TestCase
             'documentos'=>null,
             'lidera'=>1
         );
-        $servicio=new ProyectoServicio(new RepositorioTipoProyecto,new RepositorioProyecto,new RepositorioDocumento,new RepositorioUsuario,new RepositorioUsuarioHasProyecto);
+        $servicio=new ProyectoServicio(new RepositorioTipoProyecto,new RepositorioProyecto,new RepositorioDocumento,new RepositorioUsuario,new RepositorioUsuarioHasProyecto,new Reportes);
         $this->assertFalse($servicio->registrarNuevoProyecto($proyecto,1));
     }
 
@@ -60,7 +61,7 @@ class ProyectoServicioTest extends TestCase
             'documentos'=>null,
             'lidera'=>1
         );
-        $servicio=new ProyectoServicio(new RepositorioTipoProyecto,new RepositorioProyecto,new RepositorioDocumento,new RepositorioUsuario,new RepositorioUsuarioHasProyecto);
+        $servicio=new ProyectoServicio(new RepositorioTipoProyecto,new RepositorioProyecto,new RepositorioDocumento,new RepositorioUsuario,new RepositorioUsuarioHasProyecto,new Reportes);
         $this->assertFalse($servicio->registrarNuevoProyecto($proyecto,1));
     }
 }

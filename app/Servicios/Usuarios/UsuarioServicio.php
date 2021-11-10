@@ -42,7 +42,7 @@ class UsuarioServicio implements IUsuarioServicio{
 	public function actualizarRol(array $datos,int $usuario_rol){
 		if($usuario_rol==1){
 			$numero_documento=isset($datos['numero_documento']) ? $datos['numero_documento']:'';
-			$rol_id=isset($datos['rol_id']) && ctype_digit($datos['rol_id']) ? $datos['rol_id']:0;
+			$rol_id=isset($datos['rol_id']) ? $datos['rol_id']:0;
 			return $rol_id!=0 ? $this->RepositorioUsuario->actualizarRol($numero_documento,$rol_id):false;
 		}
 		return false;

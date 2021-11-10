@@ -12,12 +12,7 @@ class FormacionIdioma{
 	private $idioma_id;
 
 	public function setId($id){
-		if(ctype_digit($id)){
 			$this->id=$id;
-		}
-		else{
-			$this->id=0;
-		}
 	}
 
 	public function getId(){

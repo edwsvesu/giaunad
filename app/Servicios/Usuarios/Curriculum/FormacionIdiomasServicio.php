@@ -35,7 +35,7 @@ class FormacionIdiomasServicio implements IFormacionIdiomasServicio{
 		$usuario->setFormacion_idioma($lectura,$escritura,$habla,$escucha,$idioma_id);
 		if(!($usuario->getFormacion_idioma()->validez()->fails())){
 			if(!($this->formacionEstaRegistrada($usuario->getFormacion_idioma()->getIdioma_id(),$usuario->getId()))){
-				$this->RepositorioFormacionIdioma->insertar($usuario->getArregloFormacionIdioma());
+				return $this->RepositorioFormacionIdioma->insertar($usuario->getArregloFormacionIdioma());
 			}
 		}
 	}
@@ -60,7 +60,7 @@ class FormacionIdiomasServicio implements IFormacionIdiomasServicio{
 		$usuario->setId($usuario_id);
 		$usuario->setFormacion_idioma($lectura,$escritura,$habla,$escucha,$idioma_id,$id);
 		if(!($usuario->getFormacion_idioma()->validez()->fails())){
-			$this->RepositorioFormacionIdioma->editarPorUsuario($usuario->getArregloFormacionIdioma());
+			return $this->RepositorioFormacionIdioma->editarPorUsuario($usuario->getArregloFormacionIdioma());
 		}
 	}
 

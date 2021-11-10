@@ -17,4 +17,10 @@ class RepositorioIdiomaTest extends TestCase
         $RepositorioIdioma=new RepositorioIdioma();
         $this->assertTrue($RepositorioIdioma->insertar('ingles'));
     }
+
+    public function test_insertar_segundo_registro_de_idioma()
+    {
+        $RepositorioIdioma=new RepositorioIdioma();
+        $this->assertTrue($RepositorioIdioma->insertar('frances'));
+    }
 }

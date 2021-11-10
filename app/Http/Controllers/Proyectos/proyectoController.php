@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Dominio\Servicios\Proyectos\IReporteServicio;
 use App\Dominio\Servicios\Proyectos\IProyectoServicio;
 use App\Dominio\Servicios\Proyectos\IInformeServicio;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -90,11 +91,16 @@ class proyectoController extends Controller
     }
 
     public function crearInforme($codigo,Request $request){
-        $salida=$this->InformeServicio->crear($request->all(),$codigo,$this->usuario_id,$this->usuario_rol);
-        if($salida){
-            return redirect("/proyectos/proyecto/".$salida['proyecto_cod']."/informe/".$salida['informe_id']);
-        }
-        else{
+        try{
+            $salida=$this->InformeServicio->crear($request->all(),$codigo,$this->usuario_id,$this->usuario_rol);
+            if($salida){
+                return redirect("/proyectos/proyecto/".$salida['proyecto_cod']."/informe/".$salida['informe_id']);
+            }
+            else{
+                return back();
+            }
+            }
+        catch(Exception $ex){
             return back();
         }
     }

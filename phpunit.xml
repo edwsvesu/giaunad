@@ -21,6 +21,13 @@
             <file>./tests/Unit/ProyectoTest.php</file>
             <file>./tests/Unit/SemilleroTest.php</file>
             <file>./tests/Unit/UsuarioTest.php</file>
+            <file>./tests/Unit/RepositorioSemilleroTest.php</file>
+            <file>./tests/Unit/RepositorioActividadTest.php</file>
+            <file>./tests/Unit/RepositorioUsuarioHasSemilleroTest.php</file>
+            <file>./tests/Unit/RepositorioEntregaTest.php</file>
+            <file>./tests/Unit/RepositorioArchivoEntregaTest.php</file>
+            <file>./tests/Unit/ActividadTest.php</file>
+            <file>./tests/Unit/EntregaActividadTest.php</file>
         </testsuite>
         <testsuite name="Feature">
             <directory suffix="Test.php">./tests/Feature</directory>
