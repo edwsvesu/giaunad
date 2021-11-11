@@ -70,25 +70,6 @@ class SemilleroServicio implements ISemilleroServicio{
         return false;
     }
 
-   /* public function editarProyecto(array $datos,string $codigo_proyecto,int $usuario_rol)
-	{
-		if($infoProyecto=$this->getInformacionGeneralProyecto($codigo_proyecto)){
-			if($usuario_rol==1){
-				$proyecto=new Proyecto();
-				$proyecto->setId($infoProyecto[0]->id);
-				$proyecto->setCodigo(isset($datos['codigo']) ? $datos['codigo']:null);
-				$proyecto->setTitulo(isset($datos['titulo']) ? $datos['titulo']:null);
-				$proyecto->setFecha_inicio(isset($datos['fecha_inicio']) ? $datos['fecha_inicio']:null);
-				$proyecto->setFecha_fin(isset($datos['fecha_fin']) ? $datos['fecha_fin']:null);
-				$proyecto->setTipo_proyecto_id(isset($datos['tipo_proyecto_id']) ? $datos['tipo_proyecto_id']:null);
-				if(!$proyecto->validarEditar($this->getTodosTiposDeProyectos(),$codigo_proyecto,$this->proyectoEstaRegistrado($proyecto->getCodigo()))->fails()){
-					return $this->RepositorioProyecto->editar($proyecto->getArregloEditar()) ? $proyecto->getCodigo():false;
-				}
-			}
-		}
-		return false;
-	}*/
-
 
     public function getUsuariosAptosComoLideresSemillero(){
         return $this->Reportes->getUsuariosAptosComoLideresSemillero();
